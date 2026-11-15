@@ -26,7 +26,7 @@ export function workbenchCompositionPlugin(input = process.env.RESEARCH_ASSISTAN
     generateBundle() {
       if (!build) return;
       const modules = [...this.getModuleIds()].filter(id => id.includes("/src/")).sort();
-      const forbidden = modules.filter(id => /\/plugins\/(?:literature_library|note_manager|writing_projects)\/src\//u.test(id));
+      const forbidden = modules.filter(id => /\/plugins\/(?:ra-literature-library|ra-note-manager|ra-writing-projects|literature_library|note_manager|writing_projects)\/src\//u.test(id));
       if (forbidden.length) this.error("plugin_build_closure_violation: " + forbidden.join("\n"));
       this.emitFile({type: "asset", fileName: "workbench-composition.json", source: JSON.stringify({
         ...selection, modules: modules.map(id => id.replace(root, "")),

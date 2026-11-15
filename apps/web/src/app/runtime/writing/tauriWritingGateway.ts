@@ -27,7 +27,7 @@ import type {
   ManuscriptResourceImportResult,
 } from "@research-assistant/writing";
 
-import type { WritingGateway } from "@research-assistant/writing-projects-plugin/contracts/writingGateway";
+import type { WritingGateway } from "@research-assistant/data/writing";
 import {createTauriWritingNoteCatalogGateway, tauriWritingNoteCatalogGateway} from "./tauriWritingNoteCatalogGateway";
 import {previewWritingImport} from "./nativeWritingPreview";
 

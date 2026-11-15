@@ -1,5 +1,5 @@
 import type {WritingNoteCatalogGateway} from "@research-assistant/data/notes";
-import type {LiteratureGateway} from "@research-assistant/literature-library-plugin/contracts/literatureGateway";
+import type {LiteratureGateway} from "@research-assistant/data/literature";
 import {getAppRuntime} from "../runtime/appRuntime";
 
 /** Existing optional cross-domain ports selected by App. Absence is explicit;

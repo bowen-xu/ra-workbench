@@ -47,7 +47,7 @@ import type {
   PaperAnalysisWorkflow,
   PaperReadingBootstrapOptions,
 } from "@research-assistant/core/ai";
-import providerDefaults from "../../../../../packages/core/src/ai/llm-provider-defaults.json";
+import providerDefaults from "@research-assistant/core/ai/provider-defaults";
 
 import {
   decodeAiCredentialSummary,

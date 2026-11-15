@@ -1,19 +1,15 @@
 {
   "name": "@research-assistant/web",
-  "version": "0.7.6",
+  "version": "0.8.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node ../../scripts/check-workbench-boundaries.mjs && node ../../scripts/prepare-note-query.mjs && node ../../scripts/prepare-dictionary.mjs && tsc -b && vite build",
+    "build": "node ../../scripts/prepare-note-query.mjs && node ../../scripts/prepare-dictionary.mjs && tsc -b && vite build",
     "dev": "node ../../scripts/prepare-note-query.mjs && node ../../scripts/prepare-dictionary.mjs && vite --host 127.0.0.1",
     "preview": "vite preview --host 127.0.0.1",
-    "typecheck": "node ../../scripts/check-workbench-boundaries.mjs && tsc -b --pretty false",
-    "dev:preview": "node ../../scripts/prepare-note-query.mjs && node ../../scripts/dev-preview.mjs"
+    "typecheck": "tsc -b --pretty false"
   },
   "dependencies": {
-    "@research-assistant/literature-library-plugin": "workspace:*",
-    "@research-assistant/note-manager-plugin": "workspace:*",
-    "@research-assistant/writing-projects-plugin": "workspace:*",
     "@ariakit/react": "0.4.35",
     "@blocknote/ariakit": "0.52.1",
     "@blocknote/core": "0.52.1",
@@ -28,9 +24,9 @@
     "@codemirror/state": "6.7.1",
     "@codemirror/view": "6.43.7",
     "@lezer/highlight": "1.2.3",
-    "@research-assistant/core": "workspace:*",
-    "@research-assistant/data": "workspace:*",
-    "@research-assistant/writing": "workspace:*",
+    "@research-assistant/core": "0.1.0",
+    "@research-assistant/data": "0.1.0",
+    "@research-assistant/writing": "0.1.0",
     "@tauri-apps/api": "2.11.1",
     "@tauri-apps/plugin-clipboard-manager": "2.3.2",
     "@tauri-apps/plugin-dialog": "2.7.2",
@@ -62,7 +58,7 @@
     "sonner": "2.0.7",
     "unified": "11.0.5",
     "wheel-gestures": "2.3.0",
-    "@research-assistant/workbench-sdk": "workspace:*"
+    "@research-assistant/workbench-sdk": "0.1.0"
   },
   "devDependencies": {
     "@types/hast": "3.0.5",

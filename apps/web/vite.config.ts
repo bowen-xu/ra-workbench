@@ -18,9 +18,6 @@ export default defineConfig(({command}) => {
     plugins: [react(), workbenchCompositionPlugin(selection), workbenchSdkSourcePlugin(), runtimeSdkPlugin(runtime, selection)],
     resolve: {
       alias: {
-        "/plugins/literature_library/src": fileURLToPath(new URL("../../plugins/literature_library/src", import.meta.url)),
-        "/plugins/note_manager/src": fileURLToPath(new URL("../../plugins/note_manager/src", import.meta.url)),
-        "/plugins/writing_projects/src": fileURLToPath(new URL("../../plugins/writing_projects/src", import.meta.url)),
         // Markdown must decode identical entities in a Worker and in the UI.
         // This package's browser export touches document during module loading;
         // its public default export is the DOM-free WHATWG entity table.

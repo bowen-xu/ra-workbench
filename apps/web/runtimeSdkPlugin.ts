@@ -1,8 +1,10 @@
 import type {Plugin} from "vite";
 import path from "node:path";
+import {createRequire} from "node:module";
 import {fileURLToPath} from "node:url";
 import surface from "../../docs/architecture/runtime-note-sdk-surface.json" with {type: "json"};
 
+const require = createRequire(import.meta.url);
 const repository = fileURLToPath(new URL("../../", import.meta.url));
 const prefix = "virtual:workbench-runtime-sdk/";
 const subpaths: Readonly<Record<string, string>> = {
@@ -216,7 +218,7 @@ const sharedIdentityModules = new Set([
   "packages/data/src/agent/conversationController.ts", "packages/data/src/agent/reviewedSubmissionController.ts", "packages/data/src/agent/reviewedSubmissionOwner.ts",
   "packages/data/src/hbs/documentPort.ts", "packages/data/src/hbs/documentPreservationPort.ts",
   "packages/core/src/agent/promptTemplate.ts", "packages/core/src/nal/queryCollections.ts", "packages/core/src/reader/history.ts",
-].map(source => path.join(repository, source)));
+].map(source => path.join(path.dirname(require.resolve("@research-assistant/" + source.split("/")[1])), source.slice(source.indexOf("/src/") + 5).replace(/\.ts$/u, ".js"))));
 
 /** The static comparison product consumes the same SDK values from the same
  * Core modules. Derive this binding from the runtime facade table, rather than

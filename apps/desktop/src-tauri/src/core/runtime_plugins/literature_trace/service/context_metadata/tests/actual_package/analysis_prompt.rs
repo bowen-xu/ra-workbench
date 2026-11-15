@@ -36,11 +36,11 @@ async fn actual_package_analysis_prompt_preserves_core_grants_text_and_composer_
 
     let input = TaskPromptInputV1 {
         task_template: include_str!(
-            "../../../../../../../../../../../packages/core/prompts/structured-task.md"
+            "../../../../../../../../../../../.dependencies/sdk/web/core/prompts/structured-task.md"
         )
         .into(),
         reading_contract: include_str!(
-            "../../../../../../../../../../../packages/core/prompts/structured-reading-contract.md"
+            "../../../../../../../../../../../.dependencies/sdk/web/core/prompts/structured-reading-contract.md"
         )
         .into(),
         sources: context

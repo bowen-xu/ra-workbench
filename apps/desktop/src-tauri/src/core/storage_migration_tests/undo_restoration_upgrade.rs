@@ -8,7 +8,7 @@ const CORRECTED: &str = include_str!("fixtures/0118_corrected.sql");
 const ORIGINAL_HASH: &str = "6be120040299e7033fc2a6568e7b6e7cfe23d37fbaf173f8f5fcccc2be139278";
 const CORRECTED_HASH: &str = "e9b9421430411680fdc518034a3cf00c63246bcd7621ec9716cf93520a1932b7";
 const CHECKPOINT: &str = include_str!(
-    "../../../../../../packages/writing/fixtures/document-checkpoint-editor-receipt-v1.json"
+    "../../../../../../tests/fixtures/writing/document-checkpoint-editor-receipt-v1.json"
 );
 
 fn fixture(corrected: bool, maximum: i64) -> Connection {

@@ -14,7 +14,7 @@ use rusqlite::hooks::{AuthAction, AuthContext, Authorization, TransactionOperati
 fn document(id: &str) -> DocumentCheckpoint {
     let mut checkpoint: DocumentCheckpoint = serde_json::from_str(include_str!(concat!(
         env!("CARGO_MANIFEST_DIR"),
-        "/../../../packages/writing/fixtures/document-checkpoint-editor-receipt-v1.json"
+        "/../../../tests/fixtures/writing/document-checkpoint-editor-receipt-v1.json"
     )))
     .unwrap();
     checkpoint.manuscript_id = id.into();

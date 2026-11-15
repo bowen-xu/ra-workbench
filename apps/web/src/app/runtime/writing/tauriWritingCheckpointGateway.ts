@@ -1,6 +1,6 @@
 import {invoke as invokePlatform} from "../../../core/runtime/platformCore";
 import {decodeWritingCheckpointRecord, decodeWritingDocumentCheckpoint} from "@research-assistant/writing";
-import type {WritingCheckpointGateway} from "@research-assistant/writing-projects-plugin/contracts/writingCheckpointGateway";
+import type {WritingCheckpointGateway} from "@research-assistant/data/writing";
 
 export function createTauriWritingCheckpointGateway(invoke: typeof invokePlatform = invokePlatform): WritingCheckpointGateway {
   return {

@@ -30,7 +30,9 @@ pub const DEFINITIONS: &[Definition] = &[
         name: "阅读任务提示词.md",
         workflow: "shared",
         skill_path: None,
-        embedded: include_str!("../../../../../../packages/core/prompts/structured-task.md"),
+        embedded: include_str!(
+            "../../../../../../.dependencies/sdk/web/core/prompts/structured-task.md"
+        ),
     },
     Definition {
         id: "structured-reading-contract",
@@ -39,7 +41,7 @@ pub const DEFINITIONS: &[Definition] = &[
         workflow: "reading",
         skill_path: None,
         embedded: include_str!(
-            "../../../../../../packages/core/prompts/structured-reading-contract.md"
+            "../../../../../../.dependencies/sdk/web/core/prompts/structured-reading-contract.md"
         ),
     },
     skill!(

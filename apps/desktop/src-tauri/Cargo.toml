@@ -1,6 +1,6 @@
 [package]
 name = "research-assistant"
-version = "0.7.6"
+version = "0.8.0"
 description = "A local-first, traceable research workspace"
 authors = ["Research Assistant contributors"]
 edition = "2024"
@@ -62,11 +62,11 @@ hyper-util = { version = "0.1", features = ["tokio"] }
 fs2 = "0.4"
 libloading = "0.8"
 research-docling-runtime = { path = "../../../packages/docling-runtime" }
-research-semantic-engine-api = { path = "../../../packages/semantic-engine-api" }
+research-semantic-engine-api = { path = "../../../.dependencies/sdk/native/semantic-engine-api" }
 research-agent-core = { path = "../../../packages/agent-core" }
 research-data-runtime = { path = "../../../packages/data-runtime" }
-research-note-query = { path = "../../../packages/note-query" }
-research-workbench-native-sdk = { path = "../../../packages/workbench-native-sdk" }
+research-note-query = { path = "../../../.dependencies/sdk/native/note-query" }
+research-workbench-native-sdk = { path = "../../../.dependencies/sdk/native/workbench-native-sdk" }
 time = { version = "=0.3.47", default-features = false, features = ["parsing"] }
 reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "stream"] }
 scraper = { version = "0.27", default-features = false }
@@ -98,8 +98,8 @@ objc2-web-kit = { version = "=0.3.2", default-features = false, features = ["std
 block2 = "=0.6.2"
 
 [dev-dependencies]
-research-writing-projects-native = { path = "../../../plugins/writing_projects/native" }
-research-literature-library-native = { path = "../../../plugins/literature_library/native" }
+research-writing-projects-native = { path = "../../../.dependencies/test-plugins/writing_projects/native" }
+research-literature-library-native = { path = "../../../.dependencies/test-plugins/literature_library/native" }
 rusqlite = { version = "0.37", features = ["hooks"] }
 tokio = { version = "1", features = ["test-util"] }
 

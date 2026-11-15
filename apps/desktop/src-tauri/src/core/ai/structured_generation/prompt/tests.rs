@@ -60,11 +60,11 @@ fn render(
     render_current(
         include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../../packages/core/prompts/structured-task.md"
+            "/../../../.dependencies/sdk/web/core/prompts/structured-task.md"
         )),
         include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../../packages/core/prompts/structured-reading-contract.md"
+            "/../../../.dependencies/sdk/web/core/prompts/structured-reading-contract.md"
         )),
         context
             .iter()

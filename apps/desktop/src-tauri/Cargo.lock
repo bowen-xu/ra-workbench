@@ -3804,10 +3804,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "research-agent-api"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "sha2",
+ "thiserror 2.0.19",
+ "uuid",
+]
+
+[[package]]
 name = "research-agent-core"
 version = "0.1.0"
 dependencies = [
  "futures-util",
+ "research-agent-api",
  "serde",
  "serde_json",
  "sha1",
@@ -3818,7 +3830,7 @@ dependencies = [
 
 [[package]]
 name = "research-assistant"
-version = "0.7.6"
+version = "0.8.0"
 dependencies = [
  "base64 0.22.1",
  "biblatex",
@@ -3903,7 +3915,7 @@ dependencies = [
  "libc",
  "quick-xml",
  "regex",
- "research-agent-core",
+ "research-agent-api",
  "research-workbench-native-sdk",
  "scraper",
  "serde",
@@ -3934,7 +3946,7 @@ version = "0.1.0"
 dependencies = [
  "base64 0.22.1",
  "ciborium",
- "research-agent-core",
+ "research-agent-api",
  "research-semantic-engine-api",
  "serde",
  "serde_json",
@@ -3950,7 +3962,7 @@ dependencies = [
  "biblatex",
  "libc",
  "regex",
- "research-agent-core",
+ "research-agent-api",
  "research-note-query",
  "research-workbench-native-sdk",
  "serde",

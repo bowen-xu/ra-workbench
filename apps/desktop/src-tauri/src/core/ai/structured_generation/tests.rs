@@ -333,11 +333,11 @@ fn render_task(
     research_literature_library_native::analysis_workflow::task_prompt::render_current(
         include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../../packages/core/prompts/structured-task.md"
+            "/../../../.dependencies/sdk/web/core/prompts/structured-task.md"
         )),
         include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../../packages/core/prompts/structured-reading-contract.md"
+            "/../../../.dependencies/sdk/web/core/prompts/structured-reading-contract.md"
         )),
         context.iter().filter_map(|source| {
             crate::ai::structured_generation_support::prompt_resource(source)

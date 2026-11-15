@@ -3,10 +3,24 @@
   "compilerOptions": {
     "composite": true,
     "jsx": "react-jsx",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "noEmit": true,
     "resolveJsonModule": true,
     "tsBuildInfoFile": "./node_modules/.cache/tsconfig.app.tsbuildinfo"
   },
-  "include": ["src", "../../plugins/note_manager/src", "../../plugins/literature_library/src", "../../plugins/writing_projects/src", "../../docs/ui-templates/reorder-template/**/*.tsx"]
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.browser.ts",
+    "src/**/*.browser.tsx",
+    "src/**/*.testSupport.ts",
+    "src/**/*.testSetup.ts"
+  ]
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Research Assistant",
-  "version": "0.7.6",
+  "version": "0.8.0",
   "identifier": "com.bowenxu.research-assistant",
   "build": {
     "beforeDevCommand": "pnpm --dir ../web dev",
@@ -39,8 +39,7 @@
       "../docling-daemon/licenses/": "licenses/docling/",
       "THIRD_PARTY_NOTICES.md": "licenses/THIRD_PARTY_NOTICES.md",
       "../../../packages/agent-core/third-party/codex/LICENSE": "licenses/CODEX_LICENSE",
-      "../../../packages/agent-core/third-party/codex/NOTICE": "licenses/CODEX_NOTICE",
-      "../../../plugins/writing_projects/src/features/writing/editor/code-check/COPYING": "licenses/OVERLEAF_CODE_CHECK_COPYING"
+      "../../../packages/agent-core/third-party/codex/NOTICE": "licenses/CODEX_NOTICE"
     },
     "category": "Education",
     "createUpdaterArtifacts": false,

@@ -15,7 +15,7 @@ use super::{
 };
 
 const CATALOG_JSON: &str =
-    include_str!("../../../../../../packages/core/src/ai/llm-provider-defaults.json");
+    include_str!("../../../../../../.dependencies/sdk/web/core/lib/ai/llm-provider-defaults.json");
 const MAX_MODEL_RESPONSE_BYTES: usize = 1024 * 1024;
 
 const DEFAULT_ROUTES: &[(&str, &str)] = &[

@@ -6,7 +6,7 @@ const ORIGINAL_HASH: &str = "db9b6eea85eea41d6e8658d2bf058980f0827b678815cde191b
 const HARDENED_HASH: &str = "42f00e2d7ebec85129f493ad665cff5e13a6b22cdb4fcfff10fcc97bf9e985f5";
 const HARDENED_SQL: &str = include_str!("../fixtures/0114_hardened.sql");
 const CHECKPOINT: &str = include_str!(
-    "../../../../../../../packages/writing/fixtures/document-checkpoint-editor-receipt-v1.json"
+    "../../../../../../../tests/fixtures/writing/document-checkpoint-editor-receipt-v1.json"
 );
 
 fn original_sql() -> String {
