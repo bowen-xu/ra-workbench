@@ -1,0 +1,30 @@
+.note-history-dialog {
+  position: fixed; inset: 50% auto auto 50%; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; width: min(1000px, calc(100vw - 48px));
+  max-height: calc(100dvh - 48px); min-height: 320px; overflow: hidden;
+  padding: 0; border: 1px solid #dcd8d1; border-radius: 14px; background: #fff;
+  color: #39362f; box-shadow: 0 20px 70px rgb(40 36 27 / 18%); font-size: var(--ui-font-body);
+}
+.note-history-dialog > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 20px 24px 12px; }
+.note-history-dialog h2 { margin: 0; font-size: var(--ui-font-heading); font-weight: 600; }
+.note-history-dialog p { line-height: 1.6; }
+.note-history-dialog button { border: 1px solid #dedbd4; border-radius: 6px; padding: 6px 10px; background: #fff; color: inherit; font: inherit; cursor: pointer; }
+.note-history-dialog button:disabled { opacity: .45; cursor: default; }
+.note-history-dialog header button { display: grid; place-items: center; padding: 5px; border: 0; }
+.note-history-dialog > footer { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 12px; padding: 14px 24px; border-top: 1px solid #eeece7; font-size: var(--ui-font-label); }
+.note-history-dialog footer > span { margin-left: auto; color: #777169; }
+.note-history-dialog button.primary-button { color: #fff; background: #3f5345; border-color: #3f5345; }
+.note-history-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); flex: 1; min-height: 0; overflow: hidden; border-block: 1px solid #eeece7; }
+.note-history-layout nav { padding: 12px; overflow: auto; border-right: 1px solid #eeece7; }
+.note-history-layout .note-history-policy { font-size: var(--ui-font-meta); }
+.note-history-layout .note-history-restore[aria-pressed="true"] { background: #eef1eb; border-color: #bbc9b9; }
+.note-history-preview { min-height: 220px; padding: 20px; overflow: auto; }
+.note-history-preview .note-editor { padding: 0; }
+.note-history-preview > p { color: #777169; }
+@media (max-width: 640px) {
+  .note-history-dialog { width: calc(100vw - 20px); max-height: calc(100dvh - 20px); }
+  .note-history-layout { grid-template-columns: 150px minmax(0, 1fr); }
+  .note-history-dialog > header, .note-history-dialog > footer { padding: 12px; }
+}
+
+.note-snapshot .bn-inline-content:empty::before { content: "空白段落"; color: #9b968d; font-size: var(--ui-font-meta); pointer-events: none; }

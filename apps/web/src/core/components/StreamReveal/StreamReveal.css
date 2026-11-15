@@ -1,0 +1,11 @@
+.stream-reveal-glyph {
+  opacity: var(--stream-reveal-progress, 1);
+  mask-image: linear-gradient(to right,
+    #000 calc(var(--stream-reveal-progress, 1) * 200% - 100%),
+    transparent calc(var(--stream-reveal-progress, 1) * 200%));
+}
+.stream-reveal-glyph.is-atomic { display: inline-block; max-width: 100%; }
+.stream-reveal-glyph.is-block { display: block; }
+@media (prefers-reduced-motion: reduce) {
+  .stream-reveal-glyph { opacity: 1; mask-image: none; }
+}

@@ -1,0 +1,7 @@
+.ui-switch { appearance:none; flex:none; position:relative; box-sizing:border-box; width:32px; height:18px; margin:0; border:1px solid #aeb9b0; border-radius:999px; background:#cbd1c9; cursor:pointer; transition:background 120ms ease; }
+.ui-switch::before {content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgb(27 43 35 / 20%);transition:transform 120ms ease;}
+.ui-switch:is(:checked, [data-checked="true"]) {border-color:#597563;background:#597563;}
+.ui-switch:is(:checked, [data-checked="true"])::before {transform:translateX(14px);}
+.ui-switch:disabled {opacity:.45;cursor:default;}
+.ui-switch:focus-visible {outline:none;filter:brightness(.9);}
+@media (prefers-reduced-motion:reduce) {.ui-switch,.ui-switch::before {transition:none;}}

@@ -1,0 +1,8 @@
+.app-update-control { position: relative; flex-shrink: 0; }
+.update-progress { position: absolute; inset: -1px; width: 30px; height: 30px; transform: rotate(-90deg); pointer-events: none; }
+.update-progress circle { fill: none; stroke-width: 2; }
+.update-progress-track { stroke: currentColor; opacity: 0.18; }
+.update-progress-value { stroke: currentColor; stroke-linecap: round; }
+.update-progress.indeterminate { animation: spin 1s linear infinite; }
+.update-progress-accessible { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+@media (prefers-reduced-motion: reduce) { .update-progress.indeterminate { animation: none; } }

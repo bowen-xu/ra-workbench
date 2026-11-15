@@ -1,0 +1,3 @@
+/* Shared embedded-document surface styling; the original rules remain owned by
+   Core and retain their selectors and cascade order. */
+@import "../features/notes/reading-notes/ReadingNoteFloatingPanel.css";

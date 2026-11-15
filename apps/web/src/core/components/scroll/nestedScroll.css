@@ -1,0 +1,4 @@
+/* A native, noncancelable momentum packet must only find the gesture owner.
+   overflow:hidden keeps programmatic position and restores without a jump. */
+[data-nested-scroll-blocked="true"] { overflow-y: hidden !important; overscroll-behavior-y: auto !important; }
+[data-nested-scroll-owner="true"] { overscroll-behavior-y: contain !important; }

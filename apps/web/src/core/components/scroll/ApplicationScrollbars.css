@@ -1,0 +1,36 @@
+@property --ui-scrollbar-alpha {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/* Reset the value per element: scrolling a parent must not reveal its children.
+ * Inheritance still lets each native thumb read its own scroller's animation. */
+:where(html[data-app-scrollbars], html[data-app-scrollbars] *) {
+  --ui-scrollbar-alpha: 0;
+  --ui-scrollbar-hover: 0;
+  --ui-scrollbar-size: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(105 119 109 / calc(var(--ui-scrollbar-alpha) * (.4 + var(--ui-scrollbar-hover) * .24))) transparent;
+}
+
+/* Own native track painting so OS "always show" and native overlay hide timing
+ * cannot change the policy. Both states retain identical track dimensions.
+ * Low specificity preserves intentional always-hidden workspace tab strips. */
+@supports selector(::-webkit-scrollbar) {
+  :where(html[data-app-scrollbars], html[data-app-scrollbars] *) { scrollbar-width: auto; scrollbar-color: auto; }
+  :where(html[data-app-scrollbars], html[data-app-scrollbars] *)::-webkit-scrollbar { width: var(--ui-scrollbar-size); height: var(--ui-scrollbar-size); background: transparent; }
+  :where(html[data-app-scrollbars], html[data-app-scrollbars] *)::-webkit-scrollbar-track,
+  :where(html[data-app-scrollbars], html[data-app-scrollbars] *)::-webkit-scrollbar-track-piece,
+  :where(html[data-app-scrollbars], html[data-app-scrollbars] *)::-webkit-scrollbar-corner { background: transparent; }
+  :where(html[data-app-scrollbars], html[data-app-scrollbars] *)::-webkit-scrollbar-button { display: none; }
+  :where(html[data-app-scrollbars], html[data-app-scrollbars] *)::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgb(105 119 109 / calc(var(--ui-scrollbar-alpha) * (.4 + var(--ui-scrollbar-hover) * .24)));
+  }
+}
+
+@media (forced-colors: active) {
+  :where(html[data-app-scrollbars], html[data-app-scrollbars] *) { scrollbar-color: auto; }
+  :where(html[data-app-scrollbars], html[data-app-scrollbars] *)::-webkit-scrollbar-thumb { background: CanvasText; }
+}

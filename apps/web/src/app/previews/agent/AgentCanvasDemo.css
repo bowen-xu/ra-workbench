@@ -1,0 +1,26 @@
+.agent-canvas-demo { width: 100%; height: 100%; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 44px clamp(24px, 6vw, 96px) 72px; color: #304138; background: #f4f5f1; }
+.agent-canvas-demo-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; max-width: 1180px; margin: 0 auto 28px; }
+.agent-canvas-demo-eyebrow { color: #799080; font-size: 11px; font-weight: 700; letter-spacing: .16em; }
+.agent-canvas-demo-header h1 { margin: 9px 0 8px; font-family: Georgia, "Songti SC", serif; font-size: clamp(28px, 4vw, 44px); font-weight: 500; }
+.agent-canvas-demo-header p { max-width: 680px; margin: 0; color: #718078; line-height: 1.7; }
+.agent-canvas-demo-reset { display: inline-flex; align-items: center; gap: 7px; border: 1px solid #ccd9cf; border-radius: 9px; padding: 9px 12px; color: #486052; background: #fff; cursor: pointer; }
+.agent-canvas-demo-reset:hover { border-color: #7fa98a; background: #f5faf6; }
+.agent-canvas-demo-workspace { display: block; max-width: 1180px; margin: 0 auto; }
+.agent-canvas-demo-surface { position: relative; min-width: 0; height: max(680px, 80vh); }
+.agent-canvas-demo-footer { display: grid; gap: 24px; max-width: 1180px; min-width: 0; margin: 24px auto 0; }
+.agent-canvas-control-section { min-width: 0; }
+.agent-canvas-control-heading { margin: 0 0 10px; }
+.agent-canvas-control-heading h2 { margin: 0; color: #304138; font-size: var(--ui-font-heading); font-weight: 600; }
+.agent-canvas-control-heading p { margin: 4px 0 0; color: #718078; font-size: var(--ui-font-caption); line-height: 1.5; }
+.agent-canvas-control-group { min-width: 0; border: 1px solid #e0e5df; border-radius: 18px; background: #fff; }
+.agent-canvas-control-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; min-width: 0; padding: 14px 20px; color: #718078; font-size: var(--ui-font-caption); line-height: 1.5; }
+.agent-canvas-control-row + .agent-canvas-control-row { border-top: 1px solid #ebeeea; }
+.agent-canvas-control-row .agent-canvas-control-row { padding: 0; }
+.agent-canvas-control-row > span { min-width: 0; overflow-wrap: anywhere; }
+.agent-canvas-control-row span[role="status"], .agent-canvas-control-row span[role="alert"] { flex: 1 1 100%; overflow-wrap: anywhere; }
+.agent-canvas-control-row > .agent-canvas-demo-status { flex: 1 1 100%; }
+.agent-canvas-demo-duration { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 7px; min-width: 0; max-width: 100%; color: #75857a; font-size: var(--ui-font-caption); }
+.agent-canvas-demo-duration select { min-width: 0; max-width: 100%; border: 1px solid #ccd9cf; border-radius: 7px; padding: 7px 24px 7px 9px; color: #486052; background: #fff; font: inherit; }
+.agent-canvas-demo-duration input { width: 6em; border: 1px solid #ccd9cf; border-radius: 7px; padding: 7px 9px; color: #486052; background: #fff; font: inherit; }
+.agent-canvas-demo-status { min-width: 0; margin: 0; color: #718078; font-size: var(--ui-font-caption); line-height: 1.6; overflow-wrap: anywhere; }
+@media (max-width: 800px) { .agent-canvas-demo-header { flex-direction: column; } }

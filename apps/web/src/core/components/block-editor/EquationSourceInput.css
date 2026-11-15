@@ -1,0 +1,11 @@
+.equation-source-input { --equation-source-available-height: max(0px, calc(var(--popover-available-height, 100dvh) - 26px)); flex: 1; min-width: 0; }
+.equation-source-input .cm-editor { color: #2f2c27; background: transparent; }
+.equation-source-input .cm-editor.cm-focused { outline: none; }
+.equation-source-input .cm-scroller { min-height: min(29px, var(--equation-source-available-height)); max-height: min(360px, var(--equation-source-available-height)); overflow: auto; font: var(--ui-font-body)/1.5 ui-monospace, monospace; }
+.equation-source-input .cm-content { padding: 4px 0; caret-color: #315f45; }
+.equation-source-input .cm-line { padding: 0; }
+.equation-source-input .cm-placeholder { color: #aaa59f; }
+.equation-source-input .cm-selectionBackground { background: #cddfce !important; }
+.equation-source-completions.cm-tooltip-autocomplete { border: 1px solid #e1ded7; border-radius: 6px; color: #2f2c27; background: #faf9f8; box-shadow: 0 8px 24px #28241d18; }
+.equation-source-completions.cm-tooltip-autocomplete > ul { max-height: min(240px, 40dvh); font: var(--ui-font-body)/1.5 ui-monospace, monospace; }
+.equation-source-completions.cm-tooltip-autocomplete > ul > li[aria-selected="true"] { color: #fff; background: #315f45; }

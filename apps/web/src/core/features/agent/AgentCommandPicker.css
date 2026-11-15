@@ -1,0 +1,9 @@
+.agent-command-picker { z-index: 80; width: min(360px, calc(100vw - 32px)); max-height: min(380px, 50vh); box-sizing: border-box; overflow-y: auto; border: 1px solid #dce4dc; border-radius: 12px; padding: 6px; color: #435348; background: #fff; box-shadow: 0 8px 24px #23382b24; }
+.agent-command-picker-title { padding: 4px 8px 6px; color: #78887f; font-size: var(--ui-font-caption); }
+.agent-command-picker-item { display: flex; align-items: center; gap: 8px; width: 100%; border: 0; border-radius: 6px; padding: 8px; color: inherit; background: transparent; text-align: left; cursor: pointer; }
+.agent-command-picker-item:hover, .agent-command-picker-item[data-active-item] { background: #eef2ed; }
+.agent-command-picker-item > svg { flex: 0 0 auto; width: var(--ui-font-label); height: var(--ui-font-label); }
+.agent-command-picker-item > span { display: grid; min-width: 0; gap: 3px; }
+.agent-command-picker-item strong { font-size: var(--ui-font-label); font-weight: 500; }
+.agent-command-picker-item small, .agent-command-picker-empty { color: #78887f; font-size: var(--ui-font-caption); }
+.agent-command-picker-empty { margin: 6px 8px; }

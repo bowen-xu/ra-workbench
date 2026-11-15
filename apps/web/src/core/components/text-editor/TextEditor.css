@@ -1,0 +1,39 @@
+.text-documents-host, .text-document-host, .text-editor { height: 100%; min-height: 0; }
+.text-document-host[hidden], .text-documents-host[hidden] { display: none; }
+.text-editor { display: flex; flex-direction: column; overflow: hidden; background: #fffefb; color: #263a2d; }
+.text-editor-toolbar { display: flex; align-items: center; gap: 6px; padding: 8px 12px 0; position: relative; z-index: 2; flex: none; background: #fffefb; }
+.text-editor-toolbar button { display: inline-flex; flex: none; align-items: center; justify-content: center; gap: 6px; min-height: 28px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: inherit; padding: 3px 7px; font: inherit; font-size: var(--ui-font-meta); }
+.text-editor-toolbar button:hover:not(:disabled) { background: #e6ece2; }
+.text-editor-surface { flex: 1; min-height: 0; overflow: hidden; user-select: text; }
+.text-editor footer { display: flex; justify-content: space-between; gap: 12px; padding: 5px 12px; border-top: 1px solid #dce1d7; color: #667568; font-size: var(--ui-font-caption); }
+.text-editor > .editor-diff-controls { flex: none; padding: 8px 12px; }
+
+.text-save-dialog { position:fixed;inset:0;margin:auto;width:min(440px,90vw);height:fit-content;padding:24px;background:#faf9f5;color:#263a2d;border:1px solid #dce1d7;border-radius:14px;box-shadow:0 18px 70px #19291d33;z-index:1200; }
+.text-save-dialog h2 { margin:0 0 12px;font-size:var(--ui-font-heading); }
+.text-save-dialog p { font-size:var(--ui-font-body);line-height:1.6; }
+.text-save-dialog>div { display:flex;justify-content:flex-end;gap:8px;margin-top:20px; }
+.text-save-dialog button { padding:7px 14px;border:1px solid #dce1d7;border-radius:7px;background:#fffefb;color:inherit;font:inherit;font-size:var(--ui-font-label); }
+.text-save-dialog button:last-child { background:#395042;color:white; }
+.text-path-separator { color:#929a92; }
+.text-editor-toolbar>button { margin-left:auto; }
+.text-editor-toolbar>button, .text-editor-toolbar .text-editor-file-menu-trigger { display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box; flex:none; width:32px; height:32px; padding:0; border:1px solid #dce1d7; border-radius:50%; background:#fffefb; }
+.text-editor-toolbar>button svg, .text-editor-file-menu-trigger svg { display:block; flex:none; }
+.text-editor-toolbar { gap:10px; }
+
+.text-editor-toolbar::after { content:""; position:absolute; top:100%; left:0; right:0; height:8px; background:linear-gradient(#fffefb, #fffefb00); pointer-events:none; }
+.text-editor-path { display:flex; align-items:center; gap:8px; flex:0 1 auto; min-width:0; max-width:100%; min-height:32px; padding:0 10px; border:1px solid #e3e5de; border-radius:18px; background:#fffefb; font-size:var(--ui-font-meta); color:#667568; white-space:nowrap; }
+.text-editor-path>svg, .text-path-root, .text-path-separator { flex:none; }
+.text-path-tail { display:block; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; direction:rtl; text-align:left; }
+
+.text-editor-file-menu { flex:none; }
+.text-editor-file-menu-content { z-index:50; min-width:170px; padding:5px; border:1px solid #dce1d7; border-radius:7px; background:#fffefb; box-shadow:0 8px 24px #24382b20; }
+.text-editor-file-menu-content button { display:flex; align-items:center; gap:8px; width:100%; padding:7px 9px; border:0; border-radius:4px; background:transparent; color:inherit; font:inherit; font-size:var(--ui-font-meta); text-align:left; }
+.text-editor-file-menu-content button:hover, .text-editor-file-menu-content button[data-active-item] { background:#e6ece2; }
+
+/* Embedded prose follows the card's normal typography and natural height. */
+.text-editor.text-editor-prose { display: block; height: auto; margin: 6px 0; background: transparent; color: inherit; font: inherit; line-height: 1.55; }
+.text-editor-prose .text-editor-surface { overflow: visible; }
+.text-editor-prose .cm-line { padding: 0; }
+.text-editor-prose .cm-deletedChunk { margin: 0; padding: 3px 5px; border-left: 2px solid; border-left-color: var(--editor-diff-removed-marker, #e43); }
+.text-editor-prose .cm-changedLine, .text-editor-prose .text-editor-current-conflict { padding: 3px 5px; border-left: 2px solid; border-left-color: var(--editor-diff-added-marker, #2b2); }
+.text-editor-prose .text-editor-incoming { padding: 3px 5px; border-left: 2px solid; }

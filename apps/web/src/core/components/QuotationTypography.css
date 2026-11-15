@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "Research Assistant Quotes";
+  src: url("/resources/quotation-font/ResearchAssistantQuotes-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+2018-2019, U+201C-201D;
+}
+
+/* This face contains only curly quotes: every other character continues down
+   the original application stack. Keep code and KaTeX's own fonts intact. */
+.note-editor-surface .bn-editor {
+  font-family: "Research Assistant Quotes", var(--bn-font-family, var(--app-font-family));
+}
+.writing-agent-panel {
+  font-family: "Research Assistant Quotes", var(--app-font-family);
+}
+.writing-agent-panel .writing-agent-markdown :is(h1, h2, h3, h4, h5, h6) {
+  font-family: "Research Assistant Quotes", Georgia, "Songti SC", serif;
+}

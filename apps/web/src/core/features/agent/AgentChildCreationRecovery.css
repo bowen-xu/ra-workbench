@@ -1,0 +1,10 @@
+.agent-child-creation-recovery {
+  display: grid;
+  gap: 0.4rem;
+  justify-items: start;
+}
+
+.agent-child-creation-recovery p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,7 @@
+# Paper portrait JSON
+
+For generation, reclassification or rebuilding a paper's reading-template suggestion, load the enabled application skill named generate-paper-portrait using its exact catalog identity with research_load_skill. That skill owns the classification definitions, complete valid JSON example, source reading, Update File and completion rules; do not reconstruct a second generation prompt from this reference.
+
+For a focused edit, preserve kind: "paper_portrait_v1", schemaVersion: 1 and all unrelated content. coverage is a nonempty string describing actual reading coverage (never an object or array). claims is an array of 3–24 atomic {id,dimension,label,description,certainty,evidence} objects, including genre, mode and paradigm and each configured custom dimension. certainty is supported or uncertain; supported claims require literal evidence entries {evidenceItemId,quote} from an authorized structured source read. Preserve stable claim IDs and configured category definitions. Do not manufacture review markers.
+
+The template array has 1–20 ordered {id,title,question,claimIds,color?} fields. claimIds refer to claims in the same portrait. This is a suggestion, not publication or adoption of a reading template. Changes to separately authorized paper-template resources remain proposals for user confirmation. Update the portrait at its existing ID address, including first writes to a blank object; never Add File. Read the current candidate before patching and retain/repair a failed draft at the same address.

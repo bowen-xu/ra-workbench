@@ -1,0 +1,12 @@
+{
+  "name": "@research-assistant/desktop",
+  "version": "0.7.6",
+  "private": true,
+  "scripts": {
+    "tauri": "tauri"
+  },
+  "devDependencies": {
+    "@openai/codex": "0.146.0",
+    "@tauri-apps/cli": "2.11.4"
+  }
+}

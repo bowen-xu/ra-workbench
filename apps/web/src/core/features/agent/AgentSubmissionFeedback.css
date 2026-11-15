@@ -1,0 +1,3 @@
+.agent-submission-feedback { font-size: var(--ui-font-caption); }
+.agent-submission-feedback p { margin: 6px 0; }
+.agent-submission-feedback button { margin: 6px 8px 0 0; font: inherit; }

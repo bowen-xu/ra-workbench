@@ -1,0 +1,36 @@
+:root {
+  /*SHARED_TYPOGRAPHY*/
+}
+.ProgressWindow-box {
+  box-sizing: border-box;
+  width: 322px;
+  max-width: calc(100% - 8px);
+}
+.ProgressWindow-headline {
+  display: block;
+  font-size: var(--ui-font-label);
+  line-height: 1.4;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+}
+.ProgressWindow-error {
+  font-size: var(--ui-font-label);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.research-assistant-retry {
+  font-family: inherit;
+  font-size: var(--ui-font-label);
+  color: #244e31;
+  background: #eef5ee;
+  border: 1px solid #b9c8bc;
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+.research-assistant-retry:focus-visible {
+  outline: 2px solid #397450;
+  outline-offset: 2px;
+}

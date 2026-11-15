@@ -1,0 +1,37 @@
+.dictionary-lookup { display: grid; gap: 10px; min-width: 0; border-top: 1px solid #d8ddd7; padding: 10px 4px 4px; color: #303b34; }
+.dictionary-context-explanation { border-radius: 6px; padding: 8px; background: #e9eee7; max-height: min(380px, 48vh); overflow: auto; overflow-wrap: anywhere; font-size: var(--ui-font-meta); line-height: 1.6; }
+.dictionary-context-explanation p { margin: 0; white-space: pre-wrap; }
+.dictionary-context-meaning, .dictionary-local-chat header { display: flex; justify-content: space-between; align-items: start; gap: 8px; }
+.dictionary-context-title { display: flex; flex: 1; align-items: baseline; gap: 4px; min-width: 0; }
+.dictionary-context-translation { font-weight: 600; min-width: 0; }
+.dictionary-context-explanation .dictionary-context-reason { margin-top: 4px; }
+.dictionary-context-explanation button { display: grid; place-items: center; flex: 0 0 24px; padding: 3px; border: 0; border-radius: 4px; color: #526454; background: transparent; cursor: pointer; }
+.dictionary-context-explanation button:hover { background: #dbe4d8; }
+.dictionary-context-explanation button:disabled { opacity: .5; cursor: default; }
+.dictionary-context-explanation .dictionary-context-delete { opacity: 0; pointer-events: none; }
+.dictionary-context-explanation:is(:hover, :focus-within) .dictionary-context-delete { opacity: 1; pointer-events: auto; }
+.dictionary-context-explanation:is(:hover, :focus-within) .dictionary-context-delete:disabled { opacity: .5; }
+.dictionary-local-chat { border-top: 1px solid #d3dcd0; padding-top: 8px; margin-top: 8px; }
+.dictionary-local-chat header { font-size: var(--ui-font-caption); color: #5a695c; }
+.dictionary-local-messages { display: grid; gap: 8px; margin: 6px 0; }
+.dictionary-local-messages span { display: block; color: #6d776e; font-size: var(--ui-font-caption); }
+.dictionary-chat-user { background: #fff8; padding: 6px; border-radius: 4px; }
+.dictionary-local-chat form { display: flex; align-items: end; gap: 6px; }
+.dictionary-local-chat textarea { min-width: 0; flex: 1; resize: vertical; min-height: 44px; max-height: 100px; border: 1px solid #c9d0c8; border-radius: 4px; padding: 6px; font-size: var(--ui-font-meta); color: inherit; background: #fff; }
+.dictionary-results { max-height: min(300px, 45vh); overflow: auto; overflow-wrap: anywhere; font-size: var(--ui-font-meta); line-height: 1.6; }
+.dictionary-results article + article { margin-top: 12px; border-top: 1px solid #dde1db; padding-top: 10px; }
+.dictionary-results header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+.dictionary-results strong { font-size: var(--ui-font-label); }
+.dictionary-results header span, .dictionary-results small { color: #6d776e; font-size: var(--ui-font-caption); }
+.dictionary-results p { margin: 5px 0; white-space: pre-wrap; }
+.dictionary-results summary { cursor: pointer; font-size: var(--ui-font-caption); color: #5a695c; }
+.dictionary-word-forms { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.dictionary-results button { border: 0; border-radius: 4px; padding: 3px 6px; background: #e9eee7; color: #526454; cursor: pointer; font-size: var(--ui-font-caption); }
+.dictionary-results button:hover { background: #dbe4d8; }
+.dictionary-suggestions > span { font-size: var(--ui-font-caption); color: #6d776e; }
+.dictionary-suggestions > div { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.dictionary-suggestions[data-has-match="true"] { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.dictionary-suggestions[data-has-match="true"] > span { white-space: nowrap; }
+.dictionary-suggestions[data-has-match="true"] > div { display: contents; }
+.dictionary-suggestions[data-has-match="true"] button { max-width: 100%; }
+.dictionary-suggestions button small { margin-left: 5px; color: #6d776e; font-size: var(--ui-font-caption); }

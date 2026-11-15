@@ -1,0 +1,61 @@
+/* The API dialog follows the settings template without importing its mock UI. */
+.settings-api-dialog { --settings-line: #dce0d7; --settings-muted: #737c74; width: min(1080px, 100%); max-height: calc(100dvh - 56px); border-radius: 22px; background: #faf9f5; }
+.settings-api-dialog .api-settings-heading { min-height: 96px; border: 0; padding: 28px 32px 20px; background: transparent; }
+.settings-api-dialog .api-settings-icon { display: none; }
+.settings-api-dialog .api-settings-heading h2 { display: flex; align-items: center; gap: 8px; font-size: var(--ui-font-heading); font-weight: 600; }
+.settings-api-dialog .api-settings-heading p { margin-top: 8px; font-size: var(--ui-font-label); }
+.settings-api-dialog .api-settings-body { display: block; padding: 14px 32px 36px; }
+.settings-api-dialog .api-provider-panel { display: block; border: 0; padding: 0; background: transparent; margin-bottom: 36px; }
+.settings-api-dialog .api-provider-panel-heading { padding: 0; margin: 12px 0 18px; }
+.settings-api-dialog .api-provider-name h3 { font-size: var(--ui-font-body); font-weight: 600; }
+.settings-api-dialog .api-provider-name > span { font-size: var(--ui-font-caption); background: #e5ecdf; color: #55705b; }
+.settings-api-dialog .api-provider-panel-heading small { font-size: var(--ui-font-meta); margin-top: 7px; line-height: 1.6; }
+.settings-api-dialog .api-provider-toggle { gap: 8px; font-size: var(--ui-font-label); }
+.settings-api-dialog .api-provider-fields { display: block; gap: 0; padding: 0 20px; background: #fdfcf9; }
+.settings-api-dialog .setting-control { max-width: 65%; min-width: 0; }
+.settings-api-dialog .setting-control > input:not([type="number"]) { width: min(380px, 100%); }
+.settings-api-dialog .setting-control > input[type="number"] { width: 82px; }
+.settings-api-dialog .api-key-field { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(0, 2fr); align-items: center; gap: 24px; margin-top: 16px; padding: 20px; background: #fdfcf9; }
+.settings-api-dialog .api-key-label { display: grid; gap: 6px; font-size: var(--ui-font-body); }
+.settings-api-dialog .api-key-label small { font-size: var(--ui-font-meta); line-height: 1.6; }
+.settings-api-dialog .api-provider-actions { padding: 18px 0 0; border: 0; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+.settings-api-dialog .api-provider-actions button { min-height: 35px; padding: 8px 13px; border-radius: 10px; font-size: var(--ui-font-label); background: #edf0e8; border: 1px solid #d9dfd4; }
+.settings-api-dialog .api-provider-actions button[type="submit"] { color: #fffefa; background: #405d49; border-color: #405d49; }
+.settings-api-dialog .api-provider-actions .danger { margin-left: 0; color: #a25d50; background: transparent; border-color: transparent; }
+.settings-api-dialog .api-provider-actions .danger-primary { color: #a25d50; background: #f6e9e3; border-color: transparent; }
+.settings-api-dialog input, .settings-api-dialog select { min-height: 35px; height: auto; border: 1px solid #d6dcd1; border-radius: 9px; background: #fffefa; color: #34483a; padding: 8px 11px; font-size: var(--ui-font-label); }
+.settings-api-dialog .api-key-control button { min-height: 35px; border-radius: 9px; font-size: var(--ui-font-label); background: #edf0e8; }
+.settings-api-dialog .api-key-control .api-key-visibility { height: 33px; min-height: 33px; background: transparent; }
+.settings-api-dialog .api-routing-panel { border: 0; border-radius: 0; padding: 0; background: transparent; gap: 24px; }
+.settings-api-dialog .api-routing-panel h3 { font-size: var(--ui-font-body); }
+.settings-api-dialog .api-routing-panel h4 { border: 0; padding: 18px 0 10px; font-size: var(--ui-font-label); }
+.settings-api-dialog .api-routing-panel header p { font-size: var(--ui-font-meta); margin-top: 8px; }
+.settings-api-dialog .api-routing-panel header button { min-height: 35px; font-size: var(--ui-font-label); border-radius: 10px; background: #405d49; }
+.settings-api-dialog .api-route-group { display: block; border: 1px solid var(--settings-line); border-radius: 17px; padding: 0 20px 8px; background: #fdfcf9; }
+.settings-api-dialog .api-route-row { padding: 16px 0; border-top: 1px solid var(--settings-line); gap: 12px; }
+.settings-api-dialog .api-route-row strong { font-size: var(--ui-font-label); }
+.settings-api-dialog .api-route-row small { font-size: var(--ui-font-meta); line-height: 1.5; }
+.settings-api-dialog .api-settings-banner, .settings-api-dialog .api-settings-empty { font-size: var(--ui-font-label); border-radius: 12px; margin-bottom: 20px; }
+.settings-api-dialog .settings-info { display: inline-grid; place-items: center; width: 25px; height: 25px; min-height: 25px; border: 0; padding: 3px; background: transparent; color: #7d877c; cursor: pointer; }
+@media (max-width: 700px) {
+  .api-settings-backdrop:has(.settings-api-dialog) { padding: 12px; }
+  .settings-api-dialog { max-height: calc(100dvh - 24px); }
+  .settings-api-dialog .api-settings-heading { padding: 24px 20px 16px; }
+  .settings-api-dialog .api-settings-body { padding: 10px 20px 28px; }
+  .settings-api-dialog .api-key-field { grid-template-columns: 1fr; gap: 14px; }
+  .settings-api-dialog .api-route-row { grid-template-columns: 1fr; }
+  .settings-api-dialog .api-route-row:not(.api-route-row-reasoning) > input { grid-column: auto; }
+  .settings-api-dialog .setting-row { flex-wrap: wrap; }
+  .settings-api-dialog .setting-control { max-width: 100%; }
+}
+.api-settings-dialog.settings-api-dialog { width: min(1080px, 100%); border-radius: 22px; }
+.settings-api-dialog .api-title-row { display: flex; align-items: center; gap: 8px; }
+.settings-api-dialog .api-provider-fields .setting-control { width: min(420px, 55%); max-width: 65%; justify-content: flex-end; }
+.settings-api-dialog .api-provider-fields .setting-control > input:not([type="number"]) { width: 100%; }
+.settings-api-dialog .api-provider-fields input, .settings-api-dialog .api-key-control input, .settings-api-dialog .api-route-row input, .settings-api-dialog .api-route-row select { font-size: var(--ui-font-label); border-radius: 9px; }
+.settings-api-dialog .api-route-row input, .settings-api-dialog .api-route-row select { height: 35px; padding-block: 0; }
+.settings-api-dialog input.settings-switch { appearance: none; -webkit-appearance: none; width: 36px; height: 22px; min-height: 22px; border: 0; border-radius: 99px; padding: 0; position: relative; background: #d8ddd3; cursor: pointer; }
+.settings-api-dialog input.settings-switch:checked { background: #486552; }
+@media (max-width: 700px) {
+  .settings-api-dialog .api-provider-fields .setting-control { width: 100%; max-width: 100%; }
+}

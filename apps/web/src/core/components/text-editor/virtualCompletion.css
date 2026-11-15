@@ -1,0 +1,7 @@
+.cm-tooltip-autocomplete .editor-completion-icon {
+  display: inline-flex;
+  align-items: center;
+  width: 1em;
+  vertical-align: -0.125em;
+}
+.editor-completion-icon > svg { display: block; }

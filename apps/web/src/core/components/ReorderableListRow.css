@@ -1,0 +1,12 @@
+@import "./ReorderMotion.css";
+.reorderable-drag-handle { display: grid; flex: 0 0 18px; place-items: center; width: 18px; height: 26px; margin: 0; border: 0; border-radius: 5px; padding: 0; color: #a8b3aa; background: transparent; cursor: grab; line-height: 0; touch-action: none; overflow: hidden; opacity: 0; transition: opacity .14s ease; }
+.reorderable-drag-handle svg { display: block; margin: 0; }
+.reorderable-drag-handle.is-compact { height: 24px; }
+.reorderable-drag-handle.is-compact svg { width: var(--ui-font-caption); height: var(--ui-font-caption); }
+.reorderable-list-row:hover .reorderable-drag-handle, .reorderable-list-row:focus-within .reorderable-drag-handle, .reorderable-list-row.is-dragging .reorderable-drag-handle { opacity: 1; }
+.is-reordering .reorderable-list-row:not(.is-dragging) .reorderable-drag-handle { opacity: 0; pointer-events: none; transition: none; }
+.reorderable-drag-handle:hover:not(:disabled), .reorderable-drag-handle:focus-visible { color: #5f7867; background: transparent; }
+.reorderable-drag-handle:active { cursor: grabbing; }
+.reorderable-drag-handle:disabled { cursor: default; }
+@media (hover: none) { .reorderable-drag-handle { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .reorderable-list-row, .reorderable-drag-handle { transition: none; } }

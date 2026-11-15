@@ -1,0 +1,27 @@
+{
+  "connector": {
+    "repository": "https://github.com/zotero/zotero-connectors.git",
+    "revision": "174a43793560a412344442ab391f7e9842e79c91",
+    "cache": "docs/references/projects/zotero-zotero-connectors"
+  },
+  "translate": {
+    "repository": "https://github.com/zotero/translate.git",
+    "revision": "485ac36edbd66459e2aa3bad4d4b36921be2c7c2",
+    "cache": "docs/references/projects/zotero-zotero-connectors/src/translate"
+  },
+  "utilities": {
+    "repository": "https://github.com/zotero/utilities.git",
+    "revision": "cccf1235a318c259345fc623d5e9d6770ba19df7",
+    "cache": "docs/references/projects/zotero-zotero-connectors/src/utilities"
+  },
+  "schema": {
+    "repository": "https://github.com/zotero/zotero-schema.git",
+    "revision": "b5b3f51217a99b3c41585d468ee1dc0837233d13",
+    "cache": "docs/references/projects/zotero-zotero-connectors/src/zotero-schema"
+  },
+  "translators": {
+    "repository": "https://github.com/zotero/translators.git",
+    "revision": "0583a9e1ed4fd9f66da2bfc42ccfb524c1d944b0",
+    "cache": "docs/references/projects/zotero-translators"
+  }
+}

@@ -1,0 +1,53 @@
+.cm-editor .cm-panels-top:has(.text-search-panel) { position:absolute;top:10px;right:16px;left:auto;--editor-search-field-width:240px;width:calc(var(--editor-search-field-width) + 246px);max-width:calc(100% - 32px);z-index:10;container-type:inline-size;container-name:editor-search;border:0;background:transparent;color:inherit; }
+.text-search-panel { display:grid;grid-template-columns:20px minmax(0,1fr) 84px repeat(4,26px);gap:4px;padding:6px;border:1px solid #cdd2ca;border-radius:12px;background:#faf9f6;box-shadow:0 5px 18px #19291d22;font-family:Inter,"PingFang SC",sans-serif;font-size:var(--ui-font-label); }
+.text-search-panel .editor-find-row, .text-search-panel .editor-replace-row { grid-column:2 / -1;display:grid;grid-template-columns:subgrid;align-items:center;gap:4px; }
+.text-search-panel .editor-replace-row[hidden] { display:none; }
+.text-search-field { display:flex;align-items:center;min-width:0;border:1px solid #dce1d7;border-radius:6px;background:#fffefb;padding:2px 4px; }
+.text-search-field:focus-within { outline:none;background:#f0f5ed; }
+.text-search-panel input { min-width:0;width:100%;flex:1;padding:4px 6px;border:0;background:transparent;color:#263a2d;font:inherit;outline:none; }
+.text-search-panel input::placeholder { color:#879087; }
+.text-search-panel input[aria-invalid="true"] { color:#ae5349; }
+.text-search-panel button { display:inline-flex;flex:none;align-items:center;justify-content:center;width:26px;height:26px;padding:2px;border:1px solid transparent;border-radius:4px;background:transparent;color:#667568;font:inherit;font-size:var(--ui-font-caption);cursor:pointer; }
+.text-search-panel button:hover:not(:disabled), .text-search-panel button[aria-pressed="true"] { background:#e6ece2;color:#263a2d; }
+.text-search-panel button[aria-pressed="true"] { border-color:#8caa90; }
+.text-search-panel button:disabled { opacity:.35;cursor:default; }
+.text-search-panel button:focus-visible { outline:none;background:#e6ece2;color:#263a2d; }
+.text-search-panel .editor-search-status { white-space:nowrap;color:#7b857c;font-size:var(--ui-font-meta);overflow:hidden;text-overflow:ellipsis; }
+.text-search-panel .editor-search-expand { grid-column:1;grid-row:1;align-self:stretch;width:20px;height:auto; }
+.editor-search-expand[aria-expanded="true"] svg { transform:rotate(90deg); }
+.text-search-panel .search-whole-word { text-decoration:underline;text-underline-offset:3px; }
+.text-search-panel:has(.editor-replace-row:not([hidden])) .editor-search-expand { grid-row:1 / span 2; }
+.text-search-panel .editor-replace-actions { grid-column:2 / -1;display:flex;align-items:center;gap:4px; }
+.editor-search-icon { display:inline-flex;align-items:center;justify-content:center;font-size:var(--ui-font-caption); }
+.editor-search-icon svg { width:1em;height:1em; }
+.editor-search-hint-anchor { display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%; }
+
+/* Shrink the field first, then remove controls in a fixed priority order.
+ * Queries follow the actual panel width, including a narrow writing column. */
+@container editor-search (max-width:420px) {
+  .text-search-panel { grid-template-columns:20px minmax(0,1fr) repeat(4,26px); }
+  .text-search-panel .editor-search-status { display:none; }
+}
+@container editor-search (max-width:340px) {
+  .text-search-field>button:is([aria-label="区分大小写"],[aria-label="全词匹配"],[aria-label="正则表达式"]) { display:none; }
+}
+@container editor-search (max-width:280px) {
+  .text-search-panel { grid-template-columns:20px minmax(0,1fr) repeat(3,26px); }
+  .text-search-panel button[aria-label="在选区中查找"] { display:none; }
+}
+@container editor-search (max-width:250px) {
+  .text-search-panel button[aria-label="保留大小写"] { display:none; }
+}
+@container editor-search (max-width:240px) {
+  .text-search-panel button:is([aria-label="上一项"],[aria-label="下一项"],[aria-label="全部替换"]) { display:none; }
+  .text-search-panel { grid-template-columns:20px minmax(0,1fr) 26px; }
+}
+@container editor-search (max-width:180px) {
+  .text-search-panel { grid-template-columns:minmax(0,1fr) 26px; }
+  .text-search-panel .editor-search-expand, .text-search-panel button[aria-label="替换"], .text-search-panel .editor-replace-actions { display:none; }
+  .text-search-panel .editor-find-row, .text-search-panel .editor-replace-row { grid-column:1 / -1; }
+}
+@container editor-search (max-width:120px) {
+  .text-search-panel button[aria-label="关闭查找"] { display:none; }
+  .text-search-panel { grid-template-columns:minmax(0,1fr); }
+}

@@ -1,0 +1,74 @@
+import { afterEach, expect, it, vi } from "vitest";
+import { WritingDiffDemoStorage } from "./WritingDiffDemoStorage";
+import { WritingDiffDemoAgentStorage } from "./WritingDiffDemoAgentStorage";
+import { WritingDiffDemoSubmission } from "./WritingDiffDemoSubmission";
+import { initialChanges } from "../../../core/features/agent/WritingDiffFixtures";
+const manuscriptId = "00000000-0000-4000-8000-000000000003";
+const conversationId = "00000000-0000-4000-8000-000000000001";
+const live: { execution: WritingDiffDemoSubmission; agent: WritingDiffDemoAgentStorage }[] = [];
+afterEach(() => { for (const f of live.splice(0)) { f.execution.dispose(); f.agent.history.dispose(); } vi.useRealTimers(); });
+async function fixture(text = "单条模拟消息😀末尾") {
+  const storage = new WritingDiffDemoStorage(manuscriptId, initialChanges);
+  const agent = new WritingDiffDemoAgentStorage(storage, undefined);
+  const execution = new WritingDiffDemoSubmission(storage, agent, manuscriptId);
+  live.push({ execution, agent }); execution.singleTextResponse = text; execution.delayMs = 1000;
+  const files = await storage.files.listFiles(manuscriptId);
+  const preview = await execution.submission.prepareWriting({ conversationId, requestId: crypto.randomUUID(), text: "只返回文本",
+    context: { manuscriptId, files: files.map(f => ({ relativePath: f.relativePath, expectedDiskSha256: f.sha256 })) } });
+  const scope = { manuscriptId, conversationId, requestId: preview.requestId, contextSnapshotId: preview.contextSnapshotId };
+  await execution.workspace.prepare({ scope, buffers: [] });
+  vi.useFakeTimers();
+  await execution.submission.startWriting({ ...scope, model: preview.input.model, mode: "deepSeekNonThinking" });
+  const read = async () => (await agent.history.gateway.readHistory({ conversationId, afterSeq: 0, limit: 500 })).events;
+  return { execution, agent, preview, read, scope, text };
+}
+it("waits, streams exactly one final text in Unicode chunks, and completes without tools or edits", async () => {
+  const f = await fixture();
+  await vi.advanceTimersByTimeAsync(999);
+  expect((await f.read()).filter(e => e.payload.type === "itemStarted" && e.payload.kind.type === "assistantMessage")).toHaveLength(0);
+  await vi.advanceTimersByTimeAsync(1);
+  await vi.advanceTimersByTimeAsync(300 * (Math.ceil(Array.from(f.text).length / 3) - 1));
+  await f.agent.reviews.review(f.scope);
+  const events = await f.read();
+  const assistants = events.flatMap(e => e.payload.type === "itemStarted" && e.payload.kind.type === "assistantMessage" ? [e.payload.itemId] : []);
+  expect(assistants).toHaveLength(1);
+  expect(events.some(e => e.payload.type === "itemStarted" && ["toolCall", "toolResult"].includes(e.payload.kind.type))).toBe(false);
+  expect(events.some(e => e.payload.type === "itemPhaseChanged" && e.payload.phase === "finalAnswer")).toBe(true);
+  const chunks = events.filter(e => e.payload.type === "textDelta" && e.payload.itemId === assistants[0]);
+  expect(chunks.map(e => e.payload.type === "textDelta" ? e.payload.text : "").join("")).toBe(f.text);
+  chunks.forEach((e, i) => { if (i) expect(e.timestampMs - chunks[i - 1]!.timestampMs).toBe(300); });
+  expect(events.at(-1)?.payload).toMatchObject({ type: "turnFinished", outcome: "completed" });
+  expect((await f.agent.reviews.review(f.scope)).changes).toEqual([]);
+});
+it("stops the single response stream without publishing later chunks", async () => {
+  const f = await fixture();
+  await vi.advanceTimersByTimeAsync(1000);
+  await f.execution.turns.interrupt({ conversationId, turnId: f.preview.turnId });
+  const canceled = await f.read();
+  await vi.advanceTimersByTimeAsync(10000);
+  expect(await f.read()).toEqual(canceled);
+  expect(canceled.at(-1)?.payload).toMatchObject({ type: "turnFinished", outcome: "canceled" });
+});
+it("reschedules live output pacing without changing the initial wait or duplicating text", async () => {
+  const f = await fixture("甲😀乙丙丁戊己庚");
+  f.execution.setTextPacing({ charactersPerChunk: 2, intervalMs: 500 });
+  await vi.advanceTimersByTimeAsync(999);
+  expect((await f.read()).some(e => e.payload.type === "itemStarted" && e.payload.kind.type === "assistantMessage")).toBe(false);
+  await vi.advanceTimersByTimeAsync(1);
+  const first = (await f.read()).filter(e => e.payload.type === "textDelta");
+  expect(first.at(-1)?.payload).toMatchObject({ text: "甲😀" });
+  await vi.advanceTimersByTimeAsync(100);
+  f.execution.setTextPacing({ charactersPerChunk: 1, intervalMs: 200 });
+  await vi.advanceTimersByTimeAsync(199);
+  expect((await f.read()).filter(e => e.payload.type === "textDelta")).toEqual(first);
+  await vi.advanceTimersByTimeAsync(1);
+  expect((await f.read()).at(-1)?.payload).toMatchObject({ type: "textDelta", text: "乙" });
+  await vi.advanceTimersByTimeAsync(1000);
+  await f.agent.reviews.review(f.scope);
+  const events = await f.read();
+  const assistant = events.find(e => e.payload.type === "itemStarted" && e.payload.kind.type === "assistantMessage");
+  const assistantId = assistant?.payload.type === "itemStarted" ? assistant.payload.itemId : undefined;
+  const chunks = events.filter(e => e.payload.type === "textDelta" && e.payload.itemId === assistantId);
+  expect(chunks.map(e => e.payload.type === "textDelta" ? e.payload.text : "").join("")).toBe(f.text);
+  expect((await f.read()).at(-1)?.payload).toMatchObject({ type: "turnFinished", outcome: "completed" });
+});

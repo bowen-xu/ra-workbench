@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <title>Research Assistant Connector</title>
+    <link rel="stylesheet" href="options.css">
+    <script defer src="connection.js"></script>
+    <script defer src="transport.js"></script>
+    <script defer src="options.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>Research Assistant Connector</h1>
+      <p>点击扩展按钮，将识别的文献保存到桌面文献库，同时尝试下载浏览器可访问的 PDF。</p>
+      <form id="connection-form">
+        <label for="environment">桌面环境</label>
+        <select id="environment">
+          <option value="production">正式应用 · 23120</option>
+          <option value="development">开发应用 · 23121</option>
+        </select>
+        <p class="help">打开桌面应用后自动检测连接，无需填写配对码。检测通过前只发送连接探测；端口被其他软件占用或协议不匹配时停止传输。</p>
+        <button type="submit">重新检测连接</button>
+      </form>
+      <output id="status" role="status" aria-live="polite"></output>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+import {expect, it, vi} from "vitest";
+import type {AgentContextSelection} from "@research-assistant/core/agent";
+import {ContextRecommendationCache} from "./ContextRecommendationCache";
+const candidate = (id: string): AgentContextSelection => ({label:id,resource:{kind:"note",resourceId:id}});
+it("bounds suggestions, retries failures and rejects invalidated pending results", async () => {
+  const recommend = vi.fn(async (value:AgentContextSelection) => value), cache = new ContextRecommendationCache({recommend});
+  for(let id = 0; id < 129; id++) await cache.resolve(candidate(String(id)));
+  expect(cache.peek(candidate("0"))).toBeUndefined(); expect(cache.peek(candidate("128"))).toEqual(candidate("128"));
+  cache.invalidate(); recommend.mockRejectedValueOnce(new Error("offline"));
+  await expect(cache.resolve(candidate("retry"))).rejects.toThrow("offline");
+  await expect(cache.resolve(candidate("retry"))).resolves.toEqual(candidate("retry"));
+  let finish!: (value: AgentContextSelection) => void;
+  recommend.mockImplementationOnce(() => new Promise(resolve => {finish = resolve;}));
+  const pending = cache.resolve(candidate("stale")); await Promise.resolve();
+  const rejection = expect(pending).rejects.toMatchObject({name:"AbortError"});
+  cache.invalidate(); finish(candidate("stale")); await rejection;
+  expect(cache.peek(candidate("stale"))).toBeUndefined();
+});
+it("only uses identity lookup and coalesces consumers across immediate activation changes",async()=>{
+  let finish!: (value:AgentContextSelection)=>void;
+  const recommend=vi.fn((_value:AgentContextSelection,_signal?:AbortSignal)=>new Promise<AgentContextSelection>(resolve=>{finish=resolve;}));
+  const cache=new ContextRecommendationCache({recommend}),value=candidate("one");
+  const first=cache.acquire(value); await Promise.resolve();
+  first.release(); const background=cache.acquire(value); await Promise.resolve();
+  expect(recommend).toHaveBeenCalledTimes(1);
+  expect(recommend.mock.calls[0]![1]!.aborted).toBe(false);
+  finish(value); await expect(background.promise).resolves.toEqual(value);
+  background.release(); expect(cache.peek(value)).toEqual(value);
+});
+it("aborts only when the last observer leaves and excludes late results even without transport cancellation",async()=>{
+  let finish!: (value:AgentContextSelection)=>void;
+  const recommend=vi.fn((_value:AgentContextSelection,_signal?:AbortSignal)=>new Promise<AgentContextSelection>(resolve=>{finish=resolve;}));
+  const cache=new ContextRecommendationCache({recommend}),value=candidate("one");
+  const first=cache.acquire(value), second=cache.acquire(value);
+  const rejection=expect(first.promise).rejects.toMatchObject({name:"AbortError"});
+  await Promise.resolve();first.release();await Promise.resolve();
+  expect(recommend.mock.calls[0]![1]!.aborted).toBe(false);
+  second.release();await Promise.resolve();
+  expect(recommend.mock.calls[0]![1]!.aborted).toBe(true);
+  finish(value);await rejection;expect(cache.peek(value)).toBeUndefined();
+});

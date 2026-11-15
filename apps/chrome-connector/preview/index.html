@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chrome 文献采集 · 交互预览</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233a6143'/%3E%3Cpath d='M10 7h9l4 4v14H10z' fill='white'/%3E%3Cpath d='M13 15h7m-7 4h7' stroke='%233a6143' stroke-width='2'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/preview/tokens.css">
+    <link rel="stylesheet" href="/preview/harness.css">
+    <script defer src="/preview/fixtures.js"></script>
+    <script defer src="/preview/harness.js"></script>
+  </head>
+  <body>
+    <main class="preview-shell">
+      <header class="preview-header">
+        <div><span class="eyebrow">RESEARCH ASSISTANT / CHROME CONNECTOR</span><h1>发现文献，随手收进资料库。</h1><p>插件实际界面的交互预览，使用示例数据。</p></div>
+        <span class="preview-badge"><span></span> 本地预览</span>
+      </header>
+      <div class="preview-toolbar">
+        <nav aria-label="预览界面">
+          <button type="button" data-view="capture" aria-pressed="true">论文采集</button>
+          <button type="button" data-view="selector" aria-pressed="false">多篇文献</button>
+          <button type="button" data-view="options" aria-pressed="false">插件设置</button>
+        </nav>
+        <div class="scenario-control"><label for="scenario">采集状态</label><select id="scenario"><option value="success">保存完成</option><option value="downloading">PDF 下载中</option><option value="failed">PDF 下载失败</option><option value="offline">桌面未连接</option><option value="conflict">端口被其他软件占用</option><option value="incompatible">协议不兼容</option></select></div>
+      </div>
+      <section class="preview-stage" data-view="capture" aria-label="插件交互预览">
+        <div class="stage-toolbar"><span id="stage-address">示例论文 · paper.example</span><button id="replay" type="button">模拟采集</button></div>
+        <div class="capture-context">
+          <article class="sample-paper"><span class="eyebrow">RESEARCH ARTICLE · 示例论文</span><h2>Evidence accumulation in adaptive learning systems</h2><p class="sample-authors">Lin Chen · Maya Patel　/　2026</p><div class="paper-divider"></div><h3>Abstract</h3><p>This sample article explores how learning systems combine observations into structured evidence. It provides a small, synthetic example for previewing literature capture.</p><p>Click “模拟采集” to follow the metadata and PDF saving flow, or switch the capture state to try a failed download.</p><span class="sample-tag">PDF available</span></article>
+        </div>
+        <div class="production-surface"><iframe id="production-ui" title="Chrome 插件实际界面"></iframe></div>
+      </section>
+      <footer class="preview-footer"><p id="scenario-help">题录与 PDF 已保存。选择其他状态可体验下载进度和失败重试。</p><output id="preview-status" aria-live="polite">示例数据不会写入桌面文献库。</output></footer>
+    </main>
+  </body>
+</html>

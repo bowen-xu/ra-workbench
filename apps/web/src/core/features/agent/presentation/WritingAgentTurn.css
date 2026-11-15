@@ -1,0 +1,37 @@
+.writing-agent-turn { --agent-block-gap: 12px; min-width: 0; }
+.writing-agent-turn-process {
+  margin-bottom: var(--agent-block-gap);
+}
+.writing-agent-turn-process[data-flat="true"] { display: contents; }
+.writing-agent-turn-process > summary[hidden] { display: none; }
+.writing-agent-turn-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 3px 0 var(--agent-block-gap);
+  padding: 0;
+  color: #77857b;
+  font-size: var(--ui-font-caption);
+  list-style: none;
+}
+.writing-agent-turn-process > summary { cursor: pointer; padding-bottom: 2px; border-bottom: 1px solid #e2e7e3; -webkit-user-select: none; user-select: none; }
+.writing-agent-turn-aborted { padding-bottom: 2px; border-bottom: 1px solid #e2e7e3; -webkit-user-select: none; user-select: none; }
+.writing-agent-turn-process:not([open]) > summary { margin-bottom: 0; }
+.writing-agent-turn-process > summary[aria-disabled="true"] { cursor: default; }
+.writing-agent-turn-process > summary::-webkit-details-marker { display: none; }
+.writing-agent-turn-status { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.writing-agent-turn-process > summary .shimmer-text {
+  text-decoration: none;
+}
+.writing-agent-turn-chevron { flex-shrink: 0; transition: transform 160ms ease; }
+.writing-agent-turn-process[open] > summary .writing-agent-turn-chevron { transform: rotate(90deg); }
+.writing-agent-turn-content { min-width: 0; }
+.writing-agent-reconnect-history { color: #77857b; font-size: var(--ui-font-caption); }
+.writing-agent-reconnect-history > summary { cursor: pointer; }
+.writing-agent-reconnect-history > summary::-webkit-details-marker { display: none; }
+.writing-agent-reconnect-history[open] > summary .writing-agent-turn-chevron { transform: rotate(90deg); }
+.writing-agent-reconnect-history ol { margin: 0 0 12px; padding-inline-start: 24px; overflow-wrap: anywhere; }
+.writing-agent-turn-content .writing-agent-activity-group > summary { padding-inline: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .writing-agent-turn-chevron { transition: none; }
+}

@@ -1,0 +1,20 @@
+.keyboard-shortcut-settings { min-height: 0; }
+.keyboard-shortcut-settings h2 { font-size: var(--ui-font-heading); }
+.keyboard-shortcut-settings > p { font-size: var(--ui-font-label); }
+.keyboard-shortcut-rows { margin: 32px 0 20px; border: 1px solid #dce0d7; border-radius: 17px; padding: 0 20px; background: #fdfcf9; }
+.keyboard-shortcut-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 1fr); align-items: center; gap: 24px; padding: 22px 0; font-size: var(--ui-font-body); }
+.keyboard-shortcut-row + .keyboard-shortcut-row { border-top: 1px solid #dce0d7; }
+.keyboard-shortcut-controls { display: flex; align-items: center; gap: 12px; }
+.keyboard-shortcut-record { display: inline-flex; align-items: center; gap: 16px; border: 0; border-radius: 9px; padding: 7px 10px; color: #506354; background: transparent; font-size: var(--ui-font-label); cursor: pointer; }
+.keyboard-shortcut-record kbd { font: inherit; border-radius: 99px; padding: 4px 10px; background: #e9ede4; }
+.keyboard-shortcut-record[aria-pressed="true"] { background: #e0e9dc; min-width: 150px; }
+.keyboard-shortcut-restore, .keyboard-shortcut-cancel { border: 0; background: transparent; color: #7d8a7f; cursor: pointer; }
+.keyboard-shortcut-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.keyboard-shortcut-feedback { line-height: 1.7; color: #737c74; }
+.keyboard-shortcut-reset { margin-top: 20px; border: 1px solid #cdd7c7; border-radius: 9px; padding: 8px 12px; color: #405944; background: #edf0e8; cursor: pointer; font-size: var(--ui-font-label); }
+.settings-content .keyboard-shortcut-record, .settings-content .keyboard-shortcut-restore, .settings-content .keyboard-shortcut-cancel, .settings-content .keyboard-shortcut-delete { border: 0; background: transparent; padding: 6px; }
+.settings-content .keyboard-shortcut-record[aria-pressed="true"] { background: #e0e9dc; padding: 9px 12px; }
+@media (max-width: 760px) {
+  .keyboard-shortcut-row { grid-template-columns: 1fr; gap: 14px; }
+  .keyboard-shortcut-row .setting-copy { flex-basis: 100%; }
+}

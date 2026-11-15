@@ -1,0 +1,303 @@
+{
+  "models": [
+    {
+      "slug": "gpt-5.6-sol",
+      "display_name": "GPT-5.6-Sol",
+      "description": "Latest frontier agentic coding model.",
+      "visibility": "list",
+      "priority": 1,
+      "default_reasoning_level": "low",
+      "context_window": 272000,
+      "max_context_window": 272000,
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "supported_reasoning_levels": [
+        {
+          "effort": "low"
+        },
+        {
+          "effort": "medium"
+        },
+        {
+          "effort": "high"
+        },
+        {
+          "effort": "xhigh"
+        },
+        {
+          "effort": "max"
+        },
+        {
+          "effort": "ultra"
+        }
+      ],
+      "service_tiers": [
+        {
+          "id": "priority"
+        }
+      ],
+      "truncation_policy": {
+        "mode": "tokens",
+        "limit": 10000
+      }
+    },
+    {
+      "slug": "gpt-5.6-terra",
+      "display_name": "GPT-5.6-Terra",
+      "description": "Balanced agentic coding model for everyday work.",
+      "visibility": "list",
+      "priority": 2,
+      "default_reasoning_level": "medium",
+      "context_window": 272000,
+      "max_context_window": 272000,
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "supported_reasoning_levels": [
+        {
+          "effort": "low"
+        },
+        {
+          "effort": "medium"
+        },
+        {
+          "effort": "high"
+        },
+        {
+          "effort": "xhigh"
+        },
+        {
+          "effort": "max"
+        },
+        {
+          "effort": "ultra"
+        }
+      ],
+      "service_tiers": [
+        {
+          "id": "priority"
+        }
+      ],
+      "truncation_policy": {
+        "mode": "tokens",
+        "limit": 10000
+      }
+    },
+    {
+      "slug": "gpt-5.6-luna",
+      "display_name": "GPT-5.6-Luna",
+      "description": "Fast and affordable agentic coding model.",
+      "visibility": "list",
+      "priority": 3,
+      "default_reasoning_level": "medium",
+      "context_window": 272000,
+      "max_context_window": 272000,
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "supported_reasoning_levels": [
+        {
+          "effort": "low"
+        },
+        {
+          "effort": "medium"
+        },
+        {
+          "effort": "high"
+        },
+        {
+          "effort": "xhigh"
+        },
+        {
+          "effort": "max"
+        }
+      ],
+      "service_tiers": [
+        {
+          "id": "priority"
+        }
+      ],
+      "truncation_policy": {
+        "mode": "tokens",
+        "limit": 10000
+      }
+    },
+    {
+      "slug": "gpt-5.5",
+      "display_name": "GPT-5.5",
+      "description": "Frontier model for complex coding, research, and real-world work.",
+      "visibility": "list",
+      "priority": 7,
+      "default_reasoning_level": "medium",
+      "context_window": 272000,
+      "max_context_window": 272000,
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "supported_reasoning_levels": [
+        {
+          "effort": "low"
+        },
+        {
+          "effort": "medium"
+        },
+        {
+          "effort": "high"
+        },
+        {
+          "effort": "xhigh"
+        }
+      ],
+      "service_tiers": [
+        {
+          "id": "priority"
+        }
+      ],
+      "truncation_policy": {
+        "mode": "tokens",
+        "limit": 10000
+      }
+    },
+    {
+      "slug": "gpt-5.4",
+      "display_name": "GPT-5.4",
+      "description": "Strong model for everyday coding.",
+      "visibility": "hide",
+      "priority": 16,
+      "default_reasoning_level": "medium",
+      "context_window": 272000,
+      "max_context_window": 1000000,
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "supported_reasoning_levels": [
+        {
+          "effort": "low"
+        },
+        {
+          "effort": "medium"
+        },
+        {
+          "effort": "high"
+        },
+        {
+          "effort": "xhigh"
+        }
+      ],
+      "service_tiers": [
+        {
+          "id": "priority"
+        }
+      ],
+      "truncation_policy": {
+        "mode": "tokens",
+        "limit": 10000
+      }
+    },
+    {
+      "slug": "gpt-5.4-mini",
+      "display_name": "GPT-5.4-Mini",
+      "description": "Small, fast, and cost-efficient model for simpler coding tasks.",
+      "visibility": "hide",
+      "priority": 23,
+      "default_reasoning_level": "medium",
+      "context_window": 272000,
+      "max_context_window": 272000,
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "supported_reasoning_levels": [
+        {
+          "effort": "low"
+        },
+        {
+          "effort": "medium"
+        },
+        {
+          "effort": "high"
+        },
+        {
+          "effort": "xhigh"
+        }
+      ],
+      "service_tiers": [],
+      "truncation_policy": {
+        "mode": "tokens",
+        "limit": 10000
+      }
+    },
+    {
+      "slug": "gpt-5.2",
+      "display_name": "GPT-5.2",
+      "description": "Optimized for professional work and long-running agents.",
+      "visibility": "list",
+      "priority": 29,
+      "default_reasoning_level": "medium",
+      "context_window": 272000,
+      "max_context_window": 272000,
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "supported_reasoning_levels": [
+        {
+          "effort": "low"
+        },
+        {
+          "effort": "medium"
+        },
+        {
+          "effort": "high"
+        },
+        {
+          "effort": "xhigh"
+        }
+      ],
+      "service_tiers": [],
+      "truncation_policy": {
+        "mode": "bytes",
+        "limit": 10000
+      }
+    },
+    {
+      "slug": "codex-auto-review",
+      "display_name": "Codex Auto Review",
+      "description": "Automatic approval review model for Codex.",
+      "visibility": "hide",
+      "priority": 43,
+      "default_reasoning_level": "medium",
+      "context_window": 272000,
+      "max_context_window": 1000000,
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "supported_reasoning_levels": [
+        {
+          "effort": "low"
+        },
+        {
+          "effort": "medium"
+        },
+        {
+          "effort": "high"
+        },
+        {
+          "effort": "xhigh"
+        }
+      ],
+      "service_tiers": [],
+      "truncation_policy": {
+        "mode": "tokens",
+        "limit": 10000
+      }
+    }
+  ]
+}

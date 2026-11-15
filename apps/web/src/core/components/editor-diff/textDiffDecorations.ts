@@ -1,0 +1,1 @@
+export {chunkActionDecorations} from "./codeMirrorChunkActions";

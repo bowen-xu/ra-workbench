@@ -1,0 +1,6 @@
+.note-evidence-menu-anchor { position: fixed; z-index: 110; width: 1px; height: 1px; }
+.note-evidence-menu-trigger { width: 1px; height: 1px; padding: 0; border: 0; opacity: 0; pointer-events: none; }
+.note-evidence-menu { z-index: 110; width: 200px; padding: 5px; border: 1px solid #d1ded6; border-radius: 10px; background: #fff; box-shadow: 0 6px 24px #162a2020; font-size: var(--ui-font-label); }
+.note-evidence-menu button { display: block; width: 100%; padding: 7px 8px; border: 0; border-radius: 6px; background: transparent; text-align: left; cursor: pointer; }
+.note-evidence-menu button:hover { background: #edf3ee; }
+.note-evidence-menu p { margin: 5px; color: #a04438; font-size: var(--ui-font-caption); }

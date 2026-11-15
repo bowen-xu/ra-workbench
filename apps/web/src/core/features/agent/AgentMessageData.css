@@ -1,0 +1,16 @@
+.agent-message-data-trigger { display: inline-grid; place-items: center; flex: 0 0 24px; width: 24px; height: 22px; border: 0; border-radius: 5px; padding: 0; color: #78877d; background: transparent; cursor: pointer; }
+.agent-message-data-trigger:hover, .agent-message-data-trigger:focus-visible { color: #3f7350; background: #edf3ee; }
+.agent-message-data-dialog { width: min(900px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 0; overflow: hidden; border: 1px solid #c4d5c8; border-radius: 14px; color: #304138; background: #fafcfb; box-shadow: 0 24px 70px rgb(20 38 27 / 25%); }
+.agent-message-data-dialog[open] { display: flex; flex-direction: column; }
+.agent-message-data-dialog::backdrop { background: rgb(32 47 38 / 28%); }
+.agent-message-data-dialog > header { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #dfe8df; padding: 14px 18px; }
+.agent-message-data-dialog h2 { margin: 0; font-size: var(--ui-font-heading); font-weight: 600; }
+.agent-message-data-toolbar { display: flex; flex: 0 0 auto; align-items: center; gap: 16px; padding: 12px 18px; }
+.agent-message-data-toolbar p { flex: 1; margin: 0; color: #77857b; font-size: var(--ui-font-caption); line-height: 1.6; }
+.agent-message-data-dialog .agent-message-data-close, .agent-message-data-dialog .agent-message-data-copy { display: inline-grid; place-items: center; flex: 0 0 30px; width: 30px; height: 30px; border: 0; border-radius: 6px; padding: 0; color: #6d8174; background: transparent; cursor: pointer; }
+.agent-message-data-dialog .agent-message-data-close:hover, .agent-message-data-dialog .agent-message-data-copy:hover { color: #2f6e47; background: #edf4ee; }
+.agent-message-data-dialog pre { min-height: 0; margin: 0 18px 18px; border: 1px solid #e1e8e2; border-radius: 8px; padding: 14px; overflow: auto; color: #536158; background: #f4f7f4; white-space: pre-wrap; overflow-wrap: anywhere; font-size: var(--ui-font-caption); line-height: 1.6; user-select: text; }
+.agent-message-data-state { margin: 0; padding: 8px 18px 18px; color: #77857b; font-size: var(--ui-font-caption); }
+.agent-message-data-state p { margin: 0 0 10px; }
+.agent-message-data-state button { border: 1px solid #ccd9cf; border-radius: 7px; padding: 7px 9px; color: #536158; background: #fff; font-size: var(--ui-font-label); cursor: pointer; }
+.agent-message-data-state button:hover { color: #2f6e47; background: #edf4ee; }

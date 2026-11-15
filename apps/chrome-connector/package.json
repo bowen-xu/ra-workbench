@@ -1,0 +1,28 @@
+{
+  "name": "@research-assistant/chrome-connector",
+  "version": "0.1.0",
+  "private": true,
+  "license": "AGPL-3.0-or-later",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/build.mjs && node scripts/preview.mjs",
+    "test": "node --test tests/transport.test.mjs tests/licenses.test.mjs",
+    "test:build": "node --test tests/build.test.mjs",
+    "test:preview": "node --test tests/preview.test.mjs",
+    "test:discovery": "node --test tests/discovery.test.mjs",
+    "test:browser": "node scripts/smoke.mjs",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@babel/core": "7.28.5",
+    "@babel/plugin-transform-react-jsx": "7.27.1",
+    "@types/chrome": "0.1.24",
+    "dompurify": "3.2.5",
+    "prop-types": "15.6.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-dom-factories": "1.0.2",
+    "typescript": "5.9.3"
+  }
+}

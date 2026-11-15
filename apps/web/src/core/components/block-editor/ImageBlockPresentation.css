@@ -1,0 +1,23 @@
+.note-image-block.managed-note-asset, .note-image-block.writing-note-asset, .note-image-block {
+  display:grid; grid-template-columns:fit-content(100%); justify-content:start; gap:2px; width:100%; max-width:100%;
+  margin:0; padding:0; border:0; border-radius:0; background:transparent;
+}
+.note-image-block-media { position:relative; width:fit-content; min-width:0; max-width:100%; }
+.note-image-block[data-alignment="center"] { justify-content:center; }
+.note-image-block[data-alignment="right"] { justify-content:end; }
+.note-image-block .note-image-block-media img { display:block; max-width:100%; max-height:520px; border-radius:4px; object-fit:contain; -webkit-user-select:none; user-select:none; }
+.note-image-resizable { position:relative; min-width:0; max-width:100%; transition:width 140ms cubic-bezier(.2,.8,.2,1); }
+@media (prefers-reduced-motion: reduce) {
+  .note-image-resizable { transition:none; }
+}
+.note-image-resizable .note-image-block-media { width:100%; }
+.note-image-resizable .note-image-block-media img, .note-image-block[data-preview-width="true"] .note-image-block-media img { width:100%; height:auto; max-height:none; }
+.note-image-resize-handle { position:absolute; top:50%; transform:translateY(-50%); width:7px; height:30px;
+  max-height:80%; border:1px solid #fff; border-radius:4px; background:#555b56; cursor:ew-resize; touch-action:none; user-select:none; z-index:1; visibility:hidden; }
+.note-image-resize-handle[data-side="left"] { left:4px; }
+.note-image-resize-handle[data-side="right"] { right:4px; }
+.note-image-resizable:hover .note-image-resize-handle, .note-image-resizable:focus-within .note-image-resize-handle,
+.note-image-resizable[data-resizing="true"] .note-image-resize-handle { visibility:visible; }
+.note-image-resize-handle:focus-visible { background:var(--accent, #62846c); outline:none; }
+.note-image-block > figcaption { display:block; width:0; min-width:100%; }
+.note-image-block-placeholder, .note-image-block-error { font-size:var(--ui-font-caption); color:var(--text-secondary, #777169); }

@@ -1,0 +1,19 @@
+.hbs-adapter-workspace { width: 100%; height: 100dvh; overflow-y: auto; overscroll-behavior-y: contain; padding: 24px; box-sizing: border-box; color: #29382f; background: #f3f3ed; }
+.hbs-adapter-workspace > header, .hbs-workspace-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.hbs-adapter-workspace > header { justify-content: space-between; margin-bottom: 20px; }
+.hbs-adapter-workspace h1 { margin: 0; font-size: var(--ui-font-heading); }
+.hbs-adapter-workspace p { font-size: var(--ui-font-meta); }
+.hbs-workspace-actions button, .hbs-adapter-workspace > header select { border: 1px solid #d0d7cd; border-radius: 6px; padding: 8px 11px; background: #fff; color: inherit; font: inherit; font-size: var(--ui-font-label); cursor: pointer; }
+.hbs-workspace-actions label { display: flex; align-items: center; gap: 5px; font-size: var(--ui-font-label); }
+.hbs-observations { display: grid; grid-template-columns: repeat(4, minmax(220px, 1fr)); gap: 12px; overflow-x: auto; padding-block: 10px; }
+.hbs-observation, .hbs-editor-frame { min-width: 0; }
+.hbs-observation > header, .hbs-editor-frame > header { display: flex; gap: 9px; align-items: baseline; margin-block: 8px; font-size: var(--ui-font-body); }
+.hbs-observation > header span, .hbs-editor-frame > header span { color: #69756a; font-size: var(--ui-font-caption); }
+.hbs-snapshot-frame { height: 280px; overflow: auto; background: #fff; border: 1px solid #d0d7cd; border-radius: 8px; }
+.hbs-editor-frame { margin-top: 16px; background: #fff; border: 1px solid #d0d7cd; border-radius: 8px; padding: 16px; }
+.hbs-adapter-workspace > details { font-size: var(--ui-font-caption); margin-block: 16px; overflow-wrap: anywhere; }
+.hbs-connection-error { padding: 32px; font-size: var(--ui-font-body); }
+.hbs-external-actions { max-height: min(60dvh, 440px); overflow-y: auto; overscroll-behavior: contain; padding: 5px; border: 1px solid #d0d7cd; border-radius: 7px; background: #fffefa; color: #29382f; box-shadow: 0 8px 24px rgb(27 43 35 / 15%); }
+.hbs-external-actions button { display: block; width: 100%; padding: 6px 10px; border: 0; border-radius: 4px; text-align: left; background: transparent; color: inherit; font: inherit; font-size: var(--ui-font-label); cursor: pointer; }
+.hbs-external-actions button:is(:hover, [data-active-item]) { background: #e6ece2; }
+@media (max-width: 800px) { .hbs-observations { grid-template-columns: repeat(2, minmax(220px, 1fr)); } }

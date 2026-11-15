@@ -1,0 +1,11 @@
+.control-hint { display: flex; align-items: center; gap: 10px; max-width: min(320px, calc(100vw - 24px)); border-radius: 14px; padding: 9px 12px; color: #f4f6f4; background: #1f2a24; box-shadow: 0 8px 24px rgb(22 27 24 / 20%); font-size: var(--ui-font-caption); line-height: 1.4; pointer-events: none; }
+.control-hint-content { min-width: 0; overflow-wrap: anywhere; }
+.control-hint-lines { display: grid; gap: 2px; }
+.control-hint-caption { color: #aeb4b0; font-size: var(--ui-font-caption); }
+.control-hint kbd { flex: 0 0 auto; border: 0; border-radius: 6px; padding: 2px 6px; background: #505453; color: #fff; font-family: inherit; font-size: var(--ui-font-caption); white-space: nowrap; }
+.control-hint .writing-agent-context-tooltip { display: grid; gap: 3px; }
+.control-hint .writing-agent-context-tooltip strong { color: #aeb4b0; font-size: var(--ui-font-meta); font-weight: 500; }
+.control-hint .writing-agent-context-tooltip strong:nth-of-type(2) { color: #f4f6f4; font-size: var(--ui-font-body); font-weight: 500; }
+.control-hint .writing-agent-context-tooltip span { font-size: var(--ui-font-caption); }
+
+.control-hint-anchor { display: inline-flex; min-width: 0; max-width: 100%; }

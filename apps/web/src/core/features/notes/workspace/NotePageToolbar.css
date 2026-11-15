@@ -1,0 +1,40 @@
+.note-page-toolbar { display: flex; align-items: center; gap: 3px; margin-left: auto; }
+.note-page-icon-button {
+  width: 32px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  color: #777168;
+  background: transparent;
+  cursor: pointer;
+}
+.note-page-icon-button:hover, .note-page-icon-button[aria-expanded="true"] { color: #3d3933; background: var(--note-warm-100, #f0f4f1); }
+.note-page-icon-button:disabled { opacity: .42; cursor: default; }
+.note-page-icon-button:disabled:hover { color: #777168; background: transparent; }
+.note-page-icon-button.note-lifecycle-delete { color: #a33d32; }
+.note-save-state { display: inline-grid; place-items: center; flex-shrink: 0; width: 32px; height: 32px; color: #8a857d; font-size: var(--ui-font-caption); }
+.note-save-state.failed, .note-save-state.conflict { color: #a33d32; }
+.note-recovery-menu-host { display: inline-flex; }
+.note-save-state.saving svg { animation: note-saving 1s linear infinite; }
+.note-page-action-menu.action-menu {
+  z-index: 50;
+  min-width: 190px;
+  display: grid;
+  gap: 2px;
+  padding: 6px;
+  border: 1px solid #ddd8cf;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 14px 40px rgba(44, 39, 31, .16);
+}
+.note-page-action-menu button { min-height: 34px; display: flex; align-items: center; gap: 9px; padding: 6px 9px; border: 0; border-radius: 6px; color: #4f4a43; text-align: left; background: transparent; cursor: pointer; }
+.note-page-action-menu button:hover, .note-page-action-menu button[data-active-item] { background: var(--note-warm-100, #f0f4f1); }
+.note-page-action-menu button:disabled { opacity: .42; cursor: default; }
+
+@keyframes note-saving { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .note-save-state.saving svg { animation: none; } }
+
+.note-page-icon-button[aria-pressed="true"] { color: #866c31; }

@@ -1,0 +1,55 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+:root { font: var(--ui-font-body)/1.65 system-ui, sans-serif; color: #2d3d33; background: #f4f5f0; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:focus-visible, select:focus-visible { background-color: #e2eade; }
+.preview-shell { max-width: 1220px; margin: 0 auto; padding: 48px 40px 28px; }
+.preview-header { display: flex; justify-content: space-between; gap: 24px; align-items: flex-start; margin-bottom: 34px; }
+.eyebrow { color: #768277; font-size: var(--ui-font-caption); letter-spacing: .12em; }
+h1 { font-size: var(--ui-font-heading); font-weight: 600; margin: 12px 0 8px; }
+.preview-header p { margin: 0; color: #7a837b; font-size: var(--ui-font-label); }
+.preview-badge { display: inline-flex; align-items: center; gap: 7px; flex-shrink: 0; font-size: var(--ui-font-meta); border: 1px solid #dce3d8; padding: 5px 11px; border-radius: 20px; background: #fafbf8; }
+.preview-badge span { width: 6px; height: 6px; border-radius: 50%; background: #629070; }
+.preview-toolbar { display: flex; justify-content: space-between; gap: 14px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+nav { display: flex; gap: 4px; padding: 4px; background: #e9ede4; border-radius: 9px; }
+nav button { border: 0; padding: 8px 18px; background: transparent; border-radius: 6px; font-size: var(--ui-font-label); color: #7c857c; }
+nav button[aria-pressed=true] { background: #fff; color: #294233; box-shadow: 0 1px 4px #25321f0d; }
+.scenario-control { display: flex; align-items: center; gap: 10px; font-size: var(--ui-font-label); color: #788375; }
+select { padding: 7px 12px; background: #fafbf7; border: 1px solid #d9dfd4; border-radius: 6px; }
+.preview-stage { position: relative; min-height: 570px; border: 1px solid #dce1d6; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 16px 44px #26362609; }
+.stage-toolbar { height: 56px; display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 0 24px; border-bottom: 1px solid #e8ebe2; background: #fafbf7; font-size: var(--ui-font-meta); color: #818a80; }
+.stage-toolbar button { border: 1px solid #cdd9ca; background: #ecf2e8; border-radius: 6px; padding: 6px 14px; color: #3a6143; font-size: var(--ui-font-label); }
+.sample-paper { max-width: 620px; padding: 60px 52px 55px; }
+.sample-paper h2 { font-family: Georgia, serif; font-size: var(--ui-font-heading); line-height: 1.5; font-weight: 500; margin: 18px 0; }
+.sample-paper h3 { font-size: var(--ui-font-body); margin-top: 26px; }
+.sample-paper p { color: #7c837b; font-size: var(--ui-font-label); }
+.sample-authors { font-size: var(--ui-font-meta); }
+.paper-divider { border-top: 1px solid #e7ebe0; margin: 28px 0; }
+.sample-tag { display: inline-block; background: #f0f4ed; border-radius: 5px; padding: 4px 9px; color: #6f846c; font-size: var(--ui-font-caption); }
+.production-surface { position: absolute; top: 86px; right: 24px; width: 350px; }
+iframe { border: 0; display: block; width: 100%; height: 260px; background: transparent; }
+.preview-stage[data-view=options] .capture-context, .preview-stage[data-view=selector] .capture-context { display: none; }
+.preview-stage[data-view=options] .production-surface, .preview-stage[data-view=selector] .production-surface { position: static; width: 100%; }
+.preview-stage[data-view=options] iframe { height: 900px; }
+.preview-stage[data-view=selector] .production-surface { margin: 32px auto; max-width: 780px; padding: 0 24px; }
+.preview-stage[data-view=selector] iframe { height: 420px; }
+.preview-footer { padding-top: 18px; display: flex; justify-content: space-between; gap: 24px; color: #7e887b; font-size: var(--ui-font-meta); }
+.preview-footer p { margin: 0; }
+.preview-footer output { color: #91988d; }
+[hidden] { display: none !important; }
+@media (max-width: 1000px) {
+  .sample-paper { max-width: calc(100% - 340px); padding-left: 28px; padding-right: 24px; }
+}
+@media (max-width: 760px) {
+  .preview-shell { padding: 24px 16px; }
+  .preview-header { gap: 10px; }
+  .preview-badge { display: none; }
+  nav button { padding: 8px 12px; }
+  .production-surface { position: relative; top: auto; right: auto; width: min(350px, 100%); margin: 20px auto 32px; }
+  .sample-paper { max-width: 100%; padding: 32px 24px 0; }
+  .preview-footer { flex-direction: column; gap: 8px; }
+  .stage-toolbar { padding: 0 18px; }
+  .preview-stage[data-view=selector] .production-surface { padding: 0 8px; }
+}

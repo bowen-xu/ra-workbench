@@ -1,0 +1,17 @@
+/* Legacy CodeMirror widgets use the same default presentation. */
+:is(.inline-reference, .agent-composer-reference) { display: inline-flex; align-items: baseline; max-width: min(128px, 100%); vertical-align: baseline; padding: 0 2px; box-sizing: border-box; border-radius: 4px; color: #285eae; font: inherit; text-decoration: none; white-space: nowrap; cursor: pointer; }
+:is(.inline-reference, .agent-composer-reference) svg { flex: 0 0 auto; align-self: center; width: 1em; height: 1em; margin-right: 5px; }
+.inline-reference-icon { display: inline-flex; align-self: center; }
+:is(.inline-reference-label, .agent-composer-reference-label) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+:is(.inline-reference, .agent-composer-reference):hover { background: #eaf0fa; text-decoration: underline; text-underline-offset: 3px; }
+.inline-reference[data-truncate="false"] { display: inline; max-width: none; vertical-align: baseline; padding: 0; white-space: normal; cursor: text; }
+.inline-reference[data-truncate="false"] .inline-reference-label { overflow: visible; text-overflow: clip; white-space: normal; overflow-wrap: anywhere; }
+.inline-reference[data-tone="inherit"] { color: inherit; }
+.inline-reference[data-tone="inherit"]:hover { background: transparent; text-decoration: none; }
+.inline-reference[data-underline="dashed"] .inline-reference-label { text-decoration: underline dashed color-mix(in srgb, currentColor 30%, transparent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.inline-reference[role="link"] { cursor: pointer; }
+
+.inline-reference[role="link"]:is(:hover, :focus-visible) { background: #f0efed; }
+.inline-reference[role="link"]:is(:hover, :focus-visible) .inline-reference-label { text-decoration-style: solid; }
+.node-researchMention.ProseMirror-selectednode .research-mention { background: #eaf2ed; outline: 0; box-shadow: none; }
+.inline-reference[role="link"] { user-select: all; -webkit-user-select: all; }

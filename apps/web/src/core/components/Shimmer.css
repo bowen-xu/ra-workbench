@@ -1,0 +1,14 @@
+.shimmer { display: inline-block; max-width: 100%; }
+.shimmer[data-shimmer-active="true"] {
+  mask-image: linear-gradient(90deg, #000 var(--shimmer-band-start), rgb(0 0 0 / var(--shimmer-center-opacity)) 50%, #000 var(--shimmer-band-end));
+  mask-size: var(--shimmer-mask-size) 100%;
+  mask-repeat: no-repeat;
+  animation: shimmer-sweep var(--shimmer-cycle-duration) var(--shimmer-timing) infinite;
+}
+@keyframes shimmer-sweep {
+  from { mask-position: 100% 0; }
+  to { mask-position: 0% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shimmer[data-shimmer-active="true"] { animation: none; mask-image: none; }
+}

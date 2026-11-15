@@ -1,0 +1,13 @@
+.system-document-approval { margin: .6rem 1rem; border: 1px solid var(--line, #d6ddd2); border-radius: .8rem; background: var(--panel, #f9f8f4); padding: .8rem; max-height: 45vh; overflow: auto; font-size: var(--ui-font-body); }
+.system-document-approval header,.system-document-approval footer { display: flex; gap: .6rem; align-items: center; }
+.system-document-approval p { margin: .5rem 0 .2rem; }
+.system-document-approval small { font-size: var(--ui-font-caption); overflow-wrap: anywhere; color: var(--muted); }
+.system-document-approval summary { cursor: pointer; margin: .6rem 0; font-size: var(--ui-font-label); }
+.system-document-approval footer { justify-content: flex-end; margin-top: .8rem; }
+.system-document-approval button { border: 1px solid var(--line, #d6ddd2); border-radius: .5rem; padding: .45rem .75rem; color: inherit; background: transparent; font: inherit; }
+.system-document-approval footer button:last-child { background: var(--accent, #466552); color: white; }
+.system-document-approval .text-diff-editor { height: 120px; min-height: 0; }
+.system-document-approval .text-diff-editor > .editor-diff-controls { display: none; }
+.system-document-approval .editor-diff-chunk-actions { display: none; }
+.system-document-approval { max-height: min(32vh, 260px); }
+.system-document-approval footer { position: sticky; bottom: -.8rem; padding: .55rem 0; background: var(--panel, #f9f8f4); }

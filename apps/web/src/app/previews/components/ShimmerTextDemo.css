@@ -1,0 +1,25 @@
+.shimmer-text-demo { height: 100%; overflow: auto; padding: 40px clamp(16px, 5vw, 64px); color: #33463a; background: #f4f5f1; font-size: var(--ui-font-body); }
+.shimmer-text-demo > header, .motion-demo-effect { width: min(920px, 100%); margin: 0 auto; }
+.motion-demo-effect { margin-top: 28px; }
+.motion-demo-effect > h2 { margin: 0; font-size: var(--ui-font-label); font-weight: 600; }
+.shimmer-text-demo-eyebrow { color: #718278; font-size: var(--ui-font-caption); letter-spacing: .15em; }
+.shimmer-text-demo h1 { font-size: var(--ui-font-heading); font-weight: 500; }
+.shimmer-text-demo header > p:last-child { color: #718278; line-height: 1.6; }
+.shimmer-text-demo-layout { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 1.4fr); gap: 24px; padding-top: 20px; }
+.shimmer-text-demo-controls, .shimmer-text-demo-preview { min-width: 0; border: 1px solid #cad5cd; border-radius: 14px; padding: 20px; background: #fbfcfa; }
+.shimmer-text-demo-controls { display: grid; align-content: start; gap: 14px; }
+.shimmer-text-demo-controls label { display: grid; gap: 6px; font-size: var(--ui-font-label); }
+.shimmer-text-demo-controls input, .shimmer-text-demo-controls textarea, .shimmer-text-demo-controls select { width: 100%; min-width: 0; border: 1px solid #bdcec2; border-radius: 8px; padding: 8px 10px; color: inherit; background: #fff; font-size: var(--ui-font-body); }
+.shimmer-text-demo-controls textarea { resize: vertical; }
+.shimmer-text-demo-caption { margin: 0; color: #718278; font-size: var(--ui-font-caption); line-height: 1.6; }
+.shimmer-text-demo-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.shimmer-text-demo-actions button { border: 1px solid #bdcec2; border-radius: 8px; padding: 8px 12px; color: #486052; background: #eef3ed; font-size: var(--ui-font-label); cursor: pointer; }
+.shimmer-text-demo-preview h3 { margin: 0; font-size: var(--ui-font-label); font-weight: 500; }
+.shimmer-text-demo-stage { display: flex; align-items: center; justify-content: center; min-height: 180px; padding: 24px 0; }
+.shimmer-text-demo-label { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; padding: 12px 16px; border: 1px solid #9fb8a6; border-radius: 12px; background: #dfebe1; font-size: var(--ui-font-body); }
+.shimmer-text-demo-label > svg { flex-shrink: 0; }
+.shimmer-text-demo-label > span { min-width: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.shimmer-text-demo-preview dl { display: grid; gap: 10px; margin: 0 0 18px; font-size: var(--ui-font-caption); }
+.shimmer-text-demo-preview dl > div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.shimmer-text-demo-preview dd { margin: 0; }
+@media (max-width: 640px) { .shimmer-text-demo-layout { grid-template-columns: minmax(0, 1fr); gap: 16px; } .shimmer-text-demo { padding-top: 24px; } }

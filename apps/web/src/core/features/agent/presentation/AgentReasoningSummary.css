@@ -1,0 +1,5 @@
+.agent-reasoning-summary { display: flex; align-items: flex-start; gap: 6px; min-width: 0; margin-bottom: 12px; color: #919d94; font-size: var(--ui-font-caption); overflow-wrap: anywhere; }
+.agent-reasoning-summary-body { flex: 1; min-width: 0; }
+.agent-reasoning-summary > .agent-message-data-trigger { flex: none; }
+.agent-reasoning-summary .writing-agent-markdown :is(h1, h2, h3, h4, h5, h6, blockquote, pre, code) { color: inherit; font-size: inherit; }
+.agent-reasoning-summary.search-match { box-shadow: inset 3px 0 #39815a; background: #edf5ee; }

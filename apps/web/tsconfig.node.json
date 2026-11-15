@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "allowImportingTsExtensions": true,
+    "lib": [
+      "ES2023"
+    ],
+    "noEmit": true,
+    "tsBuildInfoFile": "./node_modules/.cache/tsconfig.node.tsbuildinfo",
+    "types": [
+      "node"
+    ],
+    "resolveJsonModule": true
+  },
+  "include": [
+    "vite.config.ts",
+    "workbenchCompositionPlugin.ts",
+    "runtimeSdkPlugin.ts",
+    "../../docs/architecture/runtime-note-sdk-surface.json",
+    "src/app/pluginComposition.ts",
+    "src/app/coreCapabilities.ts",
+    "src/core/contracts/plugins.ts",
+    "src/core/contracts/workbench.ts"
+  ]
+}
