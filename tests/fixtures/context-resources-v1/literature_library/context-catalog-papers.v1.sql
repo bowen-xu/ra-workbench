@@ -1,0 +1,1 @@
+select id,title from bibliographic_items i where trashed_at is null and (instr(lower(title||' '||abstract_text),lower(?1))>0 or exists(select 1 from attachments a where a.item_id=i.id and instr(lower(a.display_name),lower(?1))>0)) order by updated_at desc,id limit 60

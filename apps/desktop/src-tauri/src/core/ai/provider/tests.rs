@@ -1,8 +1,20 @@
-use std::{collections::HashSet, time::Duration};
+use std::time::Duration;
 
-use research_literature_library_native::analysis_workflow::candidate::decode_candidate_content;
+use research_workbench_native_sdk::candidate_contracts::CandidatePayload;
 
 use super::*;
+
+fn assert_frozen_fixture(kind: &str, content: &str) {
+    let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../../tests/fixtures/provider-output-v1")
+        .join(format!("{kind}.json"));
+    let expected: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+    assert_eq!(
+        serde_json::from_str::<serde_json::Value>(content).unwrap(),
+        expected
+    );
+}
 
 fn request(format: GenerationResponseFormat) -> GenerationRequest {
     GenerationRequest {
@@ -102,7 +114,6 @@ fn qwen_generation_capabilities_include_vision_streaming() {
 fn fixture_provider_returns_all_frozen_suggestion_contracts() {
     tauri::async_runtime::block_on(async {
         let provider = FixtureGenerationProvider::default();
-        let allowed = HashSet::from(["ev-page-1".to_owned()]);
         for kind in [
             "concept_suggestion_v1",
             "definition_suggestion_v1",
@@ -113,7 +124,8 @@ fn fixture_provider_returns_all_frozen_suggestion_contracts() {
                 .generate(&suggestion_request(kind), &CancellationSignal::default())
                 .await
                 .expect("fixture suggestion generation");
-            let payload = decode_candidate_content(&response.content, &allowed)
+            assert_frozen_fixture(kind, &response.content);
+            let payload: CandidatePayload = serde_json::from_str(&response.content)
                 .expect("fixture suggestion follows frozen schema");
             assert_eq!(payload.kind(), kind);
         }
@@ -124,13 +136,13 @@ fn fixture_provider_returns_all_frozen_suggestion_contracts() {
 fn fixture_provider_returns_both_frozen_research_candidate_contracts() {
     tauri::async_runtime::block_on(async {
         let provider = FixtureGenerationProvider::default();
-        let allowed = HashSet::from(["ev-source-1".to_owned(), "ev-source-2".to_owned()]);
         for kind in ["reference_record_candidate_v1", "derived_research_view_v1"] {
             let response = provider
                 .generate(&research_request(kind), &CancellationSignal::default())
                 .await
                 .expect("fixture research generation");
-            let payload = decode_candidate_content(&response.content, &allowed)
+            assert_frozen_fixture(kind, &response.content);
+            let payload: CandidatePayload = serde_json::from_str(&response.content)
                 .expect("fixture research candidate follows frozen schema");
             assert_eq!(payload.kind(), kind);
         }

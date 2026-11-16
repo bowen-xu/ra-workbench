@@ -231,7 +231,8 @@ fn repeated_generation_uses_saved_permissions_selections_and_additional_context(
                 .iter()
                 .any(|anchor| anchor["resource"]["kind"] == "paperMetadata")
         );
-        assert!(render_task(&grants, kind).is_err());
+        let target = crate::structured_resources::find_by_paper(&db, "paper", kind).unwrap();
+        assert!(require_writable_target(&grants, &target.id).is_err());
         assert_eq!(
             crate::agent::context_session::configuration::read_in(&db, conversation)
                 .unwrap()
@@ -297,7 +298,9 @@ fn configured_whole_paper_groups_resolve_effective_members_without_promoting_per
     )
     .unwrap();
     require_writable_target(&grants, &target.id).unwrap();
-    assert!(render_task(&grants, "portrait").is_ok());
+    assert!(grants.iter().all(|grant| {
+        crate::ai::structured_generation_support::prompt_resource(grant).is_some()
+    }));
     assert!(require_writable_target(&grants, "another-paper-target").is_err());
     let mut readonly = state;
     readonly["persistent"][0]["resource"]["groupAccess"] = json!("readOnly");
@@ -321,30 +324,4 @@ fn configured_whole_paper_groups_resolve_effective_members_without_promoting_per
         serde_json::from_str::<Value>(grant.anchor.as_deref().unwrap()).unwrap()["contextAccess"]
             == "readOnly"
     }));
-}
-
-fn render_task(
-    context: &[ContextText],
-    kind: &str,
-) -> Result<
-    research_workbench_native_sdk::analysis_workflow::prompt::PaperTaskPrompt,
-    research_workbench_native_sdk::analysis_workflow::AnalysisWorkflowError,
-> {
-    research_literature_library_native::analysis_workflow::task_prompt::render_current(
-        include_str!(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/../../../.dependencies/sdk/web/core/prompts/structured-task.md"
-        )),
-        include_str!(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/../../../.dependencies/sdk/web/core/prompts/structured-reading-contract.md"
-        )),
-        context.iter().filter_map(|source| {
-            crate::ai::structured_generation_support::prompt_resource(source)
-                .map(|resource| (source, resource))
-        }),
-        kind,
-        None,
-        "",
-    )
 }

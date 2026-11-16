@@ -1,0 +1,1 @@
+delete from attachment_page_texts where attachment_id = ?1

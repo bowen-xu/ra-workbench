@@ -33,7 +33,7 @@ pub(crate) fn literature_fixture(
     })).unwrap()).unwrap();
     fs::create_dir(directory.join("data")).unwrap();
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/context-resources-v1/literature_library");
     for name in [
         "trace-read.v1.sql",
         "trace-expire.v1.sql",

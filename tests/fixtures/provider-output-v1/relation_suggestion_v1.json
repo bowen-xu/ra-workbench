@@ -1,0 +1,16 @@
+{
+  "kind": "relation_suggestion_v1",
+  "schemaVersion": 1,
+  "suggestions": [
+    {
+      "id": "relation_1",
+      "subjectTerm": "稀疏门控",
+      "predicateKind": "related_to",
+      "objectTerm": "混合专家",
+      "epistemicRole": "source_paraphrase",
+      "evidenceItemIds": [
+        "ev-page-1"
+      ]
+    }
+  ]
+}

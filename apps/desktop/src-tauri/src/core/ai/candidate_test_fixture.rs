@@ -1,5 +1,5 @@
 //! Fixed persisted input rows for generic Core candidate/query transaction tests.
-//! Domain interpretation uses the canonical Native pure decoder.
+//! Prepared policy responses use the public wire DTO for this fixed selection fixture.
 use super::{
     credential::JsonCredentialStore,
     model::{AiScopeItemDraft, AiTaskSpecDraft},
@@ -136,30 +136,22 @@ pub(super) fn seed(connection: &Connection, anchor: &str) -> (AiRun, AiEvidenceB
 }
 
 pub(super) fn prepare(bundle: &AiEvidenceBundle, content: &str) -> PreparedCandidate {
-    let keys = bundle
-        .items
-        .iter()
-        .map(|item| item.citation_key.clone())
-        .collect();
-    let payload =
-        research_literature_library_native::analysis_workflow::candidate::decode_candidate_content(
-            content, &keys,
-        )
-        .unwrap();
-    let quotes = bundle
-        .items
-        .iter()
-        .map(
-            |item| research_workbench_native_sdk::candidate_contracts::EvidenceQuote {
-                citation_key: item.citation_key.clone(),
-                quote_exact: item.quote_exact.clone(),
-            },
-        )
-        .collect::<Vec<_>>();
-    research_literature_library_native::structured_validation::quotes(&payload, &quotes).unwrap();
-    assert_eq!(payload.kind(), "selection_explanation_v1");
+    let payload: research_workbench_native_sdk::candidate_contracts::SelectionExplanationPayload =
+        serde_json::from_str(content).expect("fixed selection policy response");
+    assert_eq!(payload.kind, "selection_explanation_v1");
+    assert_eq!(payload.schema_version, 1);
+    for statement in &payload.statements {
+        for reference in &statement.evidence_item_ids {
+            assert!(
+                bundle
+                    .items
+                    .iter()
+                    .any(|item| &item.citation_key == reference)
+            );
+        }
+    }
     PreparedCandidate {
-        kind: payload.kind(),
+        kind: "selection_explanation_v1",
         canonical_json: serde_json::to_string(&payload).unwrap(),
     }
 }
@@ -236,8 +228,7 @@ pub(super) fn selection_draft(anchor_id: &str) -> AiTaskSpecDraft {
     }
 }
 
-// Domain decisions are supplied by the canonical pure Native policy. These
-// tests exercise Core identity binding and transaction settlement.
+// These fixed accepted task inputs exercise Core identity binding and settlement.
 pub(super) fn preview(
     db: &Connection,
     credentials: &JsonCredentialStore,
@@ -245,8 +236,12 @@ pub(super) fn preview(
 ) -> Result<super::model::AiTaskPreview, AiError> {
     use crate::ai::run_repository::{resolve_task_scope, scope_hash, validate_task_before_policy};
     validate_task_before_policy(draft)?;
-    research_literature_library_native::analysis_workflow::task_preview::validate_shape(draft)
-        .map_err(AiError::from)?;
+    assert!(matches!(
+        draft.task_kind.as_str(),
+        "provider_diagnostic" | "selection_explanation"
+    ));
+    assert!(draft.suggestion_candidate_kind.is_none());
+    assert!(draft.matrix_synthesis_context.is_none());
     let scope = resolve_task_scope(db, credentials, draft)?;
     crate::ai::run_repository::validate_fixed_task_scope(&draft.task_kind, &scope.items)?;
     let hash = scope_hash(draft, &scope.items, None, None, None)?;

@@ -1,0 +1,1 @@
+select json_object('title',title,'itemType',item_type,'abstract',abstract_text,'year',issued_year,'container',container_title,'volume',volume,'issue',issue,'pages',pages,'url',url,'language',language,'bibtexKey',bibtex_key) from bibliographic_items where id=?1 and trashed_at is null

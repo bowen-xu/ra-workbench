@@ -107,17 +107,19 @@ mod tests {
     }
 
     #[test]
-    fn migrated_app_does_not_implicitly_adopt_a_portrait_suggestion_for_new_runs() {
+    fn migrated_store_reports_managed_resources_to_template_policy() {
         let mut db = Connection::open_in_memory().unwrap();
+        assert!(
+            !super::super::template_facts::TemplateFacts::new(&db)
+                .managed_resources()
+                .unwrap()
+        );
         crate::storage::migrate(&mut db).unwrap();
-        assert!(matches!(
-            research_literature_library_native::analysis_workflow::template::resolve(
-                &research_workbench_native_sdk::analysis_workflow::template::TemplateInputV1::LegacyAvailability {
-                    managed_resources: super::super::template_facts::TemplateFacts::new(&db).managed_resources().unwrap(),
-                },
-            ),
-            Err(research_workbench_native_sdk::analysis_workflow::AnalysisWorkflowError::InvalidInput(message)) if message.contains("资源模板")
-        ));
+        assert!(
+            super::super::template_facts::TemplateFacts::new(&db)
+                .managed_resources()
+                .unwrap()
+        );
     }
 
     #[test]

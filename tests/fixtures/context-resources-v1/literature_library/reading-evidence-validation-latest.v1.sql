@@ -1,0 +1,1 @@
+select id from paper_context_snapshots where paper_id=?1 order by created_at desc,id desc limit 1

@@ -1,0 +1,1 @@
+select c.relative_path from attachments a join content_objects c on c.sha256 = a.content_sha256 where a.id = ?1

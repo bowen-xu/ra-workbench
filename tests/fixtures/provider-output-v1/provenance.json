@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "sourceRepository": "git@github.com:bowen-xu/ra-workbench.git",
+  "sourceRevision": "449cce041d87e8845ac750aa509ccb486f74f21d",
+  "sourceVersion": "0.8.0",
+  "source": "apps/desktop/src-tauri/src/core/ai/provider/fixture.rs",
+  "fixtures": [
+    {
+      "file": "concept_suggestion_v1.json",
+      "sha256": "001d677547c548df7dcb6c27a8b91ea6ed95e30d0f7291abf08dc2d6c6bf0359",
+      "evidenceItemIds": [
+        "ev-page-1"
+      ]
+    },
+    {
+      "file": "definition_suggestion_v1.json",
+      "sha256": "1d1e528738dc77efb7897a159695b2c2ecd0d1eb1748372dda0dc420ad6318b0",
+      "evidenceItemIds": [
+        "ev-page-1"
+      ]
+    },
+    {
+      "file": "relation_suggestion_v1.json",
+      "sha256": "ce66bb6b643a473f0ec8711c1487b6d935ad1e1f523ae4de69f3ff035efcbce1",
+      "evidenceItemIds": [
+        "ev-page-1"
+      ]
+    },
+    {
+      "file": "attention_suggestion_v1.json",
+      "sha256": "2aefc56ee99c9f0e8b81c6920496a87968ff89e7be9da0b2bf891baa11d32906",
+      "evidenceItemIds": [
+        "ev-page-1"
+      ]
+    },
+    {
+      "file": "reference_record_candidate_v1.json",
+      "sha256": "13ddd89edc75285d7c1aba35fae27b67747ae1d70e951ebf6596abf537cd22e5",
+      "evidenceItemIds": [
+        "ev-source-1",
+        "ev-source-2"
+      ]
+    },
+    {
+      "file": "derived_research_view_v1.json",
+      "sha256": "b66dcf3659cdbb76d6c468bbcef4541ecca126d78bcaf1ee173e88bfa3e5fac1",
+      "evidenceItemIds": [
+        "ev-source-1",
+        "ev-source-2"
+      ]
+    }
+  ]
+}

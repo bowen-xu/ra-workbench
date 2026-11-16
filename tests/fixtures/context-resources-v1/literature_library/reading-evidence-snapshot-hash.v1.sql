@@ -1,0 +1,1 @@
+select context_hash from paper_context_snapshots where id=?1 and paper_id=?2

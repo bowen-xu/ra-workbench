@@ -1,0 +1,15 @@
+{
+  "kind": "definition_suggestion_v1",
+  "schemaVersion": 1,
+  "suggestions": [
+    {
+      "id": "definition_1",
+      "term": "稀疏门控",
+      "statement": "稀疏门控在一次计算中选择部分专家。",
+      "epistemicRole": "source_paraphrase",
+      "evidenceItemIds": [
+        "ev-page-1"
+      ]
+    }
+  ]
+}

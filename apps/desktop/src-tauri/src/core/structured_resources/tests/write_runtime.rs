@@ -20,6 +20,7 @@ struct Policy {
     calls: usize,
     origin: bool,
     technical: bool,
+    reject: bool,
 }
 impl StructuredPolicy for Policy {
     type Pause = HbsNeed;
@@ -50,21 +51,21 @@ impl StructuredPolicy for Policy {
                 cause: FailureCause::SourceReadUnavailable,
             }));
         }
-        research_literature_library_native::editable_template::validate_editable_template(value)
-            .map_err(|message| {
-                Flow::Fail(Failure {
-                    error: AiError::InvalidInput(message),
-                    cause: if self.origin {
-                        FailureCause::NativeRejection(Box::new(DecisionOrigin {
-                            package_key: "fixture-package-key".into(),
-                            instance_id: "fixture-instance".into(),
-                            native_request_id: "fixture-native:1".into(),
-                        }))
-                    } else {
-                        FailureCause::Original
-                    },
-                })
-            })
+        if self.reject {
+            return Err(Flow::Fail(Failure {
+                error: AiError::InvalidInput("synthetic template domain rejection".into()),
+                cause: if self.origin {
+                    FailureCause::NativeRejection(Box::new(DecisionOrigin {
+                        package_key: "fixture-package-key".into(),
+                        instance_id: "fixture-instance".into(),
+                        native_request_id: "fixture-native:1".into(),
+                    }))
+                } else {
+                    FailureCause::Original
+                },
+            }));
+        }
+        Ok(value)
     }
 }
 #[derive(Default)]
@@ -164,6 +165,7 @@ fn runtime_template_domain_invalid_origin_is_persisted_only_when_consumed() {
         policy: Policy {
             ready: true,
             origin: true,
+            reject: true,
             ..Policy::default()
         },
         ..Sources::default()

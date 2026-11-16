@@ -1,0 +1,1 @@
+select exists(select 1 from attachments where item_id = ?1 and content_sha256 = ?2)

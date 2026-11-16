@@ -1,0 +1,97 @@
+{
+  "formatVersion": 1,
+  "purpose": "Frozen SQL inputs for Core-owned resource, transaction and lifecycle tests",
+  "fixtures": [
+    {
+      "file": "literature_library/context-catalog-papers.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+      "sourceRevision": "6f67e5609f2e248238695d649545cfe46e553c28",
+      "source": "native/data/context-catalog-papers.v1.sql",
+      "sha256": "248da1be21fc97b914c0631a2fe59353ac80849471fe7e8d6072ff0d1ed5e7f6"
+    },
+    {
+      "file": "literature_library/context-catalog-pdf-attachments.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+      "sourceRevision": "6f67e5609f2e248238695d649545cfe46e553c28",
+      "source": "native/data/context-catalog-pdf-attachments.v1.sql",
+      "sha256": "e9bffd3fa0ece61539bd06341b6a659725c686f43733074fe81dcbc7f4c13be4"
+    },
+    {
+      "file": "literature_library/context-metadata-header.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+      "sourceRevision": "6f67e5609f2e248238695d649545cfe46e553c28",
+      "source": "native/data/context-metadata-header.v1.sql",
+      "sha256": "b34406f491c6bbf0dc5da5a9eb31f6b37409b8de8caaa0f9319bf125ecb1a784"
+    },
+    {
+      "file": "literature_library/context-metadata-creators.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+      "sourceRevision": "6f67e5609f2e248238695d649545cfe46e553c28",
+      "source": "native/data/context-metadata-creators.v1.sql",
+      "sha256": "9ac0b30cc86ae93f1e42f82b9e123e122cac5fce8c4fd972c4d0244f999c9294"
+    },
+    {
+      "file": "literature_library/context-metadata-identifiers.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+      "sourceRevision": "6f67e5609f2e248238695d649545cfe46e553c28",
+      "source": "native/data/context-metadata-identifiers.v1.sql",
+      "sha256": "aa4dd69c737cf0b24ef022da422207c9782301b06afb1f8349758c9a66171ed1"
+    },
+    {
+      "file": "literature_library/trace-read.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+      "sourceRevision": "6f67e5609f2e248238695d649545cfe46e553c28",
+      "source": "native/data/trace-read.v1.sql",
+      "sha256": "3dc4391e2def0bbaf1318012d8e66ba6a1007e680f12d961d82f9cb8402da016"
+    },
+    {
+      "file": "literature_library/trace-expire.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+      "sourceRevision": "6f67e5609f2e248238695d649545cfe46e553c28",
+      "source": "native/data/trace-expire.v1.sql",
+      "sha256": "f9558d513ed49347de972312fd1562453b39d46397ec20c96578c67dd0173424"
+    },
+    {
+      "file": "literature_library/trace-mark-sent.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+      "sourceRevision": "6f67e5609f2e248238695d649545cfe46e553c28",
+      "source": "native/data/trace-mark-sent.v1.sql",
+      "sha256": "bf5ab9a69362afebd1eb5c27669d2fdbcca17acf7b2f21c6abfc06dc5fb672b4"
+    },
+    {
+      "file": "writing_projects/project-files.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-writing-projects.git",
+      "sourceRevision": "6f018753126a61614df18d1cc6a4d59a2c72397d",
+      "source": "native/data/project-files.v1.sql",
+      "sha256": "deebbd3b40405b9de6a1a5b44ec49903b0edffdbd9a173625497bd12fc539095"
+    },
+    {
+      "file": "writing_projects/project-context-text-paths.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-writing-projects.git",
+      "sourceRevision": "6f018753126a61614df18d1cc6a4d59a2c72397d",
+      "source": "native/data/project-context-text-paths.v1.sql",
+      "sha256": "cb8b873ae172e0f1e03cac1c938aa386d2620ec01dbd6b4efb19150d2080c748"
+    },
+    {
+      "file": "literature_library/reading-evidence-snapshot-hash.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+      "sourceRevision": "6f67e5609f2e248238695d649545cfe46e553c28",
+      "source": "native/data/reading-evidence-snapshot-hash.v1.sql",
+      "sha256": "9fd93259f0cb66e07ac7759be59697ea33c853cbf9a5df428d8fd15e868d5f7d"
+    },
+    {
+      "file": "literature_library/reading-evidence-snapshot-rows.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+      "sourceRevision": "6f67e5609f2e248238695d649545cfe46e553c28",
+      "source": "native/data/reading-evidence-snapshot-rows.v1.sql",
+      "sha256": "17bdfcf4e74fe021b781f8bcdb48f8a35266f3e99f4f7c6c8af107a9b8388e6b"
+    },
+    {
+      "file": "literature_library/reading-evidence-validation-latest.v1.sql",
+      "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+      "sourceRevision": "6f67e5609f2e248238695d649545cfe46e553c28",
+      "source": "native/data/reading-evidence-validation-latest.v1.sql",
+      "sha256": "bfc8196efd5310654731f39829cf65e00c1d1eeba62225263923b65e17815e84"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "kind": "derived_research_view_v1",
+  "schemaVersion": 1,
+  "viewKind": "taxonomy",
+  "title": "Grounded systems",
+  "scopeNote": "Selected evidence only.",
+  "items": [
+    {
+      "id": "derived_1",
+      "text": "所选来源形成一条需要人工核对的跨文献综合。",
+      "epistemicRole": "synthesis",
+      "evidenceItemIds": [
+        "ev-source-1",
+        "ev-source-2"
+      ],
+      "hasConflict": false
+    }
+  ]
+}

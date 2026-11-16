@@ -237,7 +237,7 @@ fn trace_source() -> RetrievalTraceSource {
                 .query_row(
                     include_str!(concat!(
                         env!("CARGO_MANIFEST_DIR"),
-                        "/../../../plugins/literature_library/native/data/trace-read.v1.sql"
+                        "/../../../tests/fixtures/context-resources-v1/literature_library/trace-read.v1.sql"
                     )),
                     [id],
                     |row| {
@@ -258,7 +258,7 @@ fn trace_source() -> RetrievalTraceSource {
                 db.execute(
                     include_str!(concat!(
                         env!("CARGO_MANIFEST_DIR"),
-                        "/../../../plugins/literature_library/native/data/trace-expire.v1.sql"
+                        "/../../../tests/fixtures/context-resources-v1/literature_library/trace-expire.v1.sql"
                     )),
                     [id],
                 )
@@ -275,7 +275,7 @@ fn trace_source() -> RetrievalTraceSource {
                 .execute(
                     include_str!(concat!(
                         env!("CARGO_MANIFEST_DIR"),
-                        "/../../../plugins/literature_library/native/data/trace-mark-sent.v1.sql"
+                        "/../../../tests/fixtures/context-resources-v1/literature_library/trace-mark-sent.v1.sql"
                     )),
                     [id],
                 )

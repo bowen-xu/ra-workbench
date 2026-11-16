@@ -1,0 +1,15 @@
+{
+  "kind": "attention_suggestion_v1",
+  "schemaVersion": 1,
+  "suggestions": [
+    {
+      "id": "attention_1",
+      "title": "关注路由与负载均衡",
+      "reason": "该约束可能影响专家利用率，值得回到原文核对。",
+      "priority": "high",
+      "evidenceItemIds": [
+        "ev-page-1"
+      ]
+    }
+  ]
+}

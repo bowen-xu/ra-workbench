@@ -18,7 +18,7 @@ fn list_host_files(
     let mut query = db
         .prepare(include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../../plugins/writing_projects/native/data/project-files.v1.sql"
+            "/../../../tests/fixtures/context-resources-v1/writing_projects/project-files.v1.sql"
         )))
         .map_err(|_| WritingContextError::Unavailable)?;
     query
@@ -38,7 +38,7 @@ fn list_text_paths(db: &Connection, manuscript: &str) -> Result<Vec<String>, Wri
     let mut query = db
         .prepare(include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../../plugins/writing_projects/native/data/project-context-text-paths.v1.sql"
+            "/../../../tests/fixtures/context-resources-v1/writing_projects/project-context-text-paths.v1.sql"
         )))
         .map_err(|_| WritingContextError::Unavailable)?;
     query

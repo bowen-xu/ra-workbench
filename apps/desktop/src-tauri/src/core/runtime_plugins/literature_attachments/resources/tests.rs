@@ -17,7 +17,7 @@ fn package() -> (
     .unwrap();
     fs::write(selected.join("entry.js"), "export {};\n").unwrap();
     let original = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/attachment-resources-v1");
     for spec in specs::SPECS {
         fs::copy(
             original.join(spec.file),

@@ -1,0 +1,1 @@
+select kind,display_value from identifiers where item_id=?1 order by kind,id

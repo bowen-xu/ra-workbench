@@ -19,7 +19,7 @@ pub(super) fn catalog() -> ContextCatalogSource {
                 db,
                 include_str!(concat!(
                     env!("CARGO_MANIFEST_DIR"),
-                    "/../../../plugins/literature_library/native/data/context-catalog-papers.v1.sql"
+                    "/../../../tests/fixtures/context-resources-v1/literature_library/context-catalog-papers.v1.sql"
                 )),
                 query,
             )
@@ -29,7 +29,7 @@ pub(super) fn catalog() -> ContextCatalogSource {
                 db,
                 include_str!(concat!(
                     env!("CARGO_MANIFEST_DIR"),
-                    "/../../../plugins/literature_library/native/data/context-catalog-pdf-attachments.v1.sql"
+                    "/../../../tests/fixtures/context-resources-v1/literature_library/context-catalog-pdf-attachments.v1.sql"
                 )),
                 paper,
             )
@@ -51,7 +51,7 @@ pub(super) fn metadata(db: &Connection, paper: &str) -> Result<String, PaperMeta
         .query_row(
             include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
-                "/../../../plugins/literature_library/native/data/context-metadata-header.v1.sql"
+                "/../../../tests/fixtures/context-resources-v1/literature_library/context-metadata-header.v1.sql"
             )),
             [paper],
             |row| row.get(0),
@@ -62,7 +62,7 @@ pub(super) fn metadata(db: &Connection, paper: &str) -> Result<String, PaperMeta
         db,
         include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../../plugins/literature_library/native/data/context-metadata-creators.v1.sql"
+            "/../../../tests/fixtures/context-resources-v1/literature_library/context-metadata-creators.v1.sql"
         )),
         paper,
     )
@@ -71,7 +71,7 @@ pub(super) fn metadata(db: &Connection, paper: &str) -> Result<String, PaperMeta
         db,
         include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../../plugins/literature_library/native/data/context-metadata-identifiers.v1.sql"
+            "/../../../tests/fixtures/context-resources-v1/literature_library/context-metadata-identifiers.v1.sql"
         )),
         paper,
     )

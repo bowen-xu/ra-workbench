@@ -75,7 +75,7 @@ impl ExplicitReadingEvidence for ReadingEvidence {
         paper: &str,
     ) -> Result<Option<String>, SourceReadFailure> {
         db.query_row(include_str!(concat!(env!("CARGO_MANIFEST_DIR"),
-            "/../../../plugins/literature_library/native/data/reading-evidence-snapshot-hash.v1.sql")),
+            "/../../../tests/fixtures/context-resources-v1/literature_library/reading-evidence-snapshot-hash.v1.sql")),
             [snapshot, paper], |row| row.get(0)).optional().map_err(|_| SourceReadFailure::Static)
     }
     fn snapshot_evidence_rows(
@@ -84,7 +84,7 @@ impl ExplicitReadingEvidence for ReadingEvidence {
         snapshot: &str,
     ) -> Result<Vec<SnapshotEvidenceRow>, SourceReadFailure> {
         let mut query = db.prepare(include_str!(concat!(env!("CARGO_MANIFEST_DIR"),
-            "/../../../plugins/literature_library/native/data/reading-evidence-snapshot-rows.v1.sql")))
+            "/../../../tests/fixtures/context-resources-v1/literature_library/reading-evidence-snapshot-rows.v1.sql")))
             .map_err(|_| SourceReadFailure::Static)?;
         query
             .query_map([snapshot], |row| {
@@ -109,7 +109,7 @@ impl ReadingValidationEvidence for ReadingEvidence {
         paper: &str,
     ) -> Result<Option<String>, SourceReadFailure> {
         db.query_row(include_str!(concat!(env!("CARGO_MANIFEST_DIR"),
-            "/../../../plugins/literature_library/native/data/reading-evidence-validation-latest.v1.sql")),
+            "/../../../tests/fixtures/context-resources-v1/literature_library/reading-evidence-validation-latest.v1.sql")),
             [paper], |row| row.get(0)).optional().map_err(|_| SourceReadFailure::Static)
     }
 }
@@ -180,11 +180,12 @@ pub(crate) fn review(
     db: &mut Connection,
     input: crate::structured_resources::ReviewDraft,
 ) -> Result<crate::structured_resources::Resource, crate::structured_resources::Error> {
+    // Core's ordinary manual route includes explicit field verification.
     crate::structured_resources::review_with(
         &mut Sources::new(),
         db,
         input,
-        crate::structured_resources::ReviewRoute::Native,
+        crate::structured_resources::ReviewRoute::Static,
     )
     .map_err(BoundaryError::into_static)
 }
@@ -205,7 +206,7 @@ pub(crate) fn restore(
         &mut Sources::new(),
         db,
         input,
-        crate::structured_resources::ReviewRoute::Native,
+        crate::structured_resources::ReviewRoute::Static,
     )
     .map_err(BoundaryError::into_static)
 }
