@@ -18,7 +18,7 @@ SDK 公开依赖位于本工程 .dependencies/sdk/。现有 Native 回归使用�
 
 包和锁文件由本工程维护。Web SDK 的 UI／Hook 声明绑定到本次 Core 构建的 /sdk/v1/。插件通过这些 facade 消费同一 React、文档、HBS 和 Agent 实例。Agent 执行机制位于 packages/agent-core，公开输入与纯编解码使用 SDK 的 agent-api。
 
-build:native 编译 research-assistant 和 note-pdf-worker 两个运行程序，产物位于 Cargo 的 target/debug。安装包生成沿主仓库既有发布流程执行。
+build:native 编译 research-assistant 和 note-pdf-worker 两个运行程序，通过 artifacts/workbench-native/latest.json 定位公开产物，Cargo 缓存归本工程 .cache/cargo。安装包生成沿主仓库既有发布流程执行。
 
 ## 开发与回归
 
@@ -35,3 +35,7 @@ build:preview-host 发布 @research-assistant/workbench-preview，复用正式�
 各插件拥有自己的预览，调用宿主的 PreviewWorkbench 并提供 loadPlugins。
 开发包包含编译后 JS、声明、原 CSS、笔记查询 Wasm、词典和静态资源，版本跟随 Workbench。
 显式模块清单在 apps/web/previewHostSurface.json，产物在 artifacts/preview-host/，定向回归使用 pnpm test:preview-host。
+
+## 构建缓存与产物
+
+标准构建入口复用通过完整性校验的既有包。产物在本工程 `artifacts/<kind>/<内容哈希>/package/`，当前入口在 `artifacts/<kind>/latest.json`。回执随产物保存，`.cache/build` 保存索引，`.cache/logs` 保存日志，`.cache/work` 为完成后清理的隔离工作目录。清理编译缓存后仍可复用已保存的当前包。

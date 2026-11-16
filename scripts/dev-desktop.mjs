@@ -11,7 +11,7 @@ export function createRuntimeDesktopDevArguments(root, extraArguments = [], sele
     "--filter", "@research-assistant/desktop", "tauri", "dev", "--features", "development-data",
     "--config", "src-tauri/tauri.dev.conf.json", "--no-dev-server", "--config", JSON.stringify({build: {
       beforeDevCommand: "node ../../scripts/build-workbench-composition.mjs --plugins none",
-      devUrl: null, frontendDist: resolve(root, ".tmp/workbench-compositions/core/web"),
+      devUrl: null, frontendDist: resolve(root, "apps/web/dist"),
     }}),
   ], selection, extraArguments);
 }

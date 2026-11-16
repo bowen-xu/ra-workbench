@@ -199,7 +199,7 @@ export function buildDevelopmentApplication({
     ...(explicitCoreOnly ? {pluginIds: []} : {})});
   const frontend = ["--config", JSON.stringify({build: {
     beforeBuildCommand: "node ../../scripts/build-workbench-composition.mjs --plugins none",
-    frontendDist: resolve(root, ".tmp/workbench-compositions/core/web"),
+    frontendDist: resolve(root, "apps/web/dist"),
   }, bundle: {resources: {[packages.directory + "/"]: "plugins/"}}})];
   const buildArguments = developmentWorkbenchArguments(TEMPORARY_APPLICATION_BUILD_ARGUMENTS, selection, frontend);
   prepareCodexRuntime(root);

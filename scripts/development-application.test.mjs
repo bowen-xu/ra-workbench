@@ -73,7 +73,7 @@ describe("temporary development application", () => {
     const override = JSON.parse(build.arguments.find(value => value.startsWith("{")));
     expect(override).toEqual({build: {
       beforeBuildCommand: "node ../../scripts/build-workbench-composition.mjs --plugins none",
-      frontendDist: resolve(build.root, ".tmp/workbench-compositions/core/web"),
+      frontendDist: resolve(build.root, "apps/web/dist"),
     }, bundle: {resources: {[resolve(build.root, ".generated-test/plugins") + "/"]: "plugins/"}}});
     expect(build.arguments).toContain("--no-default-features");
     expect(f.packages).toHaveBeenCalledExactlyOnceWith({root: build.root, environment: {
@@ -88,7 +88,7 @@ describe("temporary development application", () => {
     const override = build.arguments.find(value => value.startsWith("{"));
     expect(JSON.parse(override)).toEqual({build: {
       beforeBuildCommand: "node ../../scripts/build-workbench-composition.mjs --plugins none",
-      frontendDist: resolve(build.root, ".tmp/workbench-compositions/core/web"),
+      frontendDist: resolve(build.root, "apps/web/dist"),
     }, bundle: {resources: {[resolve(build.root, ".generated-test/plugins") + "/"]: "plugins/"}}});
     expect(build.arguments.indexOf(override)).toBeLessThan(build.arguments.indexOf("--"));
     expect(build.arguments).toContain("src-tauri/tauri.dev.conf.json");
