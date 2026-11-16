@@ -180,7 +180,17 @@ async fn actual_package_reference_defer_request_reject_and_validation_write_no_r
     let (f, key, mut candidate) = super::review::generated().await;
     let original = counts(&f);
     let accept = draft(&candidate, "accept_unchanged", "not-qualified");
-    let expected = crate::ai::error::AiError::from(research_literature_library_native::candidate_review::validate_inspection(false).unwrap_err());
+    let research_workbench_native_sdk::candidate_review::wire::ReviewDecisionV1::Validated {
+        rejection: Some(error),
+    } = protocol::review(
+        research_workbench_native_sdk::candidate_review::wire::ReviewInputV1::Inspection {
+            inspected: false,
+        },
+    )
+    else {
+        panic!("inspection rejection")
+    };
+    let expected = crate::ai::error::AiError::from(error);
     let actual = f
         .service
         .decide_analysis_candidate(f.store.clone(), key.clone(), accept)

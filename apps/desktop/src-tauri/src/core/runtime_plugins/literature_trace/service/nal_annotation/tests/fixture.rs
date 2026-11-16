@@ -151,7 +151,7 @@ impl Fixture {
             .push(json!({"id":CAPABILITY_ID,"version":CAPABILITY_VERSION}));
         fs::write(manifest_file, serde_json::to_vec(&manifest).unwrap()).unwrap();
         let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         let mut resources = fs::read_dir(&source)
             .unwrap()
             .map(|entry| entry.unwrap().file_name())

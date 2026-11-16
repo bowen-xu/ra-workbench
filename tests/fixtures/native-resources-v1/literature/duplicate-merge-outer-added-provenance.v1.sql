@@ -1,0 +1,2 @@
+select field_name from metadata_provenance source where source.item_id = ?1
+         and not exists(select 1 from metadata_provenance target where target.item_id = ?2 and target.field_name = source.field_name)

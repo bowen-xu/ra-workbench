@@ -1,0 +1,1 @@
+select hex(cast(trim(label) as blob)) from concepts where deleted_at is null order by rowid

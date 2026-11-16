@@ -37,7 +37,7 @@ impl Fixture {
         .unwrap();
         fs::write(directory.join("index.js"), "export {};\n").unwrap();
         let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for entry in fs::read_dir(source).unwrap() {
             let entry = entry.unwrap();
             let name = entry.file_name();
@@ -71,7 +71,15 @@ impl Fixture {
         .unwrap()
     }
     pub(crate) fn prepared(&self, captured: &CapturedMerge) -> MergePreparationV1 {
-        research_literature_library_native::duplicate_merge_prepare::prepare(captured.input.clone())
+        assert_eq!(captured.input.survivor_item_id, "survivor");
+        assert_eq!(captured.input.left_item_id, "survivor");
+        assert_eq!(captured.input.right_item_id, "source");
+        MergePreparationV1::Ready {
+            input: captured.input.clone(),
+            merged_item_id: "source".into(),
+            operation_state: "applied".into(),
+            created_reading_state: false,
+        }
     }
     pub(crate) fn apply(&self) -> Result<MergeOperation, MergeFailure> {
         let captured = self.capture();

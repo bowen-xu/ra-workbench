@@ -101,7 +101,7 @@ async fn actual_package_analysis_start_completes_original_agent_candidate_and_wo
     .unwrap();
     assert!(current_profile.selection_revision > profile.selection_revision);
     // The original reuse rule permits a changed frozen template selection.
-    research_literature_library_native::analysis_workflow::validate_reuse(
+    protocol::validate_reuse(
         false,
         Some(&serde_json::to_string(&current_profile).unwrap()),
         Some(&workflow),

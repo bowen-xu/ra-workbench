@@ -1,0 +1,1 @@
+update duplicate_candidates set decision = null, decided_at = null where id = ?1

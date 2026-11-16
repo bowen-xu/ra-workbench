@@ -21,8 +21,7 @@ async fn actual_package_suggestion_item_rules_preserve_hash_and_original_rejecti
         idempotency_key: "item-decision".into(),
         resolution: None,
     };
-    let expected =
-        research_literature_library_native::candidate_review::items::request_hash(&draft).unwrap();
+    let expected = protocol::request_hash(&draft).unwrap();
     let (decision, origin) = f
         .service
         .analysis_workflow_decision(

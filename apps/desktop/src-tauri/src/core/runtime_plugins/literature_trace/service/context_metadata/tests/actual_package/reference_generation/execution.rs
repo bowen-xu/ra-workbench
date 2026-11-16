@@ -292,7 +292,7 @@ async fn actual_package_reference_review_decisions_use_core_owned_candidate_fact
             ),
         },
     ] {
-        let expected = research_literature_library_native::candidate_review::decide(input.clone());
+        let expected = protocol::review(input.clone());
         let (decision, origin) = f
             .service
             .analysis_workflow_decision(

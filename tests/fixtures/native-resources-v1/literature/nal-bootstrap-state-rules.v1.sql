@@ -1,0 +1,1 @@
+select relation_concept_id from nal_relation_rules order by relation_concept_id

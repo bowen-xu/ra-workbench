@@ -27,3 +27,5 @@ mod manual_definition_waits;
 mod manual_relation_waits;
 
 mod shared_foundations_waits;
+
+mod wait_policy_fixtures;

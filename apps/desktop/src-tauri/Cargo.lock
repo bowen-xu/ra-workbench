@@ -3854,11 +3854,9 @@ dependencies = [
  "research-agent-core",
  "research-data-runtime",
  "research-docling-runtime",
- "research-literature-library-native",
  "research-note-query",
  "research-semantic-engine-api",
  "research-workbench-native-sdk",
- "research-writing-projects-native",
  "rusqlite",
  "scraper",
  "serde",
@@ -3908,24 +3906,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "research-literature-library-native"
-version = "0.1.0"
-dependencies = [
- "base64 0.22.1",
- "libc",
- "quick-xml",
- "regex",
- "research-agent-api",
- "research-workbench-native-sdk",
- "scraper",
- "serde",
- "serde_json",
- "sha2",
- "thiserror 2.0.19",
- "uuid",
-]
-
-[[package]]
 name = "research-note-query"
 version = "0.1.0"
 dependencies = [
@@ -3953,24 +3933,6 @@ dependencies = [
  "sha2",
  "thiserror 2.0.19",
  "uuid",
-]
-
-[[package]]
-name = "research-writing-projects-native"
-version = "0.1.0"
-dependencies = [
- "biblatex",
- "libc",
- "regex",
- "research-agent-api",
- "research-note-query",
- "research-workbench-native-sdk",
- "serde",
- "serde_json",
- "sha2",
- "thiserror 2.0.19",
- "uuid",
- "zip",
 ]
 
 [[package]]

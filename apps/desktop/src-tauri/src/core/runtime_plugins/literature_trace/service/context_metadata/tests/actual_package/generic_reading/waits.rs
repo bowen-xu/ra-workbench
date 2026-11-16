@@ -10,12 +10,11 @@ fn fixture(wrong: bool) -> (Fixture, AiReviewDecisionDraft) {
     let mut f = Fixture::new();
     let mut candidate = seed(&f, payload(true));
     let value = payload(true);
-    let decoded =
-        research_literature_library_native::analysis_workflow::candidate::decode_candidate_value(
-            value.clone(),
-            &std::collections::HashSet::from(["ev-quote".into()]),
-        )
-        .unwrap();
+    let decoded = protocol::decode_candidate_value(
+        value.clone(),
+        &std::collections::HashSet::from(["ev-quote".into()]),
+    )
+    .unwrap();
     for reference in decoded.citation_references() {
         candidate = crate::ai::review_support::record_citation_assessment_with(
             &f.store.connection().unwrap(),
@@ -45,7 +44,7 @@ fn fixture(wrong: bool) -> (Fixture, AiReviewDecisionDraft) {
         candidate_id: candidate.id.clone(),
         candidate_revision: 1,
     };
-    let research_workbench_native_sdk::candidate_review::generic::GenericPromotionPlanV1::ReadingUnits { units } = research_literature_library_native::candidate_review::generic::prepare(&input).unwrap() else { panic!("units"); };
+    let research_workbench_native_sdk::candidate_review::generic::GenericPromotionPlanV1::ReadingUnits { units } = protocol::generic_prepare(&input).unwrap() else { panic!("units"); };
     let review = |input| WorkflowInputV1::CandidateReview {
         input: Box::new(input),
     };
@@ -80,16 +79,10 @@ fn fixture(wrong: bool) -> (Fixture, AiReviewDecisionDraft) {
         .map(|(ordinal, input)| {
             let decision = match &input {
                 WorkflowInputV1::CandidateReview { input } => WorkflowDecisionV1::CandidateReview {
-                    decision: research_literature_library_native::candidate_review::decide(
-                        *input.clone(),
-                    ),
+                    decision: protocol::review(*input.clone()),
                 },
                 WorkflowInputV1::Candidate { input } => WorkflowDecisionV1::Candidate {
-                    decision:
-                        research_literature_library_native::analysis_workflow::candidate::decide(
-                            *input.clone(),
-                        )
-                        .unwrap(),
+                    decision: protocol::candidate(*input.clone()),
                 },
                 _ => unreachable!(),
             };
@@ -117,7 +110,7 @@ fn fixture(wrong: bool) -> (Fixture, AiReviewDecisionDraft) {
         .push(json!({"id":"literature.analysis-workflow","version":1}));
     fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
     let source = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in [
         "reading-unit-accepted-insert.v1.sql",
         "reading-unit-accepted-evidence.v1.sql",

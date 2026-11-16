@@ -30,12 +30,13 @@ fn with_trace(f: &Fixture, expires: &str) -> (PaperPrepareIntent, Vec<CatalogOut
         context_sha256: hash(body),
         expired: expires.starts_with("2000"),
     };
-    let outcome =
-        research_literature_library_native::paper_retrieval::decide(PaperRetrievalInputV1 {
+    let outcome = crate::runtime_plugins::literature_context::test_fixture::retrieval(
+        PaperRetrievalInputV1 {
             paper_id: "paper".into(),
             query: intent.request.text.clone(),
             row: Some(row),
-        });
+        },
+    );
     outputs.push(CatalogOutput::PaperRetrievalTrace {
         outcome: Box::new(outcome),
     });

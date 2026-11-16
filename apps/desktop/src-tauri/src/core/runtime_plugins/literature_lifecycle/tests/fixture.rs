@@ -59,7 +59,7 @@ impl Fixture {
         .unwrap();
         fs::write(directory.join("index.js"), "export {};\n").unwrap();
         let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for suffix in [
             "archive",
             "restore",

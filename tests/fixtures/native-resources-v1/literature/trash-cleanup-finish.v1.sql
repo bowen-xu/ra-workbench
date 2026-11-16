@@ -1,0 +1,1 @@
+delete from literature_cleanup_rows where item_id=?1

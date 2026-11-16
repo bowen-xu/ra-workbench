@@ -71,7 +71,7 @@ impl Fixture {
         .unwrap();
         fs::write(package_root.join("index.js"), "export {};\n").unwrap();
         let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         let mut copied = 0;
         for entry in fs::read_dir(source).unwrap() {
             let entry = entry.unwrap();

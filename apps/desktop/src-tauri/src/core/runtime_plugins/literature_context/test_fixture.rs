@@ -1,4 +1,4 @@
-//! Canonical Native decisions and original Core resource owners for test inputs.
+//! Finite public wire fixtures and original Core resource owners for test inputs.
 use crate::runtime_plugins::{RuntimePluginCatalog, RuntimePluginPackage};
 
 pub(crate) fn expected_preview(
@@ -15,11 +15,13 @@ pub(crate) fn expected_preview(
         resources.preflight(db, request).unwrap(),
     ] {
         assert!(matches!(
-            research_literature_library_native::paper_context_preview::evaluate(capture.input),
+            preview_for(catalog, package, capture.input),
             PaperContextPreviewDecisionV1::Validated {}
         ));
     }
-    match research_literature_library_native::paper_context_preview::evaluate(
+    match preview_for(
+        catalog,
+        package,
         resources.snapshot(db, request).unwrap().input,
     ) {
         PaperContextPreviewDecisionV1::Previewed { preview } => preview,
@@ -38,15 +40,29 @@ pub(crate) fn seed_snapshot(
     use crate::runtime_plugins::literature_context::PaperContextResources;
     use research_workbench_native_sdk::paper_context::SnapshotProjectionInputV1;
     let resources = PaperContextResources::load(catalog, package).unwrap();
-    let projection = research_literature_library_native::paper_context_snapshot::project(
-        &SnapshotProjectionInputV1 {
-            paper_id: paper.into(),
-            attachment_statuses: prepared.attachment_statuses.clone(),
-            context_items: prepared.context_items.clone(),
-            image_hashes,
+    let input = SnapshotProjectionInputV1 {
+        paper_id: paper.into(),
+        attachment_statuses: prepared.attachment_statuses.clone(),
+        context_items: prepared.context_items.clone(),
+        image_hashes,
+    };
+    use research_workbench_native_sdk::paper_context_wire::{
+        PaperContextDecisionV1, PaperContextInputV1, decode_payload, encode_payload,
+    };
+    let decision = context_reply(
+        catalog,
+        package,
+        PaperContextInputV1::Project {
+            cbor_base64: encode_payload(&input).unwrap(),
         },
-    )
-    .unwrap();
+    );
+    let PaperContextDecisionV1::Projected {
+        projection_cbor_base64,
+    } = decision
+    else {
+        panic!("snapshot projection response")
+    };
+    let projection = decode_payload(&projection_cbor_base64).unwrap();
     let captured = resources.capture_snapshot(db, &projection).unwrap();
     let digest = captured
         .existing
@@ -78,7 +94,7 @@ pub(crate) fn controlled_package() -> (
     ]);
     std::fs::write(&manifest, serde_json::to_vec(&value).unwrap()).unwrap();
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in [
         "attachments-paper-exists",
         "attachments-all",
@@ -112,4 +128,166 @@ pub(crate) fn controlled_package() -> (
     super::PaperContextResources::load(&catalog, &package).unwrap();
     super::preview::PreviewResources::load(&catalog, &package).unwrap();
     (directory, catalog, package)
+}
+
+/// Fixed wire responses keep Core transport and storage tests self-contained.
+pub(crate) fn policy_catalog(
+    input: research_workbench_native_sdk::catalog::CatalogInput,
+) -> research_workbench_native_sdk::catalog::CatalogOutput {
+    use research_workbench_native_sdk::catalog::{CatalogInput, CatalogOutput};
+    let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../../tests/fixtures/paper-context-policy-v1/cases.json");
+    let cases: Vec<(CatalogInput, CatalogOutput)> =
+        serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
+    cases
+        .into_iter()
+        .find_map(|(expected, output)| (input == expected).then_some(output))
+        .unwrap_or_else(|| panic!("missing fixed Core context policy response: {input:?}"))
+}
+
+fn context_reply(
+    catalog: &RuntimePluginCatalog,
+    package: &RuntimePluginPackage,
+    input: research_workbench_native_sdk::paper_context_wire::PaperContextInputV1,
+) -> research_workbench_native_sdk::paper_context_wire::PaperContextDecisionV1 {
+    use research_workbench_native_sdk::catalog::{CatalogInput, CatalogOutput};
+    let request = CatalogInput::PreparePaperContext {
+        input: Box::new(input),
+    };
+    let entry = package.manifest["native"]["entry"].as_str().unwrap();
+    let executable = catalog.resource(&package.package_key, entry).unwrap();
+    let output = if executable.bytes.starts_with(b"#!") {
+        policy_catalog(request)
+    } else {
+        crate::runtime_plugins::native::package::tests::catalog_oracle(
+            catalog,
+            &package.package_key,
+            request,
+        )
+    };
+    let CatalogOutput::PaperContext { outcome } = output else {
+        panic!("context response")
+    };
+    outcome.decision
+}
+
+pub(crate) fn build(
+    input: &research_workbench_native_sdk::paper_context::PaperContextBuildInputV1,
+) -> research_workbench_native_sdk::paper_context::PreparedPaperContextV1 {
+    use research_workbench_native_sdk::{catalog::*, paper_context_wire::*};
+    let CatalogOutput::PaperContext { outcome } =
+        policy_catalog(CatalogInput::PreparePaperContext {
+            input: Box::new(PaperContextInputV1::Build {
+                cbor_base64: encode_payload(input).unwrap(),
+            }),
+        })
+    else {
+        panic!("context response")
+    };
+    let PaperContextDecisionV1::Built {
+        prepared_cbor_base64,
+    } = outcome.decision
+    else {
+        panic!("built response")
+    };
+    decode_payload(&prepared_cbor_base64).unwrap()
+}
+
+pub(crate) fn project(
+    input: &research_workbench_native_sdk::paper_context::SnapshotProjectionInputV1,
+) -> Result<research_workbench_native_sdk::paper_context::SnapshotProjectionV1, String> {
+    use research_workbench_native_sdk::{catalog::*, paper_context_wire::*};
+    let CatalogOutput::PaperContext { outcome } =
+        policy_catalog(CatalogInput::PreparePaperContext {
+            input: Box::new(PaperContextInputV1::Project {
+                cbor_base64: encode_payload(input).unwrap(),
+            }),
+        })
+    else {
+        panic!("context response")
+    };
+    match outcome.decision {
+        PaperContextDecisionV1::Projected {
+            projection_cbor_base64,
+        } => Ok(decode_payload(&projection_cbor_base64).unwrap()),
+        PaperContextDecisionV1::Rejected { message } => Err(message),
+        _ => panic!("projected response"),
+    }
+}
+
+pub(crate) fn digest(
+    input: &research_workbench_native_sdk::paper_context::SnapshotDigestInputV1,
+) -> Result<String, String> {
+    use research_workbench_native_sdk::{catalog::*, paper_context_wire::*};
+    let CatalogOutput::PaperContext { outcome } =
+        policy_catalog(CatalogInput::PreparePaperContext {
+            input: Box::new(PaperContextInputV1::Digest {
+                cbor_base64: encode_payload(input).unwrap(),
+            }),
+        })
+    else {
+        panic!("context response")
+    };
+    match outcome.decision {
+        PaperContextDecisionV1::Digested { context_hash } => Ok(context_hash),
+        PaperContextDecisionV1::Rejected { message } => Err(message),
+        _ => panic!("digest response"),
+    }
+}
+
+pub(crate) fn preview(
+    input: research_workbench_native_sdk::paper_context_preview::PaperContextPreviewInputV1,
+) -> research_workbench_native_sdk::paper_context_preview::PaperContextPreviewDecisionV1 {
+    use research_workbench_native_sdk::{catalog::*, paper_context_wire::*};
+    let CatalogOutput::PaperContext { outcome } =
+        policy_catalog(CatalogInput::PreparePaperContext {
+            input: Box::new(PaperContextInputV1::Preview {
+                cbor_base64: encode_payload(&input).unwrap(),
+            }),
+        })
+    else {
+        panic!("context response")
+    };
+    let PaperContextDecisionV1::Previewed {
+        decision_cbor_base64,
+    } = outcome.decision
+    else {
+        panic!("preview response")
+    };
+    decode_payload(&decision_cbor_base64).unwrap()
+}
+
+pub(crate) fn retrieval(
+    input: research_workbench_native_sdk::paper_retrieval::PaperRetrievalInputV1,
+) -> research_workbench_native_sdk::paper_retrieval::PaperRetrievalOutcomeV1 {
+    use research_workbench_native_sdk::catalog::*;
+    let CatalogOutput::PaperRetrievalTrace { outcome } =
+        policy_catalog(CatalogInput::DecidePaperRetrievalTrace {
+            input: Box::new(input),
+        })
+    else {
+        panic!("retrieval response")
+    };
+    *outcome
+}
+
+fn preview_for(
+    catalog: &RuntimePluginCatalog,
+    package: &RuntimePluginPackage,
+    input: research_workbench_native_sdk::paper_context_preview::PaperContextPreviewInputV1,
+) -> research_workbench_native_sdk::paper_context_preview::PaperContextPreviewDecisionV1 {
+    use research_workbench_native_sdk::paper_context_wire::*;
+    let PaperContextDecisionV1::Previewed {
+        decision_cbor_base64,
+    } = context_reply(
+        catalog,
+        package,
+        PaperContextInputV1::Preview {
+            cbor_base64: encode_payload(&input).unwrap(),
+        },
+    )
+    else {
+        panic!("preview response")
+    };
+    decode_payload(&decision_cbor_base64).unwrap()
 }

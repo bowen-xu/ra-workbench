@@ -1,0 +1,1 @@
+select revision from collection_state where id = 1

@@ -8615,6 +8615,10 @@
           "name": "export_fixture",
           "path": null,
           "visibility": "private"
+        },
+        {
+          "name": "wait_policy_fixtures",
+          "visibility": "private"
         }
       ]
     },
@@ -8846,6 +8850,10 @@
         },
         {
           "name": "catalog_save_faults",
+          "visibility": "private"
+        },
+        {
+          "name": "protocol",
           "visibility": "private"
         }
       ]
@@ -10680,6 +10688,10 @@
         {
           "name": "matrix",
           "visibility": "private"
+        },
+        {
+          "name": "fixtures",
+          "visibility": "pub(super)"
         }
       ]
     },
@@ -13414,6 +13426,65 @@
       "owner": "app",
       "role": "app",
       "reason": "Explicit development-only transport through registered Tauri commands; Core retains the command handlers, ACL and lifecycle.",
+      "moduleDeclarations": []
+    },
+    {
+      "file": "apps/desktop/src-tauri/src/core/runtime_plugins/literature_trace/service/context_metadata/tests/actual_package/protocol.rs",
+      "module": "crate::runtime_plugins::literature_trace::service::context_metadata::tests::actual_package::protocol",
+      "owner": "core",
+      "role": "test",
+      "reason": "Selected-package acceptance reuses the existing finite Native protocol lifecycle.",
+      "moduleDeclarations": []
+    },
+    {
+      "file": "apps/desktop/src-tauri/src/core/runtime_plugins/literature_trace/service/context_metadata/tests/wait_policy_fixtures.rs",
+      "module": "crate::runtime_plugins::literature_trace::service::context_metadata::tests::wait_policy_fixtures",
+      "owner": "core",
+      "role": "test",
+      "reason": "Core-owned finite policy responses and fixed SQL contract input for authority and transaction tests.",
+      "moduleDeclarations": [
+        {
+          "name": "sql",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "file": "apps/desktop/src-tauri/src/core/runtime_plugins/literature_trace/service/context_metadata/tests/wait_policy_fixtures/sql.rs",
+      "module": "crate::runtime_plugins::literature_trace::service::context_metadata::tests::wait_policy_fixtures::sql",
+      "owner": "core",
+      "role": "test",
+      "reason": "Core-owned finite policy responses and fixed SQL contract input for authority and transaction tests.",
+      "moduleDeclarations": []
+    },
+    {
+      "file": "apps/desktop/src-tauri/src/core/runtime_plugins/literature_trace/service/context_metadata/tests/analysis_workflow_waits/fixtures.rs",
+      "module": "crate::runtime_plugins::literature_trace::service::context_metadata::tests::analysis_workflow_waits::fixtures",
+      "owner": "core",
+      "role": "test",
+      "reason": "Core-owned finite policy responses and fixed SQL contract input for authority and transaction tests.",
+      "moduleDeclarations": []
+    },
+    {
+      "file": "apps/desktop/src-tauri/src/core/agent/paper_migration/tests/images.rs",
+      "module": "crate::agent::paper_migration::tests::images",
+      "owner": "core",
+      "role": "test",
+      "reason": "Original Core image migration, hash, retry and conflict authority regression.",
+      "moduleDeclarations": [
+        {
+          "name": "source",
+          "path": "images_source.rs",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "file": "apps/desktop/src-tauri/src/core/agent/paper_migration/tests/images_source.rs",
+      "module": "crate::agent::paper_migration::tests::images::source",
+      "owner": "core",
+      "role": "test",
+      "reason": "Fixed accepted reading observations for Core image migration and retry authority tests.",
       "moduleDeclarations": []
     }
   ],

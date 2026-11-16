@@ -33,7 +33,7 @@ pub(crate) fn literature_fixture(
     })).unwrap()).unwrap();
     fs::create_dir(directory.join("data")).unwrap();
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../tests/fixtures/context-resources-v1/literature_library");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in [
         "trace-read.v1.sql",
         "trace-expire.v1.sql",
@@ -346,4 +346,38 @@ fn browser_capture_requires_its_original_catalog_and_attachment_capabilities() {
             assert!(accept_browser_capture(&catalog, &key).is_err());
         }
     }
+}
+
+/// Test-only consumer of the selected plugin's public catalog protocol.
+/// The existing Core transport owns staging, process I/O, bounds and shutdown.
+pub(crate) fn catalog_oracle(
+    catalog: &RuntimePluginCatalog,
+    key: &str,
+    input: research_workbench_native_sdk::catalog::CatalogInput,
+) -> research_workbench_native_sdk::catalog::CatalogOutput {
+    std::thread::scope(|scope| {
+        scope
+            .spawn(move || {
+                tokio::runtime::Builder::new_current_thread()
+                    .enable_all()
+                    .build()
+                    .unwrap()
+                    .block_on(async move {
+                        use crate::runtime_plugins::native::{
+                            NativeProfile, transport::NativeHost,
+                        };
+                        let profile = NativeProfile::NoteTraceDecision;
+                        let staged = stage_for(catalog, key, profile).unwrap();
+                        let mut host = NativeHost::spawn_for(staged, key, profile).unwrap();
+                        host.initialize().await.unwrap();
+                        let result = host
+                            .catalog_call(input, std::time::Duration::from_secs(60))
+                            .await;
+                        host.shutdown().await.unwrap();
+                        result.unwrap()
+                    })
+            })
+            .join()
+            .expect("bounded public Native oracle completed")
+    })
 }

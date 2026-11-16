@@ -94,7 +94,7 @@ impl Fixture {
             .push(json!({"id":"literature.nal-query-collections","version":1}));
         fs::write(&manifest_path, serde_json::to_vec(&manifest).unwrap()).unwrap();
         let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for name in ["nal-query-read.v1.sql", "nal-query-save.v1.sql"] {
             fs::copy(source.join(name), root.join("data").join(name)).unwrap();
         }

@@ -59,12 +59,9 @@ fn complete_merge_and_original_undo_preserve_the_core_note() {
         op.id.clone(),
     )
     .unwrap();
-    let plan = research_literature_library_native::duplicate_undo::prepare(
-        &research_workbench_native_sdk::duplicate_undo::UndoMergePrepareInputV1 {
-            snapshot_json: captured.snapshot_json.clone(),
-        },
-    )
-    .unwrap();
+    let plan = crate::runtime_plugins::literature_duplicate_undo::tests::fixture::prepared_undo(
+        &captured.snapshot_json,
+    );
     crate::runtime_plugins::literature_duplicate_undo::apply(
         &mut f.data.db.lock().unwrap(),
         &undo,

@@ -135,7 +135,7 @@ async fn actual_package_candidate_revision_keeps_original_core_field_hash_protec
     let (catalog, key) = actual_package();
     let mut f = Fixture::new();
     f.bind_actual_package(catalog, key.clone());
-    let mut value = json!({"kind":"paper_overview_unit_v1","schemaVersion":1,"profileId":"generic_overview_v1","fields":research_literature_library_native::analysis_workflow::candidate::GENERIC_OVERVIEW_FIELDS.iter().map(|field|json!({"field":field,"status":"not_found","statements":[]})).collect::<Vec<_>>()});
+    let mut value = json!({"kind":"paper_overview_unit_v1","schemaVersion":1,"profileId":"generic_overview_v1","fields":research_workbench_native_sdk::candidate_contracts::GENERIC_OVERVIEW_FIELDS.iter().map(|field|json!({"field":field,"status":"not_found","statements":[]})).collect::<Vec<_>>()});
     let field = serde_json::to_string(&value["fields"][0]).unwrap();
     let hash = format!("{:x}", Sha256::digest(field.as_bytes()));
     let name = value["fields"][0]["field"].as_str().unwrap().to_owned();
@@ -195,7 +195,7 @@ async fn actual_package_reference_revision_errors_keep_original_order_without_wr
     invalid[0].candidate_id = "missing-candidate".into();
     invalid[1].expected_revision = 0;
     invalid[2].payload = serde_json::Value::Null;
-    invalid[3].payload = json!({"kind":"paper_overview_unit_v1","schemaVersion":1,"profileId":"generic_overview_v1","fields":research_literature_library_native::analysis_workflow::candidate::GENERIC_OVERVIEW_FIELDS.iter().map(|field|json!({"field":field,"status":"not_found","statements":[]})).collect::<Vec<_>>()});
+    invalid[3].payload = json!({"kind":"paper_overview_unit_v1","schemaVersion":1,"profileId":"generic_overview_v1","fields":research_workbench_native_sdk::candidate_contracts::GENERIC_OVERVIEW_FIELDS.iter().map(|field|json!({"field":field,"status":"not_found","statements":[]})).collect::<Vec<_>>()});
     invalid[4].payload["fields"][0]["evidenceItemIds"] = json!(["outside-evidence"]);
     for request in invalid {
         let expected = {

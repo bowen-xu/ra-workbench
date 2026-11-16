@@ -10,14 +10,13 @@ use research_workbench_native_sdk::{
 use std::fs;
 
 fn output(input: Input) -> CatalogOutput {
-    research_literature_library_native::catalog::dispatch(
+    protocol::catalog(
         research_workbench_native_sdk::catalog::CatalogInput::PreparePaperConfirmation {
             input: Box::new(PaperConfirmationWireInputV1 {
                 cbor_base64: encode_payload(&input).unwrap(),
             }),
         },
     )
-    .unwrap()
 }
 pub(super) fn request() -> Request {
     Request::ConfirmOverview {
@@ -46,12 +45,7 @@ fn inputs(f: &Fixture) -> Vec<Input> {
             |row| row.get(0),
         )
         .unwrap();
-    let qualified = research_literature_library_native::paper_confirmation::overview::qualify(
-        &candidate,
-        &draft,
-        research_literature_library_native::analysis_workflow::candidate::decode_candidate_value,
-    )
-    .unwrap();
+    let qualified = protocol::qualify(&candidate, &draft).unwrap();
     let mut inputs = vec![
         Input::Request { request: request() },
         Input::OverviewCandidate {
@@ -72,8 +66,7 @@ fn inputs(f: &Fixture) -> Vec<Input> {
             field: Box::new(field.clone()),
         };
         let PaperConfirmationDecisionV1::OverviewField { plan } =
-            research_literature_library_native::paper_confirmation::wire::prepare(input.clone())
-                .unwrap()
+            protocol::confirmation(input.clone()).unwrap()
         else {
             panic!("field plan")
         };
@@ -110,7 +103,7 @@ fn configure(f: &mut Fixture, outputs: &[CatalogOutput], gate: Option<usize>, fa
     }
     fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for entry in fs::read_dir(source).unwrap() {
         let entry = entry.unwrap();
         let name = entry.file_name();

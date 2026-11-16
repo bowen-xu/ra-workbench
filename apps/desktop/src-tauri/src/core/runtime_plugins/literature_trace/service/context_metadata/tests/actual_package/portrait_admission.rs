@@ -4,8 +4,7 @@ use crate::ai::{JsonCredentialStore, generation_support::AiTaskSpecDraft};
 
 fn draft(f: &Fixture) -> (JsonCredentialStore, AiTaskSpecDraft) {
     let (credentials, input) = analysis_overview::seeded_task(f);
-    let mut draft =
-        research_literature_library_native::analysis_workflow::overview_task::task(&input);
+    let mut draft = protocol::overview_task(&input);
     draft.task_kind = "paper_profile_classification".into();
     draft.paper_template_ref = None;
     draft.overview_profile_selection_revision = None;
@@ -53,11 +52,7 @@ async fn actual_package_portrait_preview_and_admission_reuse_original_scope_and_
     let (catalog, key) = actual_package();
     let mut f = Fixture::new();
     let (credentials, mut draft) = draft(&f);
-    let expected = prepared_preview(&f.store.connection().unwrap(),
-        &credentials,
-        &draft,
-    )
-    .unwrap();
+    let expected = prepared_preview(&f.store.connection().unwrap(), &credentials, &draft).unwrap();
     f.bind_actual_package(catalog, key.clone());
     assert!(f.store.generation_policy_source().is_none());
     assert!(f.store.paper_generation_source().is_none());
@@ -307,11 +302,7 @@ async fn actual_package_portrait_preview_keeps_original_invalid_input_order_and_
     let expected: Vec<_> = cases
         .iter()
         .map(|draft| {
-            prepared_preview(&f.store.connection().unwrap(),
-                &credentials,
-                draft,
-            )
-            .unwrap_err()
+            prepared_preview(&f.store.connection().unwrap(), &credentials, draft).unwrap_err()
         })
         .collect();
     f.bind_actual_package(catalog, key.clone());

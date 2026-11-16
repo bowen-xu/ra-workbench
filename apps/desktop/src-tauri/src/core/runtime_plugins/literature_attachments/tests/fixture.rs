@@ -31,7 +31,7 @@ impl Fixture {
         .unwrap();
         fs::write(selected.join("entry.js"), "export {};\n").unwrap();
         let original = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../tests/fixtures/attachment-resources-v1");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for entry in fs::read_dir(&original).unwrap() {
             let entry = entry.unwrap();
             let name = entry.file_name();

@@ -2,10 +2,20 @@
 use super::{WritingContextError, WritingResourceFile, WritingResourceSource};
 use rusqlite::Connection;
 
+static FILE_KINDS: std::sync::LazyLock<
+    research_workbench_native_sdk::writing_file::FileKindPolicyV1,
+> = std::sync::LazyLock::new(|| {
+    serde_json::from_str(include_str!(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../../tests/fixtures/context-resources-v1/writing_projects/project-file-kinds.v1.json"
+    )))
+    .expect("versioned public file-kind contract fixture")
+});
+
 pub(crate) fn source() -> WritingResourceSource {
     WritingResourceSource {
         source_directory: super::source_directory,
-        is_text_path: research_writing_projects_native::projects::is_text_path,
+        is_text_path: |path| FILE_KINDS.is_text_path(path),
         list_host_files,
         list_text_paths,
     }

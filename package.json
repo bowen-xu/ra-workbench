@@ -43,7 +43,6 @@
     "note:protocol": "node scripts/generate-note-text-protocol.mjs",
     "models:prepare": "node scripts/docling-models.mjs",
     "models:fetch": "node scripts/fetch-docling-models.mjs",
-    "test-dependencies:install": "node scripts/install-test-dependencies.mjs",
     "check": "pnpm typecheck && pnpm test && pnpm connector:check && pnpm check:rust",
     "connector:check": "pnpm --filter @research-assistant/chrome-connector check && pnpm --filter @research-assistant/chrome-connector test",
     "check:rust": "pnpm check:native-boundaries && pnpm check:data-runtime && pnpm check:docling && pnpm prepare:docling && pnpm check:agent && pnpm prepare:semantic-engine && cargo fmt --manifest-path apps/desktop/semantic-engine/Cargo.toml --check && cargo clippy --manifest-path apps/desktop/semantic-engine/Cargo.toml -- -D warnings && cargo test --manifest-path apps/desktop/semantic-engine/Cargo.toml && cargo fmt --manifest-path apps/desktop/src-tauri/Cargo.toml --check && cargo clippy --manifest-path apps/desktop/src-tauri/Cargo.toml --all-targets --features development-data -- -D warnings && node scripts/run-native-tests.mjs --manifest-path apps/desktop/src-tauri/Cargo.toml --features development-data && cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml --features development-data content::gc::tests::marks_ten_thousand_objects_within_the_frozen_budget -- --exact --ignored --test-threads=1",

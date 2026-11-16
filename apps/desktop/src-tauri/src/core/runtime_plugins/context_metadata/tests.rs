@@ -22,7 +22,7 @@ fn package_fixture() -> (
     .unwrap();
     fs::write(directory.join("entry.js"), "export {};").unwrap();
     let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in ["header", "creators", "identifiers"] {
         let file = format!("context-metadata-{name}.v1.sql");
         fs::copy(source.join(&file), directory.join("data").join(file)).unwrap();

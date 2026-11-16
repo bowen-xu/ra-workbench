@@ -1,0 +1,1 @@
+update bibliographic_items set pages = ?2 where id = ?1

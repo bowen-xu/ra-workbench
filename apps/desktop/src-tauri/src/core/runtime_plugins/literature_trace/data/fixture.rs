@@ -108,7 +108,8 @@ impl PackageFixture {
 }
 
 pub(super) fn resource_directory() -> std::path::PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../plugins/literature_library/native/data")
+    Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../../tests/fixtures/native-resources-v1/literature")
 }
 
 pub(super) fn hash(text: &str) -> String {

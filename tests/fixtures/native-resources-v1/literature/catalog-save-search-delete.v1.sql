@@ -1,0 +1,1 @@
+delete from literature_search where item_id = ?1

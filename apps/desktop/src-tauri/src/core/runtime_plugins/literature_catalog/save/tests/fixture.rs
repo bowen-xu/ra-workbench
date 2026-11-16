@@ -130,7 +130,7 @@ pub(super) fn package(directory: &Path, name: &str) -> (SaveResources, CatalogRe
     )
     .unwrap();
     let original = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in READS {
         let file = format!("catalog-{name}.v1.sql");
         fs::copy(original.join(&file), root.join("data").join(file)).unwrap();

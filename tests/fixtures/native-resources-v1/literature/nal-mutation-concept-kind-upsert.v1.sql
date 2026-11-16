@@ -1,0 +1,1 @@
+insert into nal_concept_kinds(concept_id,kind) values (?1,?2) on conflict(concept_id) do update set kind=excluded.kind

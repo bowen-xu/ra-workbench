@@ -8,12 +8,10 @@ fn fixture() -> (
 ) {
     let f = Fixture::new();
     let (credentials, input) = actual_package::analysis_overview::seeded_task(&f);
-    let mut task =
-        research_literature_library_native::analysis_workflow::overview_task::task(&input);
+    let mut task = fixtures::task(&input);
     let (run, items) = {
         let mut db = f.store.connection().unwrap();
-        let preview =
-            actual_package::prepared_preview( &db, &credentials, &task).unwrap();
+        let preview = fixtures::preview(&db, &credentials, &task).unwrap();
         task.confirmed_scope_hash = Some(preview.scope_hash);
         task.cloud_consent_version = Some("ai-cloud-consent-v1".into());
         let mut identities = crate::ai::generation_support::RunCreateIdentities::new(
@@ -27,7 +25,7 @@ fn fixture() -> (
             &task,
             None,
             &mut identities,
-            |db| actual_package::prepared_preview( db, &credentials, &task),
+            |db| fixtures::preview(db, &credentials, &task),
             |_, _, _| {
                 Err(crate::ai::error::AiError::CapabilityUnavailable(
                     "literature_library.paper_generation_source",
@@ -35,9 +33,7 @@ fn fixture() -> (
             },
         )
         .unwrap();
-        let items = actual_package::prepared_context(&db, "paper", &["selected".into()])
-            .unwrap()
-            .context_items;
+        let items = fixtures::context().context_items;
         (run, items)
     };
     (f, run, items)
@@ -54,11 +50,7 @@ async fn docling_wait_releases_the_original_guard_and_rejects_changed_title() {
         })
         .unwrap(),
     };
-    let row = research_literature_library_native::analysis_workflow::docling::evidence_row(
-        &run.id, &items[0],
-    )
-    .unwrap()
-    .unwrap();
+    let row = fixtures::docling_row(&run.id, &items[0]).unwrap().unwrap();
     let output = CatalogOutput::AnalysisWorkflow {
         outcome: Box::new(WorkflowWireOutcomeV1 {
             input: WorkflowWireInputV1 {
@@ -71,7 +63,7 @@ async fn docling_wait_releases_the_original_guard_and_rejects_changed_title() {
         }),
     };
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for suffix in ["existing", "title", "bundle", "anchor", "item", "context"] {
         let file = format!("analysis-docling-evidence-{suffix}.v1.sql");
         fs::copy(
@@ -147,18 +139,35 @@ async fn docling_wait_releases_the_original_guard_and_rejects_changed_title() {
 async fn accepted_docling_evidence_retains_ownership_after_caller_loss_and_drains_on_shutdown() {
     for close in [false, true] {
         let (mut f, run, items) = fixture();
-        let outputs = items.iter().map(|item| {
-            let input = WorkflowInputV1::DoclingRow { input_cbor_base64: encode_payload(&DoclingRowInputV1 { run_id: run.id.clone(), item: item.clone() }).unwrap() };
-            let decision = match research_literature_library_native::analysis_workflow::docling::evidence_row(&run.id,item).unwrap() {
-                Some(row) => DoclingRowDecisionV1::Ready { row }, None => DoclingRowDecisionV1::Skipped {},
-            };
-            CatalogOutput::AnalysisWorkflow { outcome: Box::new(WorkflowWireOutcomeV1 {
-                input: WorkflowWireInputV1 { cbor_base64: encode_payload(&input).unwrap() },
-                decision_cbor_base64: encode_payload(&WorkflowDecisionV1::DoclingRow { decision }).unwrap(),
-            }) }
-        }).collect::<Vec<_>>();
+        let outputs = items
+            .iter()
+            .map(|item| {
+                let input = WorkflowInputV1::DoclingRow {
+                    input_cbor_base64: encode_payload(&DoclingRowInputV1 {
+                        run_id: run.id.clone(),
+                        item: item.clone(),
+                    })
+                    .unwrap(),
+                };
+                let decision = match fixtures::docling_row(&run.id, item).unwrap() {
+                    Some(row) => DoclingRowDecisionV1::Ready { row },
+                    None => DoclingRowDecisionV1::Skipped {},
+                };
+                CatalogOutput::AnalysisWorkflow {
+                    outcome: Box::new(WorkflowWireOutcomeV1 {
+                        input: WorkflowWireInputV1 {
+                            cbor_base64: encode_payload(&input).unwrap(),
+                        },
+                        decision_cbor_base64: encode_payload(&WorkflowDecisionV1::DoclingRow {
+                            decision,
+                        })
+                        .unwrap(),
+                    }),
+                }
+            })
+            .collect::<Vec<_>>();
         let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for suffix in ["existing", "title", "bundle", "anchor", "item", "context"] {
             let file = format!("analysis-docling-evidence-{suffix}.v1.sql");
             fs::copy(

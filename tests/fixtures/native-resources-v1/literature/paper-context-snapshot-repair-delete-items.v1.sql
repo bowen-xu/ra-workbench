@@ -1,0 +1,1 @@
+delete from paper_context_items where snapshot_id=?1

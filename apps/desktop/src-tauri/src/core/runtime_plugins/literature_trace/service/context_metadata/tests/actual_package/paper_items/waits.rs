@@ -17,12 +17,11 @@ fn fixture(wrong: bool) -> (Fixture, AiSuggestionItemDecisionDraft) {
     value["concepts"].as_array_mut().unwrap().truncate(1);
     value["relations"] = json!([]);
     let mut candidate = generic_reading::seed(&f, value.clone());
-    let decoded =
-        research_literature_library_native::analysis_workflow::candidate::decode_candidate_value(
-            value.clone(),
-            &std::collections::HashSet::from(["ev-quote".into()]),
-        )
-        .unwrap();
+    let decoded = protocol::decode_candidate_value(
+        value.clone(),
+        &std::collections::HashSet::from(["ev-quote".into()]),
+    )
+    .unwrap();
     for reference in decoded.citation_references() {
         candidate = crate::ai::review_support::record_citation_assessment_with(
             &f.store.connection().unwrap(),
@@ -58,9 +57,7 @@ fn fixture(wrong: bool) -> (Fixture, AiSuggestionItemDecisionDraft) {
         candidate_revision: 1,
         sources: vec![("ev-quote".into(), "legacy-anchor".into())],
     };
-    let Decision::Promotion { result: Ok(plan) } =
-        research_literature_library_native::candidate_review::paper::decide(promotion.clone())
-    else {
+    let Decision::Promotion { result: Ok(plan) } = protocol::paper_review(promotion.clone()) else {
         panic!("paper plan")
     };
     let KnowledgePromotionV1::PaperConcept(paper) = *plan else {
@@ -162,26 +159,16 @@ fn fixture(wrong: bool) -> (Fixture, AiSuggestionItemDecisionDraft) {
         .map(|(ordinal, input)| {
             let decision = match &input {
                 WorkflowInputV1::Candidate { input } => WorkflowDecisionV1::Candidate {
-                    decision:
-                        research_literature_library_native::analysis_workflow::candidate::decide(
-                            *input.clone(),
-                        )
-                        .unwrap(),
+                    decision: protocol::candidate(*input.clone()),
                 },
                 WorkflowInputV1::PaperConceptReview { input } => {
                     WorkflowDecisionV1::PaperConceptReview {
-                        decision:
-                            research_literature_library_native::candidate_review::paper::decide(
-                                *input.clone(),
-                            ),
+                        decision: protocol::paper_review(*input.clone()),
                     }
                 }
                 WorkflowInputV1::SuggestionReview { input } => {
                     WorkflowDecisionV1::SuggestionReview {
-                        decision:
-                            research_literature_library_native::candidate_review::items::decide(
-                                *input.clone(),
-                            ),
+                        decision: protocol::item_review(*input.clone()),
                     }
                 }
                 _ => unreachable!(),
@@ -216,7 +203,7 @@ fn fixture(wrong: bool) -> (Fixture, AiSuggestionItemDecisionDraft) {
     }
     fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
     let source = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for entry in fs::read_dir(source).unwrap() {
         let entry = entry.unwrap();
         if entry.path().extension().is_some_and(|ext| ext == "sql") {

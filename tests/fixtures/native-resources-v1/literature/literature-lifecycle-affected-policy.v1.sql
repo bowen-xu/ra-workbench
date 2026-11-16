@@ -1,0 +1,1 @@
+select case when ?1 = 0 then 'not_found' else null end

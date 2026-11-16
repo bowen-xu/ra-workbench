@@ -26,10 +26,8 @@ async fn actual_package_prepares_analysis_sources_images_and_snapshot_without_re
         .iter()
         .map(|image| image.context_item_id.clone())
         .collect::<Vec<_>>();
-    let missing = crate::ai::error::AiError::InvalidInput(
-        research_literature_library_native::paper_context_prepare::image_set(&requested, &[])
-            .unwrap_err(),
-    );
+    let missing =
+        crate::ai::error::AiError::InvalidInput(protocol::image_set(&requested, &[]).unwrap_err());
     // Extraction has no legacy-session or model-hint query in this stage.
     f.store
         .connection()
@@ -101,11 +99,7 @@ async fn actual_package_prepares_analysis_sources_images_and_snapshot_without_re
         let hash = PaperReadingImages::new(&db, &f.store)
             .save(&image.data_url)
             .unwrap();
-        research_literature_library_native::paper_context_prepare::image_set(
-            &requested,
-            std::slice::from_ref(&image.context_item_id),
-        )
-        .unwrap();
+        protocol::image_set(&requested, std::slice::from_ref(&image.context_item_id)).unwrap();
         paper_preparation::seed_snapshot(
             &mut db,
             "paper",

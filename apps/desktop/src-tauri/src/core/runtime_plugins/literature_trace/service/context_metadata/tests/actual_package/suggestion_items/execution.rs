@@ -62,17 +62,16 @@ async fn qualify_with_inspection(
     inspect: bool,
 ) -> AiCandidate {
     let (value, _) = current_payload_source(candidate).unwrap();
-    let decoded: CandidatePayload =
-        research_literature_library_native::analysis_workflow::candidate::decode_candidate_value(
-            value,
-            &candidate
-                .evidence_bundle
-                .items
-                .iter()
-                .map(|item| item.citation_key.clone())
-                .collect(),
-        )
-        .unwrap();
+    let decoded: CandidatePayload = protocol::decode_candidate_value(
+        value,
+        &candidate
+            .evidence_bundle
+            .items
+            .iter()
+            .map(|item| item.citation_key.clone())
+            .collect(),
+    )
+    .unwrap();
     for reference in decoded.citation_references() {
         for key in reference.evidence_item_ids {
             let item = candidate

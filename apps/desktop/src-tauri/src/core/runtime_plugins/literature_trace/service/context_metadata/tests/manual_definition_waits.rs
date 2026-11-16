@@ -37,7 +37,7 @@ fn fixture() -> (Fixture, DefinitionClaimDraft) {
         .enumerate()
         .map(|(ordinal, input)| {
             let decision = WorkflowDecisionV1::KnowledgeValidation {
-                decision: research_literature_library_native::knowledge_promotion::decide(&input),
+                decision: super::wait_policy_fixtures::knowledge("manual_definition_waits", &input),
             };
             let input = WorkflowInputV1::KnowledgeValidation {
                 ordinal,
@@ -63,14 +63,7 @@ fn fixture() -> (Fixture, DefinitionClaimDraft) {
             .push(json!({"id":id,"version":1}));
     }
     fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
-    let resources = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
-    for entry in fs::read_dir(resources).unwrap() {
-        let entry = entry.unwrap();
-        if entry.path().extension().is_some_and(|ext| ext == "sql") {
-            fs::copy(entry.path(), directory.join("data").join(entry.file_name())).unwrap();
-        }
-    }
+    super::wait_policy_fixtures::install_knowledge_sql(&directory);
     f.configure(&outputs, Some(1), false);
     f.bind();
     (f, draft)

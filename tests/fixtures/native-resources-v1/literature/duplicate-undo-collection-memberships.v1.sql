@@ -1,0 +1,1 @@
+select item_id, collection_id from collection_memberships order by item_id, collection_id

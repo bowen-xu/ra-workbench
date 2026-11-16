@@ -1,0 +1,441 @@
+{
+  "context": {
+    "attachmentStatuses": [
+      {
+        "attachmentId": "selected",
+        "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "displayName": "fixture.pdf",
+        "parseRunId": "prepare-parse",
+        "parseStatus": "available"
+      }
+    ],
+    "contextItems": [
+      {
+        "attachmentId": "selected",
+        "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "id": "P1-T1",
+        "kind": "text",
+        "pageIndex": 0,
+        "paperId": "paper",
+        "parseRunId": "prepare-parse",
+        "rawRef": "#/texts/0",
+        "regions": [
+          {
+            "pageIndex": 0,
+            "rect": {
+              "height": 0.1,
+              "width": 0.5,
+              "x": 0.1,
+              "y": 0.1
+            }
+          }
+        ],
+        "sourceTextHash": "259ca838be0319893b9db7ec9d8b026f0633524dc28d04df1333c63eb3097f3e",
+        "text": "Prepared evidence Ω"
+      },
+      {
+        "attachmentId": "selected",
+        "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "id": "P1-TABLE1",
+        "kind": "table",
+        "pageIndex": 0,
+        "paperId": "paper",
+        "parseRunId": "prepare-parse",
+        "rawRef": "#/tables/0",
+        "regions": [
+          {
+            "pageIndex": 0,
+            "rect": {
+              "height": 0.09999999999999998,
+              "width": 0.5,
+              "x": 0.1,
+              "y": 0.25
+            }
+          }
+        ],
+        "sourceTextHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "tableJson": null
+      },
+      {
+        "attachmentId": "selected",
+        "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "id": "P1-F1",
+        "kind": "picture",
+        "label": "figure",
+        "pageIndex": 0,
+        "paperId": "paper",
+        "parseRunId": "prepare-parse",
+        "rawRef": "#/pictures/0",
+        "regions": [
+          {
+            "pageIndex": 0,
+            "rect": {
+              "height": 0.20000000000000007,
+              "width": 0.5,
+              "x": 0.1,
+              "y": 0.4
+            }
+          }
+        ]
+      }
+    ],
+    "imageRequests": [
+      {
+        "attachmentId": "selected",
+        "contextItemId": "P1-F1",
+        "label": "figure",
+        "pageIndex": 0,
+        "regions": [
+          {
+            "pageIndex": 0,
+            "rect": {
+              "height": 0.20000000000000007,
+              "width": 0.5,
+              "x": 0.1,
+              "y": 0.4
+            }
+          }
+        ]
+      }
+    ],
+    "pictureItemCount": 1,
+    "tableItemCount": 1,
+    "textItemCount": 1
+  },
+  "contextCbor": "pnJhdHRhY2htZW50U3RhdHVzZXOBpWxhdHRhY2htZW50SWRoc2VsZWN0ZWRrZGlzcGxheU5hbWVrZml4dHVyZS5wZGZtY29udGVudFNoYTI1NnhAYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWpwYXJzZVJ1bklkbXByZXBhcmUtcGFyc2VrcGFyc2VTdGF0dXNpYXZhaWxhYmxlbGNvbnRleHRJdGVtc4OrYmlkZVAxLVQxZ3BhcGVySWRlcGFwZXJsYXR0YWNobWVudElkaHNlbGVjdGVkbWNvbnRlbnRTaGEyNTZ4QGFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFqcGFyc2VSdW5JZG1wcmVwYXJlLXBhcnNlZnJhd1JlZmkjL3RleHRzLzBka2luZGR0ZXh0aXBhZ2VJbmRleABncmVnaW9uc4GiaXBhZ2VJbmRleABkcmVjdKRhePs/uZmZmZmZmmF5+z+5mZmZmZmaZXdpZHRo+TgAZmhlaWdodPs/uZmZmZmZmm5zb3VyY2VUZXh0SGFzaHhAMjU5Y2E4MzhiZTAzMTk4OTNiOWRiN2VjOWQ4YjAyNmYwNjMzNTI0ZGMyOGQwNGRmMTMzM2M2M2ViMzA5N2YzZWR0ZXh0dFByZXBhcmVkIGV2aWRlbmNlIM6pq2JpZGlQMS1UQUJMRTFncGFwZXJJZGVwYXBlcmxhdHRhY2htZW50SWRoc2VsZWN0ZWRtY29udGVudFNoYTI1NnhAYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWpwYXJzZVJ1bklkbXByZXBhcmUtcGFyc2VmcmF3UmVmaiMvdGFibGVzLzBka2luZGV0YWJsZWlwYWdlSW5kZXgAZ3JlZ2lvbnOBomlwYWdlSW5kZXgAZHJlY3SkYXj7P7mZmZmZmZphefk0AGV3aWR0aPk4AGZoZWlnaHT7P7mZmZmZmZhuc291cmNlVGV4dEhhc2h4QDc0MjM0ZTk4YWZlNzQ5OGZiNWRhZjFmMzZhYzJkNzhhY2MzMzk0NjRmOTUwNzAzYjhjMDE5ODkyZjk4MmI5MGJpdGFibGVKc29uoWdQcmVzZW509qpiaWRlUDEtRjFncGFwZXJJZGVwYXBlcmxhdHRhY2htZW50SWRoc2VsZWN0ZWRtY29udGVudFNoYTI1NnhAYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWpwYXJzZVJ1bklkbXByZXBhcmUtcGFyc2VmcmF3UmVmbCMvcGljdHVyZXMvMGRraW5kZ3BpY3R1cmVlbGFiZWxmZmlndXJlaXBhZ2VJbmRleABncmVnaW9uc4GiaXBhZ2VJbmRleABkcmVjdKRhePs/uZmZmZmZmmF5+z/ZmZmZmZmaZXdpZHRo+TgAZmhlaWdodPs/yZmZmZmZnG1pbWFnZVJlcXVlc3RzgaVtY29udGV4dEl0ZW1JZGVQMS1GMWxhdHRhY2htZW50SWRoc2VsZWN0ZWRpcGFnZUluZGV4AGdyZWdpb25zgaJpcGFnZUluZGV4AGRyZWN0pGF4+z+5mZmZmZmaYXn7P9mZmZmZmZpld2lkdGj5OABmaGVpZ2h0+z/JmZmZmZmcZWxhYmVsZmZpZ3VyZW10ZXh0SXRlbUNvdW50AW50YWJsZUl0ZW1Db3VudAFwcGljdHVyZUl0ZW1Db3VudAE=",
+  "contextInput": {
+    "attachments": [
+      {
+        "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "displayName": "fixture.pdf",
+        "hasStaleParse": false,
+        "id": "selected",
+        "parse": {
+          "id": "prepare-parse",
+          "jsonContent": {
+            "pages": {
+              "1": {
+                "page_no": 1,
+                "size": {
+                  "height": 400.0,
+                  "width": 200.0
+                }
+              }
+            },
+            "pictures": [
+              {
+                "label": "figure",
+                "prov": [
+                  {
+                    "bbox": {
+                      "b": 240.0,
+                      "l": 20.0,
+                      "r": 120.0,
+                      "t": 160.0
+                    },
+                    "page_no": 1
+                  }
+                ],
+                "self_ref": "#/pictures/0"
+              }
+            ],
+            "tables": [
+              {
+                "data": null,
+                "prov": [
+                  {
+                    "bbox": {
+                      "b": 140.0,
+                      "l": 20.0,
+                      "r": 120.0,
+                      "t": 100.0
+                    },
+                    "page_no": 1
+                  }
+                ],
+                "self_ref": "#/tables/0"
+              }
+            ],
+            "texts": [
+              {
+                "prov": [
+                  {
+                    "bbox": {
+                      "b": 80.0,
+                      "l": 20.0,
+                      "r": 120.0,
+                      "t": 40.0
+                    },
+                    "page_no": 1
+                  }
+                ],
+                "self_ref": "#/texts/0",
+                "text": "Prepared evidence Ω"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "paperId": "paper"
+  },
+  "doclingRows": [
+    {
+      "item": {
+        "attachmentId": "selected",
+        "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "id": "P1-T1",
+        "kind": "text",
+        "pageIndex": 0,
+        "paperId": "paper",
+        "parseRunId": "prepare-parse",
+        "rawRef": "#/texts/0",
+        "regions": [
+          {
+            "pageIndex": 0,
+            "rect": {
+              "height": 0.1,
+              "width": 0.5,
+              "x": 0.1,
+              "y": 0.1
+            }
+          }
+        ],
+        "sourceTextHash": "259ca838be0319893b9db7ec9d8b026f0633524dc28d04df1333c63eb3097f3e",
+        "text": "Prepared evidence Ω"
+      },
+      "itemCbor": "q2JpZGVQMS1UMWdwYXBlcklkZXBhcGVybGF0dGFjaG1lbnRJZGhzZWxlY3RlZG1jb250ZW50U2hhMjU2eEBhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhanBhcnNlUnVuSWRtcHJlcGFyZS1wYXJzZWZyYXdSZWZpIy90ZXh0cy8wZGtpbmRkdGV4dGlwYWdlSW5kZXgAZ3JlZ2lvbnOBomlwYWdlSW5kZXgAZHJlY3SkYXj7P7mZmZmZmZphefs/uZmZmZmZmmV3aWR0aPk4AGZoZWlnaHT7P7mZmZmZmZpuc291cmNlVGV4dEhhc2h4QDI1OWNhODM4YmUwMzE5ODkzYjlkYjdlYzlkOGIwMjZmMDYzMzUyNGRjMjhkMDRkZjEzMzNjNjNlYjMwOTdmM2VkdGV4dHRQcmVwYXJlZCBldmlkZW5jZSDOqQ==",
+      "row": {
+        "anchorId": "docling:__run_id__:P1-T1",
+        "context": "[P1-T1] kind=text page=1 rawRef=#/texts/0 text=Prepared evidence Ω",
+        "pageIndex": 0,
+        "pageLabel": "1",
+        "quote": "Prepared evidence Ω",
+        "rectsJson": "[{\"x\":0.1,\"y\":0.1,\"width\":0.5,\"height\":0.1}]"
+      }
+    },
+    {
+      "item": {
+        "attachmentId": "selected",
+        "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "id": "P1-TABLE1",
+        "kind": "table",
+        "pageIndex": 0,
+        "paperId": "paper",
+        "parseRunId": "prepare-parse",
+        "rawRef": "#/tables/0",
+        "regions": [
+          {
+            "pageIndex": 0,
+            "rect": {
+              "height": 0.09999999999999998,
+              "width": 0.5,
+              "x": 0.1,
+              "y": 0.25
+            }
+          }
+        ],
+        "sourceTextHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+        "tableJson": null
+      },
+      "itemCbor": "q2JpZGlQMS1UQUJMRTFncGFwZXJJZGVwYXBlcmxhdHRhY2htZW50SWRoc2VsZWN0ZWRtY29udGVudFNoYTI1NnhAYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWpwYXJzZVJ1bklkbXByZXBhcmUtcGFyc2VmcmF3UmVmaiMvdGFibGVzLzBka2luZGV0YWJsZWlwYWdlSW5kZXgAZ3JlZ2lvbnOBomlwYWdlSW5kZXgAZHJlY3SkYXj7P7mZmZmZmZphefk0AGV3aWR0aPk4AGZoZWlnaHT7P7mZmZmZmZhuc291cmNlVGV4dEhhc2h4QDc0MjM0ZTk4YWZlNzQ5OGZiNWRhZjFmMzZhYzJkNzhhY2MzMzk0NjRmOTUwNzAzYjhjMDE5ODkyZjk4MmI5MGJpdGFibGVKc29uoWdQcmVzZW509g==",
+      "row": {
+        "anchorId": "docling:__run_id__:P1-TABLE1",
+        "context": "[P1-TABLE1] kind=table page=1 rawRef=#/tables/0 table=null",
+        "pageIndex": 0,
+        "pageLabel": "1",
+        "quote": "null",
+        "rectsJson": "[{\"x\":0.1,\"y\":0.25,\"width\":0.5,\"height\":0.09999999999999998}]"
+      }
+    },
+    {
+      "item": {
+        "attachmentId": "selected",
+        "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "id": "P1-F1",
+        "kind": "picture",
+        "label": "figure",
+        "pageIndex": 0,
+        "paperId": "paper",
+        "parseRunId": "prepare-parse",
+        "rawRef": "#/pictures/0",
+        "regions": [
+          {
+            "pageIndex": 0,
+            "rect": {
+              "height": 0.20000000000000007,
+              "width": 0.5,
+              "x": 0.1,
+              "y": 0.4
+            }
+          }
+        ]
+      },
+      "itemCbor": "qmJpZGVQMS1GMWdwYXBlcklkZXBhcGVybGF0dGFjaG1lbnRJZGhzZWxlY3RlZG1jb250ZW50U2hhMjU2eEBhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhanBhcnNlUnVuSWRtcHJlcGFyZS1wYXJzZWZyYXdSZWZsIy9waWN0dXJlcy8wZGtpbmRncGljdHVyZWVsYWJlbGZmaWd1cmVpcGFnZUluZGV4AGdyZWdpb25zgaJpcGFnZUluZGV4AGRyZWN0pGF4+z+5mZmZmZmaYXn7P9mZmZmZmZpld2lkdGj5OABmaGVpZ2h0+z/JmZmZmZmc",
+      "row": {
+        "anchorId": "docling:__run_id__:P1-F1",
+        "context": "[P1-F1] kind=picture page=1 rawRef=#/pictures/0 label=figure",
+        "pageIndex": 0,
+        "pageLabel": "1",
+        "quote": "figure",
+        "rectsJson": "[{\"x\":0.1,\"y\":0.4,\"width\":0.5,\"height\":0.20000000000000007}]"
+      }
+    }
+  ],
+  "pageInput": {
+    "attachment": {
+      "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "indexState": "completed",
+      "paperId": "paper",
+      "paperTitle": "Metadata Ω"
+    },
+    "pages": [
+      [
+        0,
+        "Research question. Methods. Results. Synthetic page Ω"
+      ]
+    ]
+  },
+  "pagePreview": [
+    {
+      "anchorId": "ai-overview-2adcd79b4d52a1291241e557353880f8f4f9aec5d2be6be65e4b5f5019f565e5",
+      "attachmentId": "selected",
+      "citationKey": "ev-page-1",
+      "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "contextText": "Research question. Methods. Results. Synthetic page Ω",
+      "pageIndex": 0,
+      "pageLabel": "1",
+      "paperTitle": "Metadata Ω",
+      "quoteExact": "Research question. Methods. Results. Synthetic page Ω",
+      "relationKind": "direct_quote"
+    }
+  ],
+  "pageRows": [
+    {
+      "citationKey": "ev-page-1",
+      "context": "Research question. Methods. Results. Synthetic page Ω",
+      "source": {
+        "anchorId": "ai-overview-2adcd79b4d52a1291241e557353880f8f4f9aec5d2be6be65e4b5f5019f565e5",
+        "attachmentId": "selected",
+        "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pageIndex": 0,
+        "paperId": "paper",
+        "paperTitle": "Metadata Ω",
+        "quoteExact": "Research question. Methods. Results. Synthetic page Ω",
+        "quotePrefix": "",
+        "quoteSuffix": ""
+      }
+    }
+  ],
+  "profile": {
+    "fieldKinds": [
+      "question"
+    ],
+    "paperId": "paper",
+    "paperTemplate": {
+      "fields": [
+        {
+          "claimIds": [],
+          "id": "question",
+          "question": "研究什么？",
+          "title": "问题"
+        }
+      ],
+      "templateResourceId": "__template_id__",
+      "templateResourceRevision": 1
+    },
+    "profileRefs": [],
+    "selectionRevision": 1
+  },
+  "selection": [
+    {
+      "anchorId": "reference-anchor",
+      "attachmentId": "selected",
+      "citationKey": "ev-quote",
+      "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "contextText": "Synthetic reference.",
+      "pageIndex": 0,
+      "pageLabel": "1",
+      "paperTitle": "Metadata Ω",
+      "quoteExact": "Synthetic reference.",
+      "relationKind": "direct_quote"
+    },
+    {
+      "anchorId": "reference-anchor",
+      "attachmentId": "selected",
+      "citationKey": "ev-context",
+      "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "contextText": "Before. Synthetic reference. After.",
+      "pageIndex": 0,
+      "pageLabel": "1",
+      "paperTitle": "Metadata Ω",
+      "quoteExact": "Synthetic reference.",
+      "relationKind": "context"
+    }
+  ],
+  "selectionInput": {
+    "anchorId": "reference-anchor",
+    "attachmentId": "selected",
+    "contentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "pageIndex": 0,
+    "pageLabel": "1",
+    "paperId": "paper",
+    "paperTitle": "Metadata Ω",
+    "quoteExact": "Synthetic reference.",
+    "quotePrefix": "Before. ",
+    "quoteSuffix": " After."
+  },
+  "task": {
+    "baseCandidateId": null,
+    "baseCandidateRevision": null,
+    "cloudConsentVersion": null,
+    "confirmedScopeHash": null,
+    "matrixSynthesisContext": null,
+    "maxInputTokens": 64000,
+    "maxOutputTokens": 4000,
+    "modelSelection": {
+      "modelId": "synthetic-text-model",
+      "providerId": "deepseek",
+      "reasoningEffort": null
+    },
+    "outputSchemaVersion": 1,
+    "overviewFields": [],
+    "overviewProfileSelectionRevision": null,
+    "paperTemplateRef": {
+      "templateResourceId": "__template_id__",
+      "templateResourceRevision": 1
+    },
+    "pipelineVersion": "paper-overview-docling-runtime-v1",
+    "promptVersion": "paper-overview-docling-context-v3",
+    "providerId": "",
+    "scopeItems": [
+      {
+        "contentSha256": null,
+        "itemKind": "attachment",
+        "objectId": "selected",
+        "objectRevision": null,
+        "parentObjectId": "paper"
+      }
+    ],
+    "suggestionCandidateKind": null,
+    "taskKind": "paper_overview",
+    "timeoutMs": 120000,
+    "userGoal": "按用户确认的阅读框架，从 Docling 结构化上下文中逐字段提取候选，并为每条原子陈述引用结构化块 ID。"
+  },
+  "taskInput": {
+    "attachmentIds": [
+      "selected"
+    ],
+    "modelSelection": {
+      "modelId": "synthetic-text-model",
+      "providerId": "deepseek",
+      "reasoningEffort": null
+    },
+    "paperId": "paper",
+    "selectionRevision": 0,
+    "template": {
+      "templateResourceId": "__template_id__",
+      "templateResourceRevision": 1
+    }
+  }
+}

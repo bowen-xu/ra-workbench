@@ -5,8 +5,7 @@ use crate::ai::{generation_support as runs, task_evidence_support::TaskEvidenceF
 pub(super) fn fixture(kind: &str) -> (Fixture, String, Vec<CatalogOutput>) {
     let mut f = Fixture::new();
     let (credentials, input) = actual_package::analysis_overview::seeded_task(&f);
-    let mut draft =
-        research_literature_library_native::analysis_workflow::overview_task::task(&input);
+    let mut draft = fixtures::task(&input);
     draft.task_kind = kind.into();
     draft.paper_template_ref = None;
     draft.overview_profile_selection_revision = None;
@@ -26,7 +25,7 @@ pub(super) fn fixture(kind: &str) -> (Fixture, String, Vec<CatalogOutput>) {
     }
     let run = {
         let mut db = f.store.connection().unwrap();
-        let preview = actual_package::prepared_preview( &db, &credentials, &draft).unwrap();
+        let preview = fixtures::preview(&db, &credentials, &draft).unwrap();
         draft.confirmed_scope_hash = Some(preview.scope_hash);
         draft.cloud_consent_version = Some("ai-cloud-consent-v1".into());
         let mut identities =
@@ -36,7 +35,7 @@ pub(super) fn fixture(kind: &str) -> (Fixture, String, Vec<CatalogOutput>) {
             &draft,
             None,
             &mut identities,
-            |db| actual_package::prepared_preview( db, &credentials, &draft),
+            |db| fixtures::preview(db, &credentials, &draft),
             |_, _, _| Err(crate::ai::error::AiError::TemporaryUnavailable),
         )
         .unwrap()
@@ -46,10 +45,7 @@ pub(super) fn fixture(kind: &str) -> (Fixture, String, Vec<CatalogOutput>) {
         let source = TaskEvidenceFacts::new(&db)
             .anchor("reference-anchor")
             .unwrap();
-        let result =
-            research_literature_library_native::analysis_workflow::task_preview::selection::preview(
-                source.clone(),
-            );
+        let result = Ok(fixtures::selection_rows(source.clone()));
         vec![(
             WorkflowInputV1::SelectionEvidence { source },
             WorkflowDecisionV1::SelectionEvidence { result },
@@ -59,10 +55,22 @@ pub(super) fn fixture(kind: &str) -> (Fixture, String, Vec<CatalogOutput>) {
         let facts = TaskEvidenceFacts::new(&db);
         let attachment = facts.attachment("selected").unwrap().unwrap();
         let pages = facts.page_texts("selected").unwrap();
-        let policy = research_literature_library_native::analysis_workflow::task_preview::pages::select_pages(&attachment,"selected",&pages).unwrap();
+        let policy = fixtures::page_rows(&attachment, &pages);
         vec![
-            (WorkflowInputV1::PageAttachment { attachment:Some(attachment.clone()) }, WorkflowDecisionV1::Validated { rejection:None }),
-            (WorkflowInputV1::PageSources { attachment_id:"selected".into(),attachment,pages }, WorkflowDecisionV1::PageSources { result:Ok(research_literature_library_native::analysis_workflow::task_preview::pages::prepare_rows(&policy)) }),
+            (
+                WorkflowInputV1::PageAttachment {
+                    attachment: Some(attachment.clone()),
+                },
+                WorkflowDecisionV1::Validated { rejection: None },
+            ),
+            (
+                WorkflowInputV1::PageSources {
+                    attachment_id: "selected".into(),
+                    attachment,
+                    pages,
+                },
+                WorkflowDecisionV1::PageSources { result: Ok(policy) },
+            ),
         ]
     };
     let outputs = inputs

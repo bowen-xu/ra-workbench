@@ -8,13 +8,10 @@ use research_workbench_native_sdk::{
 fn output(input: WorkflowInputV1, wrong: bool) -> CatalogOutput {
     let decision = match &input {
         WorkflowInputV1::CandidateReview { input } => WorkflowDecisionV1::CandidateReview {
-            decision: research_literature_library_native::candidate_review::decide(*input.clone()),
+            decision: fixtures::review(*input.clone()),
         },
         WorkflowInputV1::Candidate { input } => WorkflowDecisionV1::Candidate {
-            decision: research_literature_library_native::analysis_workflow::candidate::decide(
-                *input.clone(),
-            )
-            .unwrap(),
+            decision: fixtures::candidate(*input.clone()).unwrap(),
         },
         _ => unreachable!(),
     };
@@ -136,11 +133,7 @@ async fn review_concurrent_same_key_follows_original_replay_instead_of_old_rule_
     assert!(f.entered(1).await);
     let store = f.store.clone();
     let mut writer = tokio::task::spawn_blocking(move || {
-        actual_package::defer_candidate(
-            &mut store.connection().unwrap(),
-            concurrent,
-        )
-        .unwrap()
+        fixtures::defer_candidate(&mut store.connection().unwrap(), concurrent).unwrap()
     });
     let released = tokio::time::timeout(WAIT, &mut writer).await;
     f.release();

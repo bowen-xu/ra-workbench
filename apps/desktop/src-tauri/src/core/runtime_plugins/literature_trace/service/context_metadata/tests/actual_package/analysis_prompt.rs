@@ -58,19 +58,7 @@ async fn actual_package_analysis_prompt_preserves_core_grants_text_and_composer_
         profile: None,
         preferences: "".into(),
     };
-    let expected =
-        research_literature_library_native::analysis_workflow::task_prompt::render_current(
-            &input.task_template,
-            &input.reading_contract,
-            input
-                .sources
-                .iter()
-                .map(|entry| (&entry.source, entry.resource.clone())),
-            &input.kind,
-            input.profile.as_ref(),
-            &input.preferences,
-        )
-        .unwrap();
+    let expected = protocol::render_prompt(&input).unwrap();
     f.bind_actual_package(catalog, key.clone());
     assert!(f.store.generation_policy_source().is_none());
     let (result, origin) = f

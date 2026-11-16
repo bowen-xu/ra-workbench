@@ -1,0 +1,1 @@
+select '旧上下位关系','从旧集合 sub-field 迁移的有向二元关系；不作为继承，传递性需显式定义。' where exists(select 1 from json_each(?1) where json_extract(value,'$.typeId')='sub-field')

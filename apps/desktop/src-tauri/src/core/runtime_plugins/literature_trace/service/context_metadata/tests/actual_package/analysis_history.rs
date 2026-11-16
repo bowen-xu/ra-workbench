@@ -57,13 +57,8 @@ fn expected_latest(
         &request,
         &resources.statements(),
     )?;
-    Ok(
-        research_literature_library_native::analysis_history::project(HistoryInputV1 {
-            request,
-            workflow,
-        })
-        .expect("latest history projects an optional captured workflow"),
-    )
+    Ok(protocol::history(HistoryInputV1 { request, workflow })
+        .expect("latest history projects an optional captured workflow"))
 }
 async fn read(
     f: &Fixture,

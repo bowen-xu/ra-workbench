@@ -30,7 +30,7 @@ impl Fixture {
         .unwrap();
         fs::write(root.join("index.js"), "export {};\n").unwrap();
         let original = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         // Copy immutable source files, but the production loader accepts only
         // its 33 fixed grants. This fixture supplies no alternate SQL executor.
         for entry in fs::read_dir(original).unwrap() {

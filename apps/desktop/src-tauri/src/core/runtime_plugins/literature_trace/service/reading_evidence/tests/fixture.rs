@@ -38,7 +38,7 @@ pub(super) fn package() -> (tempfile::TempDir, Arc<RuntimePluginCatalog>, String
         .push(json!({"id":crate::runtime_plugins::reading_evidence::CAPABILITY_ID,"version":1}));
     fs::write(file, serde_json::to_vec(&manifest).unwrap()).unwrap();
     let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in [
         "reading-evidence-snapshot-hash.v1.sql",
         "reading-evidence-snapshot-rows.v1.sql",

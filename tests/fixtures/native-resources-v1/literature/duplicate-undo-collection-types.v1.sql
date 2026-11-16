@@ -1,0 +1,1 @@
+select id, name, inverse_name, directed, built_in from collection_relation_types order by id

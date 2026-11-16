@@ -1,0 +1,47 @@
+{
+  "formatVersion": 1,
+  "purpose": "Explicit finite policy responses for Core context authority, transaction and process lifecycle tests",
+  "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+  "sourceRevision": "42b1508ef4c88a4381a33fd1b79fe61aed2a36ae",
+  "sourceFiles": [
+    {
+      "file": "native/src/paper_context.rs",
+      "sha256": "8ed746d56b7f81e27767fa08353f43d15d98fbb04a19e9cfcdc30937bd449cfd"
+    },
+    {
+      "file": "native/src/paper_context_snapshot.rs",
+      "sha256": "d88f92a307bc0c632ae24190c4261fb3ae5283c5e6b371bac7511a90f9f03177"
+    },
+    {
+      "file": "native/src/paper_context_preview.rs",
+      "sha256": "d50cfdb169e70ea65b85dc9500e1345312fb920634e7467dbc2a8a44aea9831e"
+    },
+    {
+      "file": "native/src/paper_context_prepare.rs",
+      "sha256": "1fb2467c611ff7904fc385e97ad88f2fb893d1089df6ee2fec6739c46711cdec"
+    },
+    {
+      "file": "native/src/paper_retrieval.rs",
+      "sha256": "ca09155589557e9f4c70598b2ad696d2139e108a7fcc82a5179e037a1be49e96"
+    },
+    {
+      "file": "native/src/catalog/paper_context.rs",
+      "sha256": "dd44a10c2201e42ab0ac4cb2426d20b52a748b41e0cd9d0bbb235e4443839c78"
+    }
+  ],
+  "coreInputRevision": "8aa2bee1afd3bd166b7fd082f2b850221fcf7b31",
+  "sourceTests": [
+    "runtime_plugins::literature_trace::service::structured_source::tests",
+    "agent::paper_migration::tests::images",
+    "capture_prepared_context_policy_fixture"
+  ],
+  "fixture": "cases.json",
+  "sha256": "c582fd3fa797a6ab7e7d04e7121388d657a80f2573259abbe7428071f86c4628",
+  "cases": 21,
+  "additionalFixtures": [
+    {
+      "file": "prepared-paper.json",
+      "sha256": "321d187ff21aebbc511d003421d4e8901eb8a2d53b23573b2e4fb307d4fcb14a"
+    }
+  ]
+}

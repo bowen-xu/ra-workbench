@@ -210,7 +210,7 @@ impl Fixture {
         )
         .unwrap();
         let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for key in [
             "ids",
             "record",

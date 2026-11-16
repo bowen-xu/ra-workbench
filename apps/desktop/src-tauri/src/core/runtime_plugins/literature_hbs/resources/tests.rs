@@ -18,7 +18,7 @@ fn fixture(
     .unwrap();
     fs::write(directory.join("entry.js"), "export {};").unwrap();
     let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in ["snapshot-hash", "snapshot-rows", "validation-latest"] {
         if name == "validation-latest" && !latest {
             continue;

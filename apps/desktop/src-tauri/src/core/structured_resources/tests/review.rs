@@ -110,7 +110,12 @@ fn invalid_partial_first_generation_undo_is_rejected_and_whole_generation_undo_r
         None,
         Some(vec!["research_question"]),
     );
-    let error = crate::hbs_storage::test_sources::review(
+    let error = crate::structured_resources::review_with(
+        &mut crate::hbs_storage::test_sources::Sources::rejecting_at(
+            json!({}),
+            "$",
+            "declared incomplete partial-undo response",
+        ),
         &mut db,
         ReviewDraft {
             resource_id: target.id.clone(),
@@ -120,7 +125,9 @@ fn invalid_partial_first_generation_undo_is_rejected_and_whole_generation_undo_r
             field_ids: None,
             scope: Some("all".into()),
         },
+        crate::structured_resources::ReviewRoute::Static,
     )
+    .map_err(crate::hbs_storage::boundary::BoundaryError::into_static)
     .unwrap_err();
     assert!(error.to_string().contains("撤销快捷键"));
     assert_eq!(get(&db, &target.id).unwrap().revision, kept.revision);

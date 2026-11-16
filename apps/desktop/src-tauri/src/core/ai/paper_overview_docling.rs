@@ -65,19 +65,56 @@ pub(crate) fn persist_docling_evidence(
     items: &[PaperAiReadingContextItem],
     assets: &BTreeMap<String, StoredImageAsset>,
 ) -> Result<AiEvidenceBundle, AiError> {
-    use research_literature_library_native::analysis_workflow::docling as rules;
+    macro_rules! sql {
+        ($name:literal) => {
+            include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/../../../tests/fixtures/native-resources-v1/literature/analysis-docling-evidence-",
+                $name,
+                ".v1.sql"
+            ))
+        };
+    }
     let statements = super::docling_generation_support::DoclingStatements {
-        existing: rules::EXISTING_SQL,
-        title: rules::TITLE_SQL,
-        bundle: rules::BUNDLE_SQL,
-        anchor: rules::ANCHOR_SQL,
-        item: rules::ITEM_SQL,
-        context: rules::CONTEXT_SQL,
+        existing: sql!("existing"),
+        title: sql!("title"),
+        bundle: sql!("bundle"),
+        anchor: sql!("anchor"),
+        item: sql!("item"),
+        context: sql!("context"),
     };
     super::docling_generation_support::persist_docling_evidence(
         db,
         &statements,
-        |run, item| rules::evidence_row(run, item).map_err(Into::into),
+        |run, item| {
+            use research_workbench_native_sdk::analysis_workflow::docling::DoclingEvidenceRow;
+            let (page_index, quote, context) = match item.id.as_str() {
+                "P1-T1" => {
+                    assert_eq!(item.page_index, Some(0));
+                    assert!(item.regions.is_empty());
+                    let text = item.text.clone().expect("authored text evidence");
+                    (
+                        0,
+                        text.clone(),
+                        format!("[P1-T1] kind=text page=1 rawRef=#/texts/0 text={text}"),
+                    )
+                }
+                "P1-TABLE1" => {
+                    assert_eq!(item.page_index, Some(2));
+                    assert!(item.regions.is_empty());
+                    (2, "table".into(), "[P1-TABLE1] kind=table page=3 rawRef=#/tables/0 label=table table={\"grid\":[[\"A\"]]}".into())
+                }
+                other => panic!("missing authored evidence response for {other}"),
+            };
+            Ok(Some(DoclingEvidenceRow {
+                anchor_id: format!("docling:{run}:{}", item.id),
+                page_index,
+                page_label: (page_index + 1).to_string(),
+                rects_json: "[]".into(),
+                quote,
+                context,
+            }))
+        },
         run,
         items,
         assets,
@@ -91,16 +128,9 @@ mod tests {
 
     use super::*;
     const OVERVIEW_PROMPT_VERSION: &str = "paper-overview-docling-context-v3";
-    const RETRIEVAL_CONFIG_VERSION: &str = "docling-structured-context-v1";
-    use crate::ai::model::{
-        AiOverviewProfileContext, AiReadingProfileRef, PaperAiReadingRect, PaperAiReadingRegion,
-    };
+    use crate::ai::model::AiOverviewProfileContext;
     use crate::ai::paper_reading::ProviderImage;
     use crate::storage::migrate;
-    use research_literature_library_native::analysis_workflow::docling_prompt::build_overview_input;
-    use research_workbench_native_sdk::{
-        analysis_workflow::docling::DoclingPromptInputV1, candidate_contracts::EvidenceQuote,
-    };
 
     #[test]
     fn modality_detection_keeps_text_requests_on_text_transport() {
@@ -128,197 +158,6 @@ mod tests {
         };
         assert!(!input_has_images(&text));
         assert!(input_has_images(&image));
-    }
-
-    #[test]
-    fn overview_input_uses_docling_context_ids_as_evidence_ids() {
-        let run = AiRun {
-            id: "run".to_owned(),
-            task_kind: "paper_overview".to_owned(),
-            status: "generating".to_owned(),
-            provider_id: "qwen".to_owned(),
-            model_id: "qwen-vl".to_owned(),
-            reasoning_effort: None,
-            pipeline_version: "paper-overview-docling-runtime-v1".to_owned(),
-            prompt_version: OVERVIEW_PROMPT_VERSION.to_owned(),
-            output_schema_version: 1,
-            user_goal: "goal".to_owned(),
-            scope_hash: "scope".to_owned(),
-            input_item_count: 1,
-            max_input_tokens: 64_000,
-            max_output_tokens: 4_000,
-            timeout_ms: 120_000,
-            cloud_consent_version: None,
-            cloud_consented_at: None,
-            cancel_requested: false,
-            input_tokens: None,
-            output_tokens: None,
-            cache_hit_tokens: None,
-            cache_miss_tokens: None,
-            error_code: None,
-            error_message: None,
-            created_at: "now".to_owned(),
-            started_at: None,
-            finished_at: None,
-            updated_at: "now".to_owned(),
-            scope_items: Vec::new(),
-            stages: Vec::new(),
-            overview_retry: None,
-            overview_profile: Some(AiOverviewProfileContext {
-                paper_template: None,
-                paper_id: "paper".to_owned(),
-                selection_revision: 1,
-                profile_refs: vec![AiReadingProfileRef {
-                    profile_id: "generic_overview".to_owned(),
-                    profile_version: 1,
-                }],
-                field_kinds: vec!["research_question".to_owned(), "approach".to_owned()],
-            }),
-            suggestion_candidate_kind: None,
-            matrix_synthesis_context: None,
-            shared_conversation_id: None,
-            shared_request_id: None,
-            shared_turn_id: None,
-            shared_turn_outcome: None,
-            shared_candidate_id: None,
-            shared_terminal_status: None,
-        };
-        let region = PaperAiReadingRegion {
-            page_index: 0,
-            rect: PaperAiReadingRect {
-                x: 0.1,
-                y: 0.2,
-                width: 0.3,
-                height: 0.4,
-            },
-        };
-        let items = vec![
-            PaperAiReadingContextItem {
-                id: "P1-T1".to_owned(),
-                paper_id: "paper".to_owned(),
-                attachment_id: "att".to_owned(),
-                content_sha256: "a".repeat(64),
-                parse_run_id: "parse".to_owned(),
-                raw_ref: "#/texts/0".to_owned(),
-                kind: "text".to_owned(),
-                label: Some("paragraph".to_owned()),
-                page_index: Some(0),
-                regions: vec![region.clone()],
-                charspan: Some([0, 10]),
-                source_text_hash: Some("b".repeat(64)),
-                text: Some("The paper asks a question.".to_owned()),
-                table_json: None,
-            },
-            PaperAiReadingContextItem {
-                id: "P1-T2".to_owned(),
-                paper_id: "paper".to_owned(),
-                attachment_id: "att".to_owned(),
-                content_sha256: "a".repeat(64),
-                parse_run_id: "parse".to_owned(),
-                raw_ref: "#/texts/1".to_owned(),
-                kind: "text".to_owned(),
-                label: Some("paragraph".to_owned()),
-                page_index: Some(0),
-                regions: vec![region.clone()],
-                charspan: Some([11, 20]),
-                source_text_hash: Some("e".repeat(64)),
-                text: Some("This unbundled context must not be sent.".to_owned()),
-                table_json: None,
-            },
-            PaperAiReadingContextItem {
-                id: "P1-F1".to_owned(),
-                paper_id: "paper".to_owned(),
-                attachment_id: "att".to_owned(),
-                content_sha256: "a".repeat(64),
-                parse_run_id: "parse".to_owned(),
-                raw_ref: "#/pictures/0".to_owned(),
-                kind: "picture".to_owned(),
-                label: None,
-                page_index: Some(0),
-                regions: vec![region],
-                charspan: None,
-                source_text_hash: None,
-                text: None,
-                table_json: None,
-            },
-            PaperAiReadingContextItem {
-                id: "P1-TABLE1".to_owned(),
-                paper_id: "paper".to_owned(),
-                attachment_id: "att".to_owned(),
-                content_sha256: "a".repeat(64),
-                parse_run_id: "parse".to_owned(),
-                raw_ref: "#/tables/0".to_owned(),
-                kind: "table".to_owned(),
-                label: None,
-                page_index: Some(0),
-                regions: Vec::new(),
-                charspan: None,
-                source_text_hash: Some("c".repeat(64)),
-                text: None,
-                table_json: Some(json!({"grid":[["A"]]})),
-            },
-        ];
-        let bundle = AiEvidenceBundle {
-            id: "bundle".to_owned(),
-            run_id: "run".to_owned(),
-            scope_hash: "scope".to_owned(),
-            retrieval_config_version: RETRIEVAL_CONFIG_VERSION.to_owned(),
-            validation_status: "valid".to_owned(),
-            created_at: "now".to_owned(),
-            items: vec![evidence("P1-T1"), evidence("P1-F1"), evidence("P1-TABLE1")],
-        };
-        let mut assets = BTreeMap::new();
-        assets.insert(
-            "P1-F1".to_owned(),
-            StoredImageAsset {
-                context_item_id: "P1-F1".to_owned(),
-                content_sha256: "d".repeat(64),
-                data_url: "data:image/png;base64,AAAA".to_owned(),
-            },
-        );
-
-        let input = build_overview_input(&DoclingPromptInputV1 {
-            items,
-            assets,
-            profile: run.overview_profile,
-            evidence: bundle
-                .items
-                .iter()
-                .map(|item| EvidenceQuote {
-                    citation_key: item.citation_key.clone(),
-                    quote_exact: item.quote_exact.clone(),
-                })
-                .collect(),
-        })
-        .expect("input");
-
-        assert!(
-            input
-                .audit_text
-                .contains("\"allowedEvidenceItemIds\":[\"P1-T1\",\"P1-F1\",\"P1-TABLE1\"]")
-        );
-        assert!(input.audit_text.contains("\"outputJsonSkeleton\""));
-        assert!(!input.audit_text.contains("filled | partial | not_found"));
-        assert!(
-            input
-                .audit_text
-                .contains("\"kind\":\"paper_overview_unit_v1\"")
-        );
-        assert!(
-            input
-                .audit_text
-                .contains("The top-level kind must be exactly paper_overview_unit_v1")
-        );
-        assert!(input.audit_text.contains("evidenceItemIds"));
-        assert!(input.audit_text.contains("[P1-TABLE1] kind=table"));
-        assert!(!input.audit_text.contains("[P1-T2]"));
-        assert_eq!(input.messages.len(), 1);
-        assert_eq!(input.messages[0].images.len(), 1);
-        assert_eq!(input.messages[0].images[0].context_item_id, "P1-F1");
-        assert_eq!(
-            input.messages[0].images[0].data_url,
-            "data:image/png;base64,AAAA"
-        );
     }
 
     #[test]
@@ -449,29 +288,6 @@ mod tests {
             shared_turn_outcome: None,
             shared_candidate_id: None,
             shared_terminal_status: None,
-        }
-    }
-
-    fn evidence(citation_key: &str) -> crate::ai::model::AiEvidenceItem {
-        crate::ai::model::AiEvidenceItem {
-            id: format!("ev-{citation_key}"),
-            citation_key: citation_key.to_owned(),
-            ordinal: 0,
-            anchor_id: format!("anchor-{citation_key}"),
-            paper_id: "paper".to_owned(),
-            paper_title: "Paper".to_owned(),
-            attachment_id: "att".to_owned(),
-            content_sha256: "a".repeat(64),
-            page_index: 0,
-            page_label: Some("1".to_owned()),
-            quote_exact: "quote".to_owned(),
-            quote_prefix: String::new(),
-            quote_suffix: String::new(),
-            context_text: "context".to_owned(),
-            relation_kind: "direct_quote".to_owned(),
-            validation_status: "valid".to_owned(),
-            current_anchor_status: "exact".to_owned(),
-            created_at: "now".to_owned(),
         }
     }
 }

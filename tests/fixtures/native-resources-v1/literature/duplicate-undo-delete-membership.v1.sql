@@ -1,0 +1,1 @@
+delete from collection_memberships where item_id = ?1 and collection_id = ?2

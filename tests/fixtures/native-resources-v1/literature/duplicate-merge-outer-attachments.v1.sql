@@ -1,0 +1,1 @@
+select id from attachments where item_id = ?1

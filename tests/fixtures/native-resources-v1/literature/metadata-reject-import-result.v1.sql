@@ -1,0 +1,1 @@
+select import_result_id from metadata_candidates where id = ?1 and state = 'pending'

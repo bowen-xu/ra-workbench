@@ -28,7 +28,7 @@ impl Fixture {
         .unwrap();
         fs::write(root.join("index.js"), "export {};").unwrap();
         let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for file in ["nal-query-read.v1.sql", "nal-query-save.v1.sql"] {
             fs::copy(source.join(file), root.join("data").join(file)).unwrap();
         }

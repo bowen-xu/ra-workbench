@@ -48,8 +48,7 @@ pub(super) fn suggestion_task(
     crate::ai::generation_support::AiTaskSpecDraft,
 ) {
     let (credentials, input) = seeded_task(f);
-    let mut draft =
-        research_literature_library_native::analysis_workflow::overview_task::task(&input);
+    let mut draft = protocol::overview_task(&input);
     draft.task_kind = "paper_suggestions".into();
     draft.paper_template_ref = None;
     draft.overview_profile_selection_revision = None;
@@ -66,11 +65,8 @@ async fn actual_package_suggestion_preview_and_admission_keep_original_four_kind
         let (catalog, key) = actual_package();
         let mut f = Fixture::new();
         let (credentials, mut draft) = suggestion_task(&f, kind);
-        let expected = prepared_preview(&f.store.connection().unwrap(),
-            &credentials,
-            &draft,
-        )
-        .unwrap();
+        let expected =
+            prepared_preview(&f.store.connection().unwrap(), &credentials, &draft).unwrap();
         f.bind_actual_package(catalog, key.clone());
         assert!(f.store.generation_policy_source().is_none());
         assert!(f.store.paper_generation_source().is_none());
@@ -199,13 +195,9 @@ async fn actual_package_overview_task_and_preview_match_original_core_scope_hash
     let (catalog, key) = actual_package();
     let mut f = Fixture::new();
     let (credentials, input) = seeded_task(&f);
-    let expected_task =
-        research_literature_library_native::analysis_workflow::overview_task::task(&input);
-    let expected = prepared_preview(&f.store.connection().unwrap(),
-        &credentials,
-        &expected_task,
-    )
-    .unwrap();
+    let expected_task = protocol::overview_task(&input);
+    let expected =
+        prepared_preview(&f.store.connection().unwrap(), &credentials, &expected_task).unwrap();
     f.bind_actual_package(catalog, key.clone());
     assert!(f.store.generation_policy_source().is_none());
     let mut task = f
@@ -291,11 +283,8 @@ async fn actual_package_overview_task_and_preview_match_original_core_scope_hash
             [],
         )
         .unwrap();
-    let expected = prepared_preview(&f.store.connection().unwrap(),
-        &credentials,
-        &task,
-    )
-    .unwrap_err();
+    let expected =
+        prepared_preview(&f.store.connection().unwrap(), &credentials, &task).unwrap_err();
     let error = f
         .service
         .preview_analysis_overview(f.store.clone(), credentials, &key, task)

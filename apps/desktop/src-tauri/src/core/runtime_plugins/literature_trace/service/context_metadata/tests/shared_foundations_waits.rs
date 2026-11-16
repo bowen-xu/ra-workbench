@@ -21,7 +21,7 @@ impl KnowledgePolicy for Recorded {
         ordinal: usize,
         input: Input,
     ) -> Result<Decision, PromotionError<Infallible>> {
-        let decision = research_literature_library_native::knowledge_promotion::decide(&input);
+        let decision = super::wait_policy_fixtures::knowledge("shared_foundations_waits", &input);
         if let Some(previous) = self.0.insert(ordinal, input.clone()) {
             assert_eq!(previous, input);
         }
@@ -38,9 +38,7 @@ impl KnowledgePolicy for Recorded {
 fn fixture() -> Fixture {
     let mut f = Fixture::new();
     super::evolution_fixture::seed(&f);
-    let sql = KnowledgeSql::for_test(
-        &research_literature_library_native::knowledge_promotion::storage::static_sql(),
-    );
+    let sql = KnowledgeSql::for_test(super::wait_policy_fixtures::KNOWLEDGE_SQL);
     let mut policy = Recorded(BTreeMap::new());
     {
         let mut guard = f.store.connection().unwrap();
@@ -54,7 +52,10 @@ fn fixture() -> Fixture {
         .into_iter()
         .map(|(ordinal, input)| {
             let decision = WorkflowDecisionV1::KnowledgeValidation {
-                decision: research_literature_library_native::knowledge_promotion::decide(&input),
+                decision: super::wait_policy_fixtures::knowledge(
+                    "shared_foundations_waits",
+                    &input,
+                ),
             };
             let input = WorkflowInputV1::KnowledgeValidation {
                 ordinal,
@@ -80,18 +81,7 @@ fn fixture() -> Fixture {
             .push(json!({"id":id,"version":1}));
     }
     fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
-    let resources = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
-    for entry in fs::read_dir(resources).unwrap() {
-        let entry = entry.unwrap();
-        if entry
-            .path()
-            .extension()
-            .is_some_and(|extension| extension == "sql")
-        {
-            fs::copy(entry.path(), directory.join("data").join(entry.file_name())).unwrap();
-        }
-    }
+    super::wait_policy_fixtures::install_knowledge_sql(&directory);
     f.configure(&outputs, Some(1), false);
     f.bind();
     f

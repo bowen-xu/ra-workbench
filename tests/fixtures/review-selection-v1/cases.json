@@ -1,0 +1,75 @@
+[
+  {
+    "input": {
+      "pending": [
+        "$metadata",
+        "$order",
+        "approach",
+        "conclusion",
+        "key_result",
+        "limitation",
+        "open_question",
+        "research_question"
+      ],
+      "protected": [],
+      "reviewed": []
+    },
+    "selected": [
+      "$metadata",
+      "$order",
+      "approach",
+      "conclusion",
+      "key_result",
+      "limitation",
+      "open_question",
+      "research_question"
+    ]
+  },
+  {
+    "input": {
+      "pending": [
+        "approach",
+        "research_question"
+      ],
+      "protected": [
+        "research_question"
+      ],
+      "reviewed": []
+    },
+    "selected": [
+      "approach"
+    ]
+  },
+  {
+    "input": {
+      "pending": [
+        "research_question"
+      ],
+      "protected": [
+        "research_question"
+      ],
+      "reviewed": []
+    },
+    "selected": []
+  },
+  {
+    "input": {
+      "pending": [
+        "research_question"
+      ],
+      "protected": [],
+      "reviewed": []
+    },
+    "selected": [
+      "research_question"
+    ]
+  },
+  {
+    "input": {
+      "pending": [],
+      "protected": [],
+      "reviewed": []
+    },
+    "selected": []
+  }
+]

@@ -1,0 +1,1 @@
+update bibliographic_items set bibtex_key = ?2 where id = ?1

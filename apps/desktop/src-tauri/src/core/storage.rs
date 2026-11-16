@@ -359,6 +359,15 @@ impl AppStore {
     }
 
     #[cfg(test)]
+    pub(crate) fn with_test_paper_reading_source(
+        mut self,
+        source: crate::ai::paper_reading_source::PaperReadingSource,
+    ) -> Self {
+        self.paper_reading_source = Some(source);
+        self
+    }
+
+    #[cfg(test)]
     fn for_test_owner(connection: SharedDatabase, content_directory: PathBuf) -> Self {
         let data_directory = content_directory
             .parent()

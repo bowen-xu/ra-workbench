@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
+  "sourceRevision": "42b1508ef4c88a4381a33fd1b79fe61aed2a36ae",
+  "sources": [
+    {
+      "file": "native/src/duplicate_undo.rs",
+      "sha256": "21e2f9933de1b6ef5545d4cc40f7d3bacd8368683434c1ef2c390591036f8169"
+    },
+    {
+      "file": "native/src/nal_bootstrap/policy.rs",
+      "sha256": "9645c0f5509b46774cb5659f3642e1553fecfd65e48dc4f646aaa8e770c88b8e"
+    }
+  ],
+  "cases": 29,
+  "sha256": "3995fde96ab03bbbfd0f09880864c5c34eff1ce4118dedce0602062eda4bb6fb",
+  "binding": "Finite synthetic observations, with Core UUID equality relationships preserved and rebound into the recorded response; render-only Core timestamps omitted from matching; raw snapshot SHA bound to current request bytes",
+  "serialization": "Raw Rust JSON records concatenated without numeric parsing, preserving full-width i64 values"
+}

@@ -228,7 +228,6 @@ fn app_trace_bridge_preserves_scope_expiry_source_then_mark_and_sql_errors() {
 }
 
 fn trace_source() -> RetrievalTraceSource {
-    use research_literature_library_native::retrieval_trace::{self, RetrievalTraceError};
     use research_workbench_native_sdk::retrieval_trace::RetrievalTraceRow;
     use rusqlite::OptionalExtension;
     RetrievalTraceSource {
@@ -237,7 +236,7 @@ fn trace_source() -> RetrievalTraceSource {
                 .query_row(
                     include_str!(concat!(
                         env!("CARGO_MANIFEST_DIR"),
-                        "/../../../tests/fixtures/context-resources-v1/literature_library/trace-read.v1.sql"
+                        "/../../../tests/fixtures/native-resources-v1/literature/trace-read.v1.sql"
                     )),
                     [id],
                     |row| {
@@ -253,21 +252,34 @@ fn trace_source() -> RetrievalTraceSource {
                 )
                 .optional()
                 .map_err(E::Sql)?;
-            let validated = retrieval_trace::validate_context(scope, query, observed);
-            if matches!(validated, Err(RetrievalTraceError::Expired)) {
+            let observed = observed.expect("authored trace fixture exists");
+            // Finite policy responses for this Core transaction/error-order scenario.
+            if id == "expired" {
+                assert!(observed.expired);
                 db.execute(
                     include_str!(concat!(
                         env!("CARGO_MANIFEST_DIR"),
-                        "/../../../tests/fixtures/context-resources-v1/literature_library/trace-expire.v1.sql"
+                        "/../../../tests/fixtures/native-resources-v1/literature/trace-expire.v1.sql"
                     )),
                     [id],
                 )
                 .map_err(E::Sql)?;
+                return Err(E::Domain(RetrievalContextError::Conflict));
             }
-            let value = validated.map_err(|_| E::Domain(RetrievalContextError::Conflict))?;
+            if matches!(
+                (id, scope, query),
+                ("paper-trace", Some("other"), "question")
+                    | ("paper-trace", Some("paper"), "changed query")
+            ) {
+                return Err(E::Domain(RetrievalContextError::Conflict));
+            }
+            assert!(matches!(
+                (id, scope, query),
+                ("global", None, " question ") | ("paper-trace", Some("paper"), "question")
+            ));
             Ok(LoadedRetrievalContext {
                 trace_id: id.into(),
-                context_text: value.context_text,
+                context_text: observed.context_text,
             })
         },
         mark_sent: |db, id| {
@@ -275,13 +287,16 @@ fn trace_source() -> RetrievalTraceSource {
                 .execute(
                     include_str!(concat!(
                         env!("CARGO_MANIFEST_DIR"),
-                        "/../../../tests/fixtures/context-resources-v1/literature_library/trace-mark-sent.v1.sql"
+                        "/../../../tests/fixtures/native-resources-v1/literature/trace-mark-sent.v1.sql"
                     )),
                     [id],
                 )
                 .map_err(E::Sql)?;
-            retrieval_trace::validate_mark_sent(changed)
-                .map_err(|_| E::Domain(RetrievalContextError::Conflict))
+            assert_eq!(
+                u64::try_from(changed).unwrap(),
+                research_workbench_native_sdk::retrieval_trace::MARK_SENT_EXPECTED_ROWS
+            );
+            Ok(())
         },
     }
 }

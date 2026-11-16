@@ -1,0 +1,1 @@
+update nal_state set relation_semantics_version=1,revision=revision+1 where id=1

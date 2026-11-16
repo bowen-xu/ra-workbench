@@ -1,8 +1,5 @@
-# Core 上下文资源测试输入
+# Core 写作上下文测试输入
 
-这些固定 SQL 字节用于 Core 自身的上下文读取、证据读取和事务结算测试。
-来源仓库、精确提交和 SHA-256 记录于 `provenance.json`。测试通过合成数据库
-验证 Core 的读取、快照和结算行为，策略来源由各测试自己的装配代码选择。
-
-生产资源仍由对应 Native 插件包提供。夹具只参与本工程测试。变更资源契约时
-同步核对来源与摘要，并执行受影响的 Core 回归。
+保留原写作文件清单与文件类型策略的固定测试契约。来源提交及摘要记录于
+`provenance.json`，分类使用公开 Native SDK 的 FileKindPolicyV1。
+文献 SQL 契约集中在相邻 `native-resources-v1/literature`。

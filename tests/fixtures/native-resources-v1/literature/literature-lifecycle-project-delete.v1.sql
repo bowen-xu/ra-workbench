@@ -1,0 +1,1 @@
+delete from project_items where item_id = ?1

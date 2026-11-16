@@ -225,10 +225,16 @@ fn adopting_a_template_rejects_invalid_derived_fact_body_until_exact_quotes_are_
     assert!(original.template_ref.is_none());
     assert!(original.content.is_some());
     let global = published(&mut db, &["research_question"], "fact-template");
-    let failed = crate::hbs_storage::test_sources::adopt(
+    let failed = crate::structured_resources::adopt_template_with(
+        &mut crate::hbs_storage::test_sources::Sources::rejecting_at(
+            json!({"kind":"paper_overview_unit_v1"}),
+            "$",
+            "陈述 question-1 必须为每个引用来源提供一条连续原文摘录",
+        ),
         &mut db,
         adoption(&original, &global, true, "invalid-derived"),
-    );
+    )
+    .map_err(crate::hbs_storage::boundary::BoundaryError::into_static);
     assert!(matches!(failed, Err(Error::Invalid(_))));
     let unchanged = get(&db, &target.id).unwrap();
     assert_eq!(unchanged.revision, original.revision);
@@ -242,10 +248,16 @@ fn adopting_a_template_rejects_invalid_derived_fact_body_until_exact_quotes_are_
     )
     .unwrap()
     .resource;
-    let failed = crate::hbs_storage::test_sources::adopt(
+    let failed = crate::structured_resources::adopt_template_with(
+        &mut crate::hbs_storage::test_sources::Sources::rejecting_at(
+            json!({"kind":"paper_overview_unit_v1"}),
+            "$",
+            "陈述 question-1 必须为每个引用来源提供一条连续原文摘录",
+        ),
         &mut db,
         adoption(&original, &saved_template, true, "invalid-own-derived"),
-    );
+    )
+    .map_err(crate::hbs_storage::boundary::BoundaryError::into_static);
     assert!(matches!(failed, Err(Error::Invalid(_))));
     assert_eq!(get(&db, &target.id).unwrap().content, original.content);
     body["fields"][0]["statements"][0]["evidenceQuotes"] =

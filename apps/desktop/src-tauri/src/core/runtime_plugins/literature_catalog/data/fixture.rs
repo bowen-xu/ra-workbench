@@ -115,7 +115,7 @@ pub(super) fn package(directory: &Path) -> (RuntimePluginCatalog, RuntimePluginP
     )
     .unwrap();
     let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in FILES {
         let name = format!("catalog-{name}.v1.sql");
         fs::copy(source.join(&name), root.join("data").join(name)).unwrap();

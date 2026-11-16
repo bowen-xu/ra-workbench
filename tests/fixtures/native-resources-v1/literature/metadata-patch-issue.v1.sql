@@ -1,0 +1,1 @@
+update bibliographic_items set issue = ?2 where id = ?1

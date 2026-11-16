@@ -1,0 +1,1 @@
+delete from concept_search where concept_id=?1

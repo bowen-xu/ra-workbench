@@ -80,7 +80,11 @@ fn diagnostics_preserve_exact_quote_index_and_portrait_constraint_path() {
         "claims":claims,
         "template":[{"id":"question","title":"问题","question":"研究的问题","claimIds":["missing"]}]});
     let errors = super::super::validation::validate_write_with(
-        &mut crate::hbs_storage::test_sources::Sources::new(),
+        &mut crate::hbs_storage::test_sources::Sources::rejecting_at(
+            value.clone(),
+            "$.template[0].claimIds[0]",
+            "引用的判断 ID 不存在于 claims；请同步修复引用",
+        ),
         &db,
         &portrait,
         &value.to_string(),

@@ -1,0 +1,1 @@
+delete from nal_statements where id = ?1

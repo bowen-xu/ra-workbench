@@ -1,0 +1,1 @@
+select item_id,relation_id from item_relation_assignments order by item_id,relation_id

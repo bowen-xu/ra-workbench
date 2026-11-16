@@ -1,0 +1,1 @@
+select id,subject,predicate from nal_statements where origin='legacy' and json_extract(subject,'$.kind')='concept' and json_extract(predicate,'$.kind')='concept'

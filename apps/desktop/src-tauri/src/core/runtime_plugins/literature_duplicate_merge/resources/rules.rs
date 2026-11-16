@@ -320,7 +320,7 @@ pub(crate) mod tests {
         .unwrap();
         fs::write(root.join("index.js"), "export {};").unwrap();
         let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for entry in fs::read_dir(source).unwrap() {
             let entry = entry.unwrap();
             if entry.path().extension().is_some_and(|value| value == "sql") {

@@ -1,0 +1,1 @@
+select archived_at from bibliographic_items where id = ?1

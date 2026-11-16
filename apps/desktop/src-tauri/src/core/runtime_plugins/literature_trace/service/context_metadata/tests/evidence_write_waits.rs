@@ -8,17 +8,27 @@ use std::{fs, sync::Arc};
 struct Static;
 impl ClaimsPolicy for Static {
     fn validate(&mut self, input: EvidenceWriteInputV1) -> Result<(), ClaimsError> {
-        match research_literature_library_native::evidence_write::decide(&input).rejection {
-            None => Ok(()),
-            Some(reason) => Err(reason.into()),
+        match input {
+            EvidenceWriteInputV1::Claim {
+                statement,
+                epistemic_role,
+            } => {
+                assert!(matches!(
+                    statement.as_str(),
+                    "Manual original Ω" | "Concurrent accepted edit"
+                ));
+                assert_eq!(epistemic_role, "assertion");
+            }
+            EvidenceWriteInputV1::Stance { .. } => panic!("fixture preparation saves only a claim"),
         }
+        Ok(())
     }
 }
 fn sql() -> ClaimsSql {
     ClaimsSql::for_test(
-        &research_literature_library_native::evidence_write::storage::static_sql(),
+        &super::analysis_workflow_waits::fixtures::EVIDENCE_WRITE_SQL,
         crate::runtime_plugins::literature_evidence::EvidenceReadSql::for_test(
-            research_literature_library_native::evidence_read::static_sql(),
+            super::analysis_workflow_waits::fixtures::EVIDENCE_READ_SQL,
         ),
     )
 }
@@ -57,7 +67,7 @@ fn setup(update: bool, outputs: &[CatalogOutput], gate: Option<usize>) -> (Fixtu
         .push(json!({"id":"literature.evidence-write","version":1}));
     fs::write(path, serde_json::to_vec(&manifest).unwrap()).unwrap();
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for suffix in [
         "claim",
         "revision",

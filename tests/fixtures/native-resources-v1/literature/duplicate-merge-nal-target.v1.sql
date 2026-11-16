@@ -1,0 +1,1 @@
+select id from nal_statements where subject=?1 and predicate=?2

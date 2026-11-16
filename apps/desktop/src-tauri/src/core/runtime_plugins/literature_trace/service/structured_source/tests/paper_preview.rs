@@ -34,7 +34,7 @@ pub(super) fn prepare(fixture: &Fixture) -> (PaperContextRequest, Vec<CatalogOut
     ]
     .into_iter()
     .map(|capture| {
-        let decision = research_literature_library_native::paper_context_preview::evaluate(
+        let decision = crate::runtime_plugins::literature_context::test_fixture::preview(
             capture.input.clone(),
         );
         CatalogOutput::PaperContext {

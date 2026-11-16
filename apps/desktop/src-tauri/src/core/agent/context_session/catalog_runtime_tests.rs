@@ -34,7 +34,7 @@ fn package(catalog_read: bool) -> (tempfile::TempDir, Arc<LiteratureTraceService
         "native":{"protocolVersion":2,"os":std::env::consts::OS,"arch":std::env::consts::ARCH,"entry":"host"}
     })).unwrap()).unwrap();
     let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in ["papers", "pdf-attachments"] {
         let file = format!("context-catalog-{name}.v1.sql");
         fs::copy(source.join(&file), dir.join("data").join(file)).unwrap();

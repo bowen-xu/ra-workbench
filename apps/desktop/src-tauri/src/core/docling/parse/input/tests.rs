@@ -39,8 +39,9 @@ impl Fixture {
             .unwrap(),
         )
         .unwrap();
-        let original = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../tests/fixtures/attachment-resources-v1/attachment-content-path.v1.sql");
+        let original = Path::new(env!("CARGO_MANIFEST_DIR")).join(
+            "../../../tests/fixtures/native-resources-v1/literature/attachment-content-path.v1.sql",
+        );
         fs::copy(
             original,
             selected.join("data/attachment-content-path.v1.sql"),

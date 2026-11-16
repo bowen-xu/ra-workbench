@@ -95,8 +95,7 @@ async fn matrix_preview_wait_releases_guard_and_rechecks_original_matrix_revisio
     };
     let mut f = Fixture::new();
     let (credentials, input) = actual_package::analysis_overview::seeded_task(&f);
-    let mut draft =
-        research_literature_library_native::analysis_workflow::overview_task::task(&input);
+    let mut draft = fixtures::task(&input);
     draft.paper_template_ref = None;
     draft.overview_profile_selection_revision = None;
     super::super::matrix_fixture::seed(&f);
@@ -145,9 +144,7 @@ async fn matrix_preview_wait_releases_guard_and_rechecks_original_matrix_revisio
                 input: Box::new(header.clone()),
             },
             WorkflowDecisionV1::MatrixContext {
-                decision: research_literature_library_native::analysis_workflow::matrix::context(
-                    header,
-                ),
+                decision: MatrixContextDecisionV1::Validated { rejection: None },
             },
         ),
         (
@@ -155,9 +152,7 @@ async fn matrix_preview_wait_releases_guard_and_rechecks_original_matrix_revisio
                 input: Box::new(revision.clone()),
             },
             WorkflowDecisionV1::MatrixContext {
-                decision: research_literature_library_native::analysis_workflow::matrix::context(
-                    revision,
-                ),
+                decision: MatrixContextDecisionV1::Validated { rejection: None },
             },
         ),
     ];
@@ -178,7 +173,7 @@ async fn matrix_preview_wait_releases_guard_and_rechecks_original_matrix_revisio
         "matrix-synthesis-cell.v1.sql",
     ]
     .into_iter()
-    .zip(research_literature_library_native::analysis_workflow::matrix::static_sql())
+    .zip(fixtures::MATRIX_CONTEXT_SQL)
     {
         fs::write(directory.join(name), sql).unwrap();
     }

@@ -1,0 +1,1 @@
+select exists(select 1 from concepts where deleted_at is null and trim(label)=?1)

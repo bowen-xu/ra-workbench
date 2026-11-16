@@ -100,12 +100,7 @@ async fn actual_package_paper_item_finite_draft_keeps_original_hash_and_rejectio
         decision,
         WorkflowDecisionV1::PaperConceptReview {
             decision: Decision::Draft {
-                result: Ok(
-                    research_literature_library_native::candidate_review::items::request_hash(
-                        &draft
-                    )
-                    .unwrap()
-                )
+                result: Ok(protocol::request_hash(&draft).unwrap())
             }
         }
     );

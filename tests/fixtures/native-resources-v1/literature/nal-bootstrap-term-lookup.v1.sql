@@ -1,0 +1,1 @@
+select id from terms where normalized_text = ?1 and language = ?2

@@ -203,8 +203,8 @@ fn a_fixed_sql_resource_grant_does_not_authorize_the_mutation_method() {
     let relative = "data/nal-mutation-term-active-concept.v1.sql";
     fs::copy(
         std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native")
-            .join(relative),
+            .join("../../../tests/fixtures/native-resources-v1/literature")
+            .join("nal-mutation-term-active-concept.v1.sql"),
         root.path().join("writing").join(relative),
     )
     .unwrap();

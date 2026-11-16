@@ -29,7 +29,7 @@ fn fixture(
             .push(json!({"id":"literature.catalog-read","version":1}));
     }
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in [
         "list-active-ids",
         "search-fts-ids",
@@ -209,7 +209,7 @@ mod save_tests {
             .unwrap()
             .push(json!({"id":"literature.catalog-save","version":1}));
         let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for name in [
             "item-upsert",
             "creators-delete",

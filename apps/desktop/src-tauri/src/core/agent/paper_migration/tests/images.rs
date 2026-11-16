@@ -3,6 +3,10 @@ use crate::ai::paper_context::agent_preview;
 use sha2::{Digest, Sha256};
 use std::collections::HashSet;
 
+#[path = "images_source.rs"]
+mod source;
+use source::{CANONICAL_SNAPSHOT, reading_response_source};
+
 #[tokio::test]
 async fn migrates_legacy_picture_context_into_the_submission_image_manifest() {
     let mut connection = rusqlite::Connection::open_in_memory().unwrap();
@@ -232,7 +236,7 @@ async fn migrates_legacy_picture_context_into_the_submission_image_manifest() {
     ));
     std::fs::create_dir_all(image_path.parent().unwrap()).unwrap();
     std::fs::write(image_path, image_bytes).unwrap();
-    {
+    let prepared_preview = {
         let preview_db = store.connection().unwrap();
         let (_package_directory, catalog, package) =
             crate::runtime_plugins::literature_context::test_fixture::controlled_package();
@@ -249,13 +253,14 @@ async fn migrates_legacy_picture_context_into_the_submission_image_manifest() {
         agent_preview::submission_context_from_preview(preview.clone())
             .expect("picture snapshot should validate");
         agent_preview::submission_images_from_preview(
-            preview,
+            preview.clone(),
             &preview_db,
             &store,
             Some(&HashSet::from(["P1-F1".to_owned()])),
         )
         .expect("picture bytes should validate");
-    }
+        preview
+    };
     {
         let stale_db = store.connection().unwrap();
         stale_db
@@ -265,6 +270,33 @@ async fn migrates_legacy_picture_context_into_the_submission_image_manifest() {
             )
             .unwrap();
     }
+    // The selected domain source has already prepared this canonical result.
+    // This fixture exercises Core migration and image settlement against that response.
+    let mut prepared_preview = prepared_preview;
+    prepared_preview.snapshot_id = CANONICAL_SNAPSHOT.into();
+    for item in &mut prepared_preview.items {
+        item.source_id = format!("paper-source:{CANONICAL_SNAPSHOT}:{}", item.item.id);
+    }
+    {
+        let db = store.connection().unwrap();
+        db.execute("insert into paper_context_snapshots(id,paper_id,context_hash,context_schema_version,created_at) select ?1,paper_id,?2,context_schema_version,created_at from paper_context_snapshots where id=?3",params![CANONICAL_SNAPSHOT,context_hash,snapshot_id]).unwrap();
+        db.execute("insert into paper_context_attachments(snapshot_id,ordinal,attachment_id,content_sha256,parse_run_id) select ?1,ordinal,attachment_id,content_sha256,parse_run_id from paper_context_attachments where snapshot_id=?2",params![CANONICAL_SNAPSHOT,snapshot_id]).unwrap();
+        db.execute("insert into paper_context_items(snapshot_id,context_item_id,attachment_id,content_sha256,parse_run_id,raw_ref,item_kind,label,page_index,regions_json,charspan_json,source_text_hash,text_content,table_json,image_content_sha256,created_at) select ?1,context_item_id,attachment_id,content_sha256,parse_run_id,raw_ref,item_kind,label,page_index,regions_json,charspan_json,source_text_hash,text_content,table_json,image_content_sha256,created_at from paper_context_items where snapshot_id=?2",params![CANONICAL_SNAPSHOT,snapshot_id]).unwrap();
+        db.execute_batch("create temp table fixture_reading_response(snapshot_id text,context_hash text,preview_cbor text)").unwrap();
+        db.execute(
+            "insert into fixture_reading_response values(?1,?2,?3)",
+            params![
+                CANONICAL_SNAPSHOT,
+                context_hash,
+                research_workbench_native_sdk::paper_context_wire::encode_payload(
+                    &prepared_preview
+                )
+                .unwrap()
+            ],
+        )
+        .unwrap();
+    }
+    let store = store.with_test_paper_reading_source(reading_response_source());
     let catalog = SqliteConversationCatalog::new(store.shared_agent_connection());
     let sessions = AgentSessionService::new(Arc::new(
         SqliteConversationStore::new(store.shared_agent_connection(), "新对话".into()).unwrap(),

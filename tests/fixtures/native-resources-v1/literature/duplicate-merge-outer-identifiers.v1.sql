@@ -1,0 +1,1 @@
+select id from identifiers where item_id = ?1

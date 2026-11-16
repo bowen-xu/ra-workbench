@@ -1,0 +1,1 @@
+select '{"kind":"product","terms":[{"kind":"concept","id":'||data_json_quote_v1(?2)||'},{"kind":"concept","id":'||data_json_quote_v1(?1)||'}]}','{"kind":"concept","id":'||data_json_quote_v1(?4)||'}',?4,'legacy' where ?3<>'sub-field' and ?4 is not null and not ?5

@@ -1,4 +1,4 @@
-//! Test adapters for the same generic Core boundary and canonical Native rules.
+//! Explicit accepted/rejected policy responses for Core transaction tests.
 use crate::ai::{
     candidate_contracts::AiEvidenceBundle,
     error::AiError,
@@ -9,61 +9,68 @@ use crate::ai::{
     },
 };
 use crate::hbs_storage::boundary::{BoundaryError, HbsSources};
-use research_workbench_native_sdk::{
-    candidate_contracts::EvidenceQuote, review_selection::UnreviewedSelectionInputV1,
-};
+use research_workbench_native_sdk::review_selection::UnreviewedSelectionInputV1;
 use rusqlite::{Connection, OptionalExtension};
 use serde_json::Value;
 use std::convert::Infallible;
 
-pub(crate) struct Policy;
+#[derive(Default)]
+pub(crate) struct Policy {
+    rejected_value: Option<(Value, String, String)>,
+}
 impl StructuredPolicy for Policy {
     type Pause = Infallible;
     fn validate_editable_template(
         &mut self,
         value: Value,
     ) -> Result<Value, Flow<AiError, Infallible>> {
-        research_literature_library_native::editable_template::validate_editable_template(value)
-            .map_err(|message| Flow::original(AiError::InvalidInput(message)))
+        Ok(value)
     }
     fn validate(
         &mut self,
-        kind: &str,
+        _: &str,
         value: Value,
-        evidence: &AiEvidenceBundle,
+        _: &AiEvidenceBundle,
     ) -> Result<Value, Flow<AiError, Infallible>> {
-        structured(kind, value, evidence).map_err(Flow::original)
+        if let Some((rejected, path, message)) = &self.rejected_value {
+            if let Some(kind) = rejected.get("kind") {
+                assert_eq!(&value["kind"], kind);
+            }
+            return Err(Flow::original(AiError::Validation {
+                path: path.clone(),
+                message: message.clone(),
+            }));
+        }
+        Ok(accepted_response(value))
     }
+}
+pub(crate) fn accepted_response(value: Value) -> Value {
+    let payload: research_workbench_native_sdk::candidate_contracts::CandidatePayload =
+        serde_json::from_value(value).expect("typed accepted structured fixture response");
+    serde_json::to_value(payload).expect("serialize public structured response")
 }
 impl crate::structured_resources::ReviewPolicy for Policy {
     fn select_unreviewed(
         &mut self,
         input: UnreviewedSelectionInputV1,
     ) -> Result<Vec<String>, Infallible> {
-        Ok(
-            research_literature_library_native::review_selection::unreviewed_fields(
-                &input.pending_field_ids,
-                &input.protected_field_ids,
-                &input.reviewed_field_ids,
-            ),
-        )
+        Ok(unreviewed_selection(&input))
     }
 }
-pub(crate) fn structured(
-    kind: &str,
-    value: Value,
-    evidence: &AiEvidenceBundle,
-) -> Result<Value, AiError> {
-    let quotes: Vec<_> = evidence
-        .items
+pub(crate) fn unreviewed_selection(input: &UnreviewedSelectionInputV1) -> Vec<String> {
+    let cases: Value = serde_json::from_str(include_str!(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../../tests/fixtures/review-selection-v1/cases.json"
+    )))
+    .unwrap();
+    let expected = serde_json::json!({"pending":input.pending_field_ids,"protected":input.protected_field_ids,"reviewed":input.reviewed_field_ids});
+    let observed = cases
+        .as_array()
+        .unwrap()
         .iter()
-        .map(|item| EvidenceQuote {
-            citation_key: item.citation_key.clone(),
-            quote_exact: item.quote_exact.clone(),
-        })
-        .collect();
-    research_literature_library_native::structured_validation::structured(kind, value, &quotes)
-        .map_err(AiError::from)
+        .find(|case| case["input"] == expected)
+        .unwrap_or_else(|| panic!("missing authored selection response: {expected}"));
+    serde_json::from_value(observed["selected"].clone()).unwrap()
 }
 
 pub(crate) struct ReadingEvidence;
@@ -75,7 +82,7 @@ impl ExplicitReadingEvidence for ReadingEvidence {
         paper: &str,
     ) -> Result<Option<String>, SourceReadFailure> {
         db.query_row(include_str!(concat!(env!("CARGO_MANIFEST_DIR"),
-            "/../../../tests/fixtures/context-resources-v1/literature_library/reading-evidence-snapshot-hash.v1.sql")),
+            "/../../../tests/fixtures/native-resources-v1/literature/reading-evidence-snapshot-hash.v1.sql")),
             [snapshot, paper], |row| row.get(0)).optional().map_err(|_| SourceReadFailure::Static)
     }
     fn snapshot_evidence_rows(
@@ -84,7 +91,7 @@ impl ExplicitReadingEvidence for ReadingEvidence {
         snapshot: &str,
     ) -> Result<Vec<SnapshotEvidenceRow>, SourceReadFailure> {
         let mut query = db.prepare(include_str!(concat!(env!("CARGO_MANIFEST_DIR"),
-            "/../../../tests/fixtures/context-resources-v1/literature_library/reading-evidence-snapshot-rows.v1.sql")))
+            "/../../../tests/fixtures/native-resources-v1/literature/reading-evidence-snapshot-rows.v1.sql")))
             .map_err(|_| SourceReadFailure::Static)?;
         query
             .query_map([snapshot], |row| {
@@ -109,7 +116,7 @@ impl ReadingValidationEvidence for ReadingEvidence {
         paper: &str,
     ) -> Result<Option<String>, SourceReadFailure> {
         db.query_row(include_str!(concat!(env!("CARGO_MANIFEST_DIR"),
-            "/../../../tests/fixtures/context-resources-v1/literature_library/reading-evidence-validation-latest.v1.sql")),
+            "/../../../tests/fixtures/native-resources-v1/literature/reading-evidence-validation-latest.v1.sql")),
             [paper], |row| row.get(0)).optional().map_err(|_| SourceReadFailure::Static)
     }
 }
@@ -119,9 +126,20 @@ pub(crate) struct Sources {
     reading: ReadingEvidence,
 }
 impl Sources {
+    pub(crate) fn rejecting(value: Value) -> Self {
+        Self::rejecting_at(value, "$", "synthetic structured domain rejection")
+    }
+    pub(crate) fn rejecting_at(value: Value, path: &str, message: &str) -> Self {
+        Self {
+            policy: Policy {
+                rejected_value: Some((value, path.into(), message.into())),
+            },
+            reading: ReadingEvidence,
+        }
+    }
     pub(crate) fn new() -> Self {
         Self {
-            policy: Policy,
+            policy: Policy::default(),
             reading: ReadingEvidence,
         }
     }

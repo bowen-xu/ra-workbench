@@ -1,0 +1,1 @@
+insert into item_creators (item_id, creator_id, role, position) values (?1, ?2, ?3, ?4)

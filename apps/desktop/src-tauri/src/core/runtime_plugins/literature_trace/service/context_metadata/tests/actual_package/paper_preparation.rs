@@ -94,12 +94,10 @@ async fn actual_package_prepares_legacy_hint_images_snapshot_and_preview_without
         let resources = PreparationResources::load(&catalog, &package).unwrap();
         let capture = resources.capture_session(&db, "paper").unwrap();
         let session = match capture.input {
-            Some(input) => {
-                match research_literature_library_native::paper_context_prepare::evaluate(input) {
-                    PaperPreparationDecisionV1::Session { session } => Some(*session),
-                    decision => panic!("unexpected session decision: {decision:?}"),
-                }
-            }
+            Some(input) => match protocol::context_prepare(input) {
+                PaperPreparationDecisionV1::Session { session } => Some(*session),
+                decision => panic!("unexpected session decision: {decision:?}"),
+            },
             None => None,
         };
         let facts = PaperReadingFacts::new(&db);

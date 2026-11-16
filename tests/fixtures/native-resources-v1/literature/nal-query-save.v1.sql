@@ -1,0 +1,1 @@
+update nal_query_collections set revision=revision+1,definitions=?1,cache=?2,legacy_imported=?3 where id=1 and revision=?4

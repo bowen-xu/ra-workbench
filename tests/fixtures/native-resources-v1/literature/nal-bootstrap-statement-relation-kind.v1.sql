@@ -1,0 +1,1 @@
+insert into nal_concept_kinds(concept_id,kind) values (?1,'relation') on conflict do nothing

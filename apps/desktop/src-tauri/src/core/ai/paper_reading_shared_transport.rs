@@ -47,16 +47,6 @@ use super::{
     provider::CancellationSignal,
 };
 
-#[cfg(test)]
-pub(in crate::ai) async fn prepare_workflow_for_test(
-    store: &AppStore,
-    conversation: Uuid,
-    request: Uuid,
-    frozen: Option<&SubmissionInput>,
-) -> Result<Option<Box<dyn super::generation_hooks::PreparedPaperWorkflow>>, AiError> {
-    workflow::prepare(store, conversation, request, frozen).await
-}
-
 const MAX_MODEL_INPUT_BYTES: usize = 32 * 1024 * 1024;
 
 /// Optional host-owned projection for a normalized text stream. The shared

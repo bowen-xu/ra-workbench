@@ -98,8 +98,6 @@ objc2-web-kit = { version = "=0.3.2", default-features = false, features = ["std
 block2 = "=0.6.2"
 
 [dev-dependencies]
-research-writing-projects-native = { path = "../../../.dependencies/test-plugins/writing_projects/native" }
-research-literature-library-native = { path = "../../../.dependencies/test-plugins/literature_library/native" }
 rusqlite = { version = "0.37", features = ["hooks"] }
 tokio = { version = "1", features = ["test-util"] }
 

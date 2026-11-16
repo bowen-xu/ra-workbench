@@ -34,7 +34,7 @@ fn configure(f: &mut Fixture, draft: &ConceptRetrievalPreviewDraft, exists: bool
         .push(json!({"id":"literature.concept-retrieval","version":1}));
     fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for entry in fs::read_dir(source).unwrap() {
         let entry = entry.unwrap();
         if entry

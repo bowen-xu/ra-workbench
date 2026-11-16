@@ -1,0 +1,1 @@
+select revision from structured_reading_units where id = ?1 and reverted_at is null

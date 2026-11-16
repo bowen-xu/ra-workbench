@@ -1,0 +1,1 @@
+update bibliographic_items set language = ?2 where id = ?1

@@ -13,7 +13,7 @@ pub(in crate::runtime_plugins) fn resources() -> (tempfile::TempDir, PaperContex
     .unwrap();
     fs::write(dir.join("entry.js"), "export {};").unwrap();
     let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for id in 0..15 {
         let file = format!("paper-context-{}.v1.sql", specs::name(id));
         fs::copy(source.join(&file), dir.join("data").join(file)).unwrap();

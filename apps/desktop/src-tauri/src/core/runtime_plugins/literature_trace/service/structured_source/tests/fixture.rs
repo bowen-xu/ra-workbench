@@ -106,7 +106,7 @@ impl Fixture {
         ]);
         fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
         let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         let names = [
             "attachments-paper-exists",
             "attachments-all",
@@ -177,8 +177,8 @@ impl Fixture {
     }
     pub fn prepared(&self) -> Prepared {
         let build = self.build_input();
-        // Only transport is canned. These exact production pure implementations
-        // prepare all outputs; the fixture has no second context/hash algorithm.
+        // Fixed public contract responses isolate Core ownership and settlement.
+        // The domain package verifies the same captured inputs and outputs.
         let (built, mut prepared) = build_response(&build);
         let pages = crate::ai::authorized_pages(&[("selected".into(), Some(0))]).unwrap();
         crate::ai::restrict_items(&mut prepared.context_items, &pages);
@@ -189,7 +189,7 @@ impl Fixture {
             image_hashes: Default::default(),
         };
         let projection =
-            research_literature_library_native::paper_context_snapshot::project(&input).unwrap();
+            crate::runtime_plugins::literature_context::test_fixture::project(&input).unwrap();
         let project = outcome(
             Input::Project {
                 cbor_base64: encode_payload(&input).unwrap(),
@@ -205,7 +205,7 @@ impl Fixture {
             items: projection.items.clone(),
         };
         let digest =
-            research_literature_library_native::paper_context_snapshot::digest(&input).unwrap();
+            crate::runtime_plugins::literature_context::test_fixture::digest(&input).unwrap();
         Prepared {
             build: built,
             project,
@@ -324,7 +324,7 @@ impl Fixture {
     }
 }
 fn build_response(build: &PaperContextBuildInputV1) -> (CatalogOutput, PreparedPaperContextV1) {
-    let prepared = research_literature_library_native::paper_context::build(build);
+    let prepared = crate::runtime_plugins::literature_context::test_fixture::build(build);
     let output = outcome(
         Input::Build {
             cbor_base64: encode_payload(build).unwrap(),

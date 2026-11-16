@@ -61,7 +61,7 @@ impl Fixture {
             .push(json!({"id":CAPABILITY_ID,"version":1}));
         fs::write(file, serde_json::to_vec(&manifest).unwrap()).unwrap();
         let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         // Same immutable source copy as the Core adapter fixture; the actual
         // production loader still accepts only its original eight exact grants.
         for entry in fs::read_dir(source).unwrap() {

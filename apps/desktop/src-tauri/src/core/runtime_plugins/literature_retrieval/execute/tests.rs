@@ -23,7 +23,7 @@ fn fixture() -> Fixture {
         .push(json!({"id":"literature.concept-retrieval","version":1}));
     fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     let mut copied = 0;
     for entry in fs::read_dir(source).unwrap() {
         let entry = entry.unwrap();
@@ -148,10 +148,7 @@ fn stored_float_decoding_preserves_original_f32_f64_and_null_behavior() {
             actual.seeds[0].vector_distance.map(f32::to_bits),
             distance.map(|value| (value as f32).to_bits())
         );
-        assert_eq!(
-            actual.seeds[0].rrf_score.to_bits(),
-            score.to_bits()
-        );
+        assert_eq!(actual.seeds[0].rrf_score.to_bits(), score.to_bits());
     }
     assert!(db.is_autocommit());
 }
@@ -162,7 +159,11 @@ fn stored_first_row_domain_error_precedes_later_row_sql_conversion_error() {
     seed_trace(&f);
     let db = f.state.store.connection().unwrap();
     db.execute_batch("insert into concept_retrieval_trace_seeds(trace_id,concept_id,concept_revision,label,preferred_term,matched_by_json,ordinal,lexical_rank,rrf_score) values('trace','first',1,'First','','[]',0,1,1.0),('trace','second',1,x'01','','[\"lexical\"]',1,1,1.0);").unwrap();
-    let expected = E::InvalidInput(research_workbench_native_sdk::concept_retrieval::decode_trace_match_kinds("[]").unwrap_err().into());
+    let expected = E::InvalidInput(
+        research_workbench_native_sdk::concept_retrieval::decode_trace_match_kinds("[]")
+            .unwrap_err()
+            .into(),
+    );
     let actual = super::super::trace_read::read(&db, &f.state.resources, "trace").unwrap_err();
     assert!(matches!(expected, E::InvalidInput(_)));
     let wire = actual.into_wire(None, Some("trace"), "read", HbsOutcome::NotStarted);

@@ -1,0 +1,1 @@
+select exists(select 1 from paper_context_snapshots where id=?1 and paper_id=?2) or exists(select 1 from ai_evidence_items where bundle_id=?1 and paper_id=?2)

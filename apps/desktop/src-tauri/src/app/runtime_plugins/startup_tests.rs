@@ -107,7 +107,7 @@ impl Fixture {
 
     fn copy_resources(&self) {
         let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for entry in fs::read_dir(source).unwrap() {
             let entry = entry.unwrap();
             if entry.path().extension().is_some_and(|ext| ext == "sql") {

@@ -1,0 +1,3 @@
+select count(*),coalesce(sum(length(cast(context_item_id || attachment_id || content_sha256 || parse_run_id || raw_ref || item_kind || regions_json || coalesce(label,'') || coalesce(charspan_json,'') || coalesce(source_text_hash,'') || coalesce(text_content,'') || coalesce(table_json,'') || coalesce(image_content_sha256,'') as blob))),0),
+         coalesce(sum(case when page_index is not null and (typeof(page_index) != 'integer' or page_index<0 or page_index>4294967295) then 1 else 0 end),0)
+         from paper_context_items where snapshot_id=?1

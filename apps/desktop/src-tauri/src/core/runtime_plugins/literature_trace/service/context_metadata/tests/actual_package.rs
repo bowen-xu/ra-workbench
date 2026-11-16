@@ -1,4 +1,5 @@
 use super::*;
+mod protocol;
 
 pub(super) fn prepared_context(
     db: &rusqlite::Connection,
@@ -6,8 +7,14 @@ pub(super) fn prepared_context(
     attachments: &[String],
 ) -> Result<crate::ai::paper_reading_contracts::PreparedPaperContext, crate::ai::error::AiError> {
     use crate::runtime_plugins::literature_context::PaperContextResources;
-    let (catalog, _) = actual_package();
-    let package = catalog.discover().unwrap().packages.remove(0);
+    let (catalog, key) = actual_package();
+    let package = catalog
+        .discover()
+        .unwrap()
+        .packages
+        .into_iter()
+        .find(|package| package.package_key == key)
+        .expect("exact selected context package");
     let resources = PaperContextResources::load(&catalog, &package)
         .map_err(|error| crate::ai::error::AiError::InvalidInput(error.to_string()))?;
     let captured = resources
@@ -15,7 +22,7 @@ pub(super) fn prepared_context(
         .map_err(|error| {
             crate::ai::error::AiError::InvalidInput(error.failure.error.to_string())
         })?;
-    Ok(research_literature_library_native::paper_context::build(&captured.input).into())
+    Ok(protocol::build_context(&captured.input).into())
 }
 use crate::{agent::source_tools, runtime_plugins::RuntimePluginCatalog};
 use research_agent_core::submission::{ContextText, SubmissionRecord};
@@ -229,7 +236,23 @@ fn actual_package() -> (Arc<RuntimePluginCatalog>, String) {
         .canonicalize()
         .unwrap();
     let temporary = repository.join(".tmp").canonicalize().unwrap();
-    let selected = PathBuf::from(std::env::var_os(ROOT_ENV).expect(ROOT_ENV));
+    let (selected, requested_key, selected_package) =
+        match (std::env::var_os(ROOT_ENV), std::env::var_os(KEY_ENV)) {
+            (Some(root), Some(key)) => {
+                (PathBuf::from(root), Some(key.into_string().unwrap()), None)
+            }
+            (None, None) => {
+                let package = PathBuf::from(
+                    std::env::var_os("RESEARCH_ASSISTANT_TEST_LITERATURE_PACKAGE")
+                        .expect("select explicit context root/key or a literature test package"),
+                );
+                assert!(fs::symlink_metadata(&package).unwrap().file_type().is_dir());
+                let package = package.canonicalize().unwrap();
+                assert!(package.starts_with(&temporary) && package != temporary);
+                (package.parent().unwrap().to_path_buf(), None, Some(package))
+            }
+            _ => panic!("context metadata package root and key must be provided together"),
+        };
     assert!(
         fs::symlink_metadata(&selected)
             .unwrap()
@@ -242,15 +265,25 @@ fn actual_package() -> (Arc<RuntimePluginCatalog>, String) {
         root.starts_with(&temporary) && root != temporary,
         "only an explicit repository .tmp descendant is accepted"
     );
-    let key = std::env::var(KEY_ENV).expect(KEY_ENV);
+    let catalog = Arc::new(RuntimePluginCatalog::new(Some(root)).with_native_writing_preview(true));
+    let listing = catalog.discover().unwrap();
+    let key = requested_key.unwrap_or_else(|| {
+        let snapshots = catalog.snapshots.lock().unwrap();
+        let directory = selected_package.unwrap();
+        listing
+            .packages
+            .iter()
+            .find(|package| snapshots[&package.package_key].real_directory == directory)
+            .expect("exact selected package directory must be present")
+            .package_key
+            .clone()
+    });
     assert!(
         key.len() == 64
             && key
                 .bytes()
                 .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
     );
-    let catalog = Arc::new(RuntimePluginCatalog::new(Some(root)).with_native_writing_preview(true));
-    let listing = catalog.discover().unwrap();
     let package = listing
         .packages
         .iter()
@@ -310,30 +343,35 @@ pub(super) fn prepared_candidate(
         error::AiError,
         generation_policy::{CandidateValidationFacts, PreparedCandidate},
     };
-    use research_literature_library_native::analysis_workflow::candidate;
+    use research_workbench_native_sdk::{
+        analysis_workflow::candidate::CandidateInputV1, paper_context_wire::encode_payload,
+    };
     let keys = bundle
         .items
         .iter()
         .map(|item| item.citation_key.clone())
         .collect();
-    let payload = candidate::decode_candidate_content(content, &keys).map_err(AiError::from)?;
+    let payload = protocol::decode_candidate_content(content, &keys).map_err(AiError::from)?;
+    let encoded = encode_payload(&payload).map_err(|_| AiError::TemporaryUnavailable)?;
     let facts = CandidateValidationFacts::new(db);
-    let (task, suggestion) = facts.run_output(run)?;
-    candidate::validate_run_candidate_kind(&task, suggestion.as_deref(), payload.kind())
-        .map_err(AiError::from)?;
-    research_literature_library_native::structured_validation::quotes(
-        &payload,
-        &candidate_quotes(bundle),
-    )
-    .map_err(AiError::from)?;
-    candidate::validate_overview_profile(&payload, facts.overview_profile(run)?.as_ref())
-        .map_err(AiError::from)?;
-    candidate::validate_generated_research_context(&payload, facts.matrix_context(run)?.as_ref())
-        .map_err(AiError::from)?;
+    let (task_kind, suggestion_kind) = facts.run_output(run)?;
+    protocol::validate_candidate(CandidateInputV1::KindAndQuotes {
+        payload_cbor_base64: encoded.clone(),
+        task_kind,
+        suggestion_kind,
+        evidence: candidate_quotes(bundle),
+    })?;
+    protocol::validate_candidate(CandidateInputV1::Profile {
+        payload_cbor_base64: encoded.clone(),
+        profile: facts.overview_profile(run)?,
+    })?;
+    let canonical_json = protocol::prepared(CandidateInputV1::Finalize {
+        payload_cbor_base64: encoded,
+        matrix: facts.matrix_context(run)?,
+    })?;
     Ok(PreparedCandidate {
         kind: payload.kind(),
-        canonical_json: serde_json::to_string(&payload)
-            .map_err(|_| AiError::TemporaryUnavailable)?,
+        canonical_json,
     })
 }
 
@@ -360,7 +398,7 @@ fn prepared_template(
     use crate::ai::{
         candidate_contracts::PaperTemplateRef, error::AiError, template_facts::TemplateFacts,
     };
-    use research_literature_library_native::analysis_workflow::template::resolve;
+    use protocol::template as resolve;
     use research_workbench_native_sdk::analysis_workflow::template::TemplateInputV1;
     let facts = TemplateFacts::new(db);
     let input = if matches!(reference, PaperTemplateRef::Resource { .. }) {
@@ -416,84 +454,38 @@ fn prepared_revision(
         error::AiError,
         generation_policy::{CandidateValidationFacts, PreparedCandidate},
     };
-    use research_literature_library_native::{analysis_workflow::candidate, candidate_revision};
+    use research_workbench_native_sdk::{
+        analysis_workflow::candidate::CandidateInputV1, paper_context_wire::encode_payload,
+    };
     let keys = bundle
         .items
         .iter()
         .map(|item| item.citation_key.clone())
         .collect();
-    let payload = candidate::decode_candidate_value(value, &keys).map_err(AiError::from)?;
-    candidate_revision::quotes_and_kind(&payload, kind, &candidate_quotes(bundle))
-        .map_err(AiError::from)?;
+    let payload = protocol::decode_candidate_value(value, &keys)?;
+    let encoded = encode_payload(&payload).map_err(|_| AiError::TemporaryUnavailable)?;
+    protocol::validate_candidate(CandidateInputV1::RevisionQuotesAndKind {
+        payload_cbor_base64: encoded.clone(),
+        candidate_kind: kind.into(),
+        evidence: candidate_quotes(bundle),
+    })?;
     let facts = CandidateValidationFacts::new(db);
-    candidate::validate_overview_profile(&payload, facts.overview_profile(run)?.as_ref())
-        .map_err(AiError::from)?;
-    candidate::validate_revised_research_context(&payload, facts.matrix_context(run)?.as_ref())
-        .map_err(AiError::from)?;
-    candidate_revision::confirmed_fields_unchanged(&payload, facts.active_confirmed_fields(id)?)
-        .map_err(AiError::from)?;
+    protocol::validate_candidate(CandidateInputV1::Profile {
+        payload_cbor_base64: encoded.clone(),
+        profile: facts.overview_profile(run)?,
+    })?;
+    protocol::validate_candidate(CandidateInputV1::RevisionMatrix {
+        payload_cbor_base64: encoded.clone(),
+        matrix: facts.matrix_context(run)?,
+    })?;
+    let canonical_json = protocol::prepared(CandidateInputV1::RevisionConfirmedFields {
+        payload_cbor_base64: encoded,
+        active_fields: facts.active_confirmed_fields(id)?,
+    })?;
     Ok(PreparedCandidate {
         kind: payload.kind(),
-        canonical_json: candidate_revision::canonical_json(&payload).map_err(AiError::from)?,
+        canonical_json,
     })
-}
-
-pub(super) fn defer_candidate(
-    db: &mut rusqlite::Connection,
-    draft: research_workbench_native_sdk::candidate_review::contracts::AiReviewDecisionDraft,
-) -> Result<
-    research_workbench_native_sdk::candidate_review::contracts::AiCandidate,
-    crate::ai::error::AiError,
-> {
-    use crate::ai::{
-        candidate_contracts::CandidatePayload,
-        error::AiError,
-        review_support::{self, GenericReviewAdapter, ReviewPlan, ReviewPromotion},
-        structured_resource_validation::Flow,
-    };
-    use research_workbench_native_sdk::candidate_review::{
-        contracts::AiCandidate,
-        wire::{ReviewDecisionV1, ReviewInputV1},
-    };
-    type Failure = Flow<AiError, std::convert::Infallible>;
-    struct Deferred;
-    impl GenericReviewAdapter for Deferred {
-        type Pause = std::convert::Infallible;
-        fn review(&mut self, input: ReviewInputV1) -> Result<ReviewDecisionV1, Failure> {
-            Ok(research_literature_library_native::candidate_review::decide(input))
-        }
-        fn decode(
-            &mut self,
-            candidate: &AiCandidate,
-            value: Value,
-        ) -> Result<CandidatePayload, Failure> {
-            let keys = candidate
-                .evidence_bundle
-                .items
-                .iter()
-                .map(|item| item.citation_key.clone())
-                .collect();
-            research_literature_library_native::analysis_workflow::candidate::decode_candidate_value(value,&keys).map_err(|error| Flow::original(AiError::from(error)))
-        }
-        fn project_contains_paper(
-            &mut self,
-            _: &rusqlite::Connection,
-            _: &str,
-            _: &str,
-        ) -> Result<bool, Failure> {
-            panic!("deferred fixture has no project")
-        }
-        fn promote(
-            &mut self,
-            _: &rusqlite::Transaction<'_>,
-            _: &ReviewPlan<'_>,
-        ) -> ReviewPromotion<Self::Pause> {
-            panic!("deferred fixture cannot promote")
-        }
-    }
-    assert_eq!(draft.action, "defer");
-    assert!(draft.project_id.is_none());
-    review_support::decide_with(db, draft, true, &mut Deferred).map_err(Flow::into_static)
 }
 
 fn expected_metadata(db: &rusqlite::Connection, paper: &str) -> String {
@@ -510,5 +502,5 @@ fn expected_metadata(db: &rusqlite::Connection, paper: &str) -> String {
     )
     .unwrap();
     let captured = resources.capture(db, paper).unwrap();
-    research_literature_library_native::context_metadata::project(&captured.input).unwrap()
+    protocol::metadata(&captured.input).unwrap()
 }

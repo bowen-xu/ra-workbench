@@ -1,0 +1,1 @@
+select id, case when concept_id is null then 'statement' else 'concept' end, coalesce(concept_id,statement_id),note_page_id from nal_annotations order by rowid

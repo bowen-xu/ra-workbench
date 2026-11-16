@@ -25,7 +25,7 @@ pub(super) fn attach(f: &mut Fixture, executable: &[u8]) -> HostFixture {
         let name = format!("trace-{name}.v1.sql");
         fs::copy(
             Path::new(env!("CARGO_MANIFEST_DIR"))
-                .join("../../../plugins/literature_library/native/data")
+                .join("../../../tests/fixtures/native-resources-v1/literature")
                 .join(&name),
             package.join("data").join(name),
         )

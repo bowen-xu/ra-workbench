@@ -1,8 +1,8 @@
 //! Deployed-schema/SQL-log tests; the identity resources are instrumented only
 //! in this test fixture where explicitly noted, never in product registration.
 use super::{Fixture, MergeCause, MergeOutcome};
+use crate::runtime_plugins::literature_duplicate_undo::tests::fixture::contract_reply;
 use crate::runtime_plugins::{RuntimePluginCatalog, data::AcceptedDataResource};
-use research_literature_library_native::nal_bootstrap::{embedding_space_id, stable_row_id};
 use research_workbench_native_sdk::{
     data::{DataAccess, DataField, DataResourceGrant, DataType},
     knowledge_snapshot::KnowledgeConcept,
@@ -92,9 +92,7 @@ fn configured_merge_creates_actual_space_generation_and_canonical_queue_identiti
             .collect::<rusqlite::Result<Vec<_>>>().unwrap();
             for snapshot in snapshots {
                 let concept: KnowledgeConcept = serde_json::from_str(&snapshot).unwrap();
-                let expected =
-                    research_literature_library_native::nal_bootstrap::render_concept(&concept)
-                        .unwrap();
+                let expected = render_concept(&concept).unwrap();
                 let actual: (String,String) = db.query_row(
                 "select rendered_text,input_sha256 from semantic_representations where subject_id=?1",
                 [&concept.id], |r| Ok((r.get(0)?,r.get(1)?)),
@@ -383,4 +381,44 @@ fn disabled_and_empty_model_keep_representations_without_creating_embedding_stat
             );
         }
     }
+}
+
+fn embedding_space_id(region: &str, model: &str) -> String {
+    serde_json::from_value(contract_reply("space", serde_json::json!([region, model]))).unwrap()
+}
+fn stable_row_id(representation: &str, space: &str, generation: i64) -> String {
+    let db = Connection::open_in_memory().unwrap();
+    crate::data_interface::value_functions::register(&db).unwrap();
+    let sql = include_str!(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../../tests/fixtures/native-resources-v1/literature/duplicate-merge-semantic-record-row-id.v1.sql"
+    ));
+    // Check this fixed resource against the independent public Native samples.
+    for case in crate::runtime_plugins::literature_duplicate_undo::tests::fixture::recorded_cases()
+        .into_iter()
+        .filter(|case| case["kind"] == "row")
+    {
+        let input = &case["input"];
+        let actual: String = db
+            .query_row(
+                sql,
+                rusqlite::params![
+                    input[0].as_str().unwrap(),
+                    input[1].as_str().unwrap(),
+                    input[2].as_i64().unwrap()
+                ],
+                |row| row.get(0),
+            )
+            .unwrap();
+        assert_eq!(actual, case["output"].as_str().unwrap());
+    }
+    db.query_row(
+        sql,
+        rusqlite::params![representation, space, generation],
+        |row| row.get(0),
+    )
+    .unwrap()
+}
+fn render_concept(concept: &KnowledgeConcept) -> Result<String, serde_json::Error> {
+    serde_json::from_value(contract_reply("render", serde_json::to_value(concept)?))
 }

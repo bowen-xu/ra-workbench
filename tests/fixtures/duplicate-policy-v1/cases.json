@@ -1,0 +1,1549 @@
+[
+{
+  "input": {
+    "createdAt": "2026-11-16T15:08:11.265Z",
+    "definitionCount": 0,
+    "disambiguation": "从旧文献归类迁移，保持原身份区分",
+    "domain": "",
+    "explanation": "从原集合迁移。Original description",
+    "id": "946dea55-71a5-400b-b27b-834ebe58867f",
+    "label": "Original",
+    "period": "",
+    "preferredTerm": {
+      "createdAt": "2026-11-16T15:08:11.263Z",
+      "id": "a84b648c-c457-486b-9dc9-7afdffdbc21a",
+      "language": "",
+      "normalizedText": "original",
+      "provenanceKind": "human_original",
+      "revision": 1,
+      "text": "Original",
+      "updatedAt": "2026-11-16T15:08:11.263Z"
+    },
+    "provenanceKind": "human_original",
+    "revision": 1,
+    "sourceCount": 0,
+    "terms": [
+      {
+        "createdAt": "2026-11-16T15:08:11.263Z",
+        "id": "a84b648c-c457-486b-9dc9-7afdffdbc21a",
+        "language": "",
+        "normalizedText": "original",
+        "provenanceKind": "human_original",
+        "revision": 1,
+        "text": "Original",
+        "updatedAt": "2026-11-16T15:08:11.263Z"
+      }
+    ],
+    "tradition": "",
+    "updatedAt": "2026-11-16T15:08:11.265Z"
+  },
+  "kind": "render",
+  "output": "{\"kind\":\"concept_identity_v1\",\"preferred_term\":\"Original\",\"aliases\":[],\"label\":\"Original\",\"explanation\":\"从原集合迁移。Original description\",\"disambiguation\":\"从旧文献归类迁移，保持原身份区分\",\"domain\":\"\",\"tradition\":\"\",\"period\":\"\"}"
+},
+{
+  "input": {
+    "createdAt": "2026-11-16T15:07:57.267Z",
+    "definitionCount": 0,
+    "disambiguation": "从旧文献归类迁移，保持原身份区分",
+    "domain": "",
+    "explanation": "从旧集合成员归属迁移；仅表示原有归类，不自动解释为所属领域。",
+    "id": "55d29aa0-8242-4fde-b132-0dfe27f87082",
+    "label": "原归类",
+    "period": "",
+    "preferredTerm": {
+      "createdAt": "2026-11-16T15:07:57.263Z",
+      "id": "1cd84ca3-988a-4f64-b3f0-e5dfe7daa4c6",
+      "language": "",
+      "normalizedText": "原归类",
+      "provenanceKind": "human_original",
+      "revision": 1,
+      "text": "原归类",
+      "updatedAt": "2026-11-16T15:07:57.263Z"
+    },
+    "provenanceKind": "human_original",
+    "revision": 1,
+    "sourceCount": 0,
+    "terms": [
+      {
+        "createdAt": "2026-11-16T15:07:57.263Z",
+        "id": "1cd84ca3-988a-4f64-b3f0-e5dfe7daa4c6",
+        "language": "",
+        "normalizedText": "原归类",
+        "provenanceKind": "human_original",
+        "revision": 1,
+        "text": "原归类",
+        "updatedAt": "2026-11-16T15:07:57.263Z"
+      }
+    ],
+    "tradition": "",
+    "updatedAt": "2026-11-16T15:07:57.267Z"
+  },
+  "kind": "render",
+  "output": "{\"kind\":\"concept_identity_v1\",\"preferred_term\":\"原归类\",\"aliases\":[],\"label\":\"原归类\",\"explanation\":\"从旧集合成员归属迁移；仅表示原有归类，不自动解释为所属领域。\",\"disambiguation\":\"从旧文献归类迁移，保持原身份区分\",\"domain\":\"\",\"tradition\":\"\",\"period\":\"\"}"
+},
+{
+  "input": {
+    "createdAt": "2026-11-16T15:08:11.250Z",
+    "definitionCount": 0,
+    "disambiguation": "从旧文献归类迁移，保持原身份区分",
+    "domain": "",
+    "explanation": "从旧集合成员归属迁移；仅表示原有归类，不自动解释为所属领域。",
+    "id": "1ecb07be-aa77-4d56-a8de-fed508b48a10",
+    "label": "原归类",
+    "period": "",
+    "preferredTerm": {
+      "createdAt": "2026-11-16T15:08:11.248Z",
+      "id": "c2a5f50c-d7c6-4e9c-918e-4eaff42e0213",
+      "language": "",
+      "normalizedText": "原归类",
+      "provenanceKind": "human_original",
+      "revision": 1,
+      "text": "原归类",
+      "updatedAt": "2026-11-16T15:08:11.248Z"
+    },
+    "provenanceKind": "human_original",
+    "revision": 1,
+    "sourceCount": 0,
+    "terms": [
+      {
+        "createdAt": "2026-11-16T15:08:11.248Z",
+        "id": "c2a5f50c-d7c6-4e9c-918e-4eaff42e0213",
+        "language": "",
+        "normalizedText": "原归类",
+        "provenanceKind": "human_original",
+        "revision": 1,
+        "text": "原归类",
+        "updatedAt": "2026-11-16T15:08:11.248Z"
+      }
+    ],
+    "tradition": "",
+    "updatedAt": "2026-11-16T15:08:11.250Z"
+  },
+  "kind": "render",
+  "output": "{\"kind\":\"concept_identity_v1\",\"preferred_term\":\"原归类\",\"aliases\":[],\"label\":\"原归类\",\"explanation\":\"从旧集合成员归属迁移；仅表示原有归类，不自动解释为所属领域。\",\"disambiguation\":\"从旧文献归类迁移，保持原身份区分\",\"domain\":\"\",\"tradition\":\"\",\"period\":\"\"}"
+},
+{
+  "input": {
+    "createdAt": "2026-11-16T15:08:11.257Z",
+    "definitionCount": 0,
+    "disambiguation": "从旧文献归类迁移，保持原身份区分",
+    "domain": "",
+    "explanation": "有序参数：文献、旧集合端点乘积、关系词项。保留原标签含义，不推断文献间关系。",
+    "id": "d39f93df-aaad-4e44-9855-97760f987400",
+    "label": "旧关系标注",
+    "period": "",
+    "preferredTerm": {
+      "createdAt": "2026-11-16T15:08:11.255Z",
+      "id": "e8e8b8e2-3563-42c7-b2ca-deeb021b9df9",
+      "language": "",
+      "normalizedText": "旧关系标注",
+      "provenanceKind": "human_original",
+      "revision": 1,
+      "text": "旧关系标注",
+      "updatedAt": "2026-11-16T15:08:11.255Z"
+    },
+    "provenanceKind": "human_original",
+    "revision": 1,
+    "sourceCount": 0,
+    "terms": [
+      {
+        "createdAt": "2026-11-16T15:08:11.255Z",
+        "id": "e8e8b8e2-3563-42c7-b2ca-deeb021b9df9",
+        "language": "",
+        "normalizedText": "旧关系标注",
+        "provenanceKind": "human_original",
+        "revision": 1,
+        "text": "旧关系标注",
+        "updatedAt": "2026-11-16T15:08:11.255Z"
+      }
+    ],
+    "tradition": "",
+    "updatedAt": "2026-11-16T15:08:11.257Z"
+  },
+  "kind": "render",
+  "output": "{\"kind\":\"concept_identity_v1\",\"preferred_term\":\"旧关系标注\",\"aliases\":[],\"label\":\"旧关系标注\",\"explanation\":\"有序参数：文献、旧集合端点乘积、关系词项。保留原标签含义，不推断文献间关系。\",\"disambiguation\":\"从旧文献归类迁移，保持原身份区分\",\"domain\":\"\",\"tradition\":\"\",\"period\":\"\"}"
+},
+{
+  "input": {
+    "createdAt": "2026-11-16T15:07:57.286Z",
+    "definitionCount": 0,
+    "disambiguation": "从旧文献归类迁移，保持原身份区分",
+    "domain": "",
+    "explanation": "从原集合迁移。Original description",
+    "id": "bf2043a6-ba13-4902-96b9-eb9b0378f61f",
+    "label": "Original",
+    "period": "",
+    "preferredTerm": {
+      "createdAt": "2026-11-16T15:07:57.284Z",
+      "id": "cdad96bd-48a4-4168-93ac-ccd7236aea6a",
+      "language": "",
+      "normalizedText": "original",
+      "provenanceKind": "human_original",
+      "revision": 1,
+      "text": "Original",
+      "updatedAt": "2026-11-16T15:07:57.284Z"
+    },
+    "provenanceKind": "human_original",
+    "revision": 1,
+    "sourceCount": 0,
+    "terms": [
+      {
+        "createdAt": "2026-11-16T15:07:57.284Z",
+        "id": "cdad96bd-48a4-4168-93ac-ccd7236aea6a",
+        "language": "",
+        "normalizedText": "original",
+        "provenanceKind": "human_original",
+        "revision": 1,
+        "text": "Original",
+        "updatedAt": "2026-11-16T15:07:57.284Z"
+      }
+    ],
+    "tradition": "",
+    "updatedAt": "2026-11-16T15:07:57.286Z"
+  },
+  "kind": "render",
+  "output": "{\"kind\":\"concept_identity_v1\",\"preferred_term\":\"Original\",\"aliases\":[],\"label\":\"Original\",\"explanation\":\"从原集合迁移。Original description\",\"disambiguation\":\"从旧文献归类迁移，保持原身份区分\",\"domain\":\"\",\"tradition\":\"\",\"period\":\"\"}"
+},
+{
+  "input": {
+    "createdAt": "2026-11-16T15:07:57.277Z",
+    "definitionCount": 0,
+    "disambiguation": "从旧文献归类迁移，保持原身份区分",
+    "domain": "",
+    "explanation": "有序参数：文献、旧集合端点乘积、关系词项。保留原标签含义，不推断文献间关系。",
+    "id": "5314ba55-d121-44f7-8ac4-9e7ed71a9dfe",
+    "label": "旧关系标注",
+    "period": "",
+    "preferredTerm": {
+      "createdAt": "2026-11-16T15:07:57.275Z",
+      "id": "9be66413-8e53-4fc5-8e3c-3ea869b75858",
+      "language": "",
+      "normalizedText": "旧关系标注",
+      "provenanceKind": "human_original",
+      "revision": 1,
+      "text": "旧关系标注",
+      "updatedAt": "2026-11-16T15:07:57.275Z"
+    },
+    "provenanceKind": "human_original",
+    "revision": 1,
+    "sourceCount": 0,
+    "terms": [
+      {
+        "createdAt": "2026-11-16T15:07:57.275Z",
+        "id": "9be66413-8e53-4fc5-8e3c-3ea869b75858",
+        "language": "",
+        "normalizedText": "旧关系标注",
+        "provenanceKind": "human_original",
+        "revision": 1,
+        "text": "旧关系标注",
+        "updatedAt": "2026-11-16T15:07:57.275Z"
+      }
+    ],
+    "tradition": "",
+    "updatedAt": "2026-11-16T15:07:57.277Z"
+  },
+  "kind": "render",
+  "output": "{\"kind\":\"concept_identity_v1\",\"preferred_term\":\"旧关系标注\",\"aliases\":[],\"label\":\"旧关系标注\",\"explanation\":\"有序参数：文献、旧集合端点乘积、关系词项。保留原标签含义，不推断文献间关系。\",\"disambiguation\":\"从旧文献归类迁移，保持原身份区分\",\"domain\":\"\",\"tradition\":\"\",\"period\":\"\"}"
+},
+{
+  "input": [
+    "b57b6be6-b2cd-4867-b521-a07406224e42",
+    "space-51bb77c271db89ccccaa3f9293cce93a",
+    1
+  ],
+  "kind": "row",
+  "output": "row-1e3b5698de792fd60050b1f1de144f6d"
+},
+{
+  "input": [
+    "978216b4-cf26-46bf-afd7-b888fc886805",
+    "space-51bb77c271db89ccccaa3f9293cce93a",
+    1
+  ],
+  "kind": "row",
+  "output": "row-4d294fae131b0996d4eb37a160361c1a"
+},
+{
+  "input": [
+    "c9163d2c-b105-47d9-a23c-3c9f6509de57",
+    "space-51bb77c271db89ccccaa3f9293cce93a",
+    1
+  ],
+  "kind": "row",
+  "output": "row-87ef064d7534cedc3c22f5c97d671286"
+},
+{
+  "input": [
+    "1c739f81-844c-4a56-b3de-1fa215e5bbfb",
+    "space-51bb77c271db89ccccaa3f9293cce93a",
+    9223372036854775807
+  ],
+  "kind": "row",
+  "output": "row-9b2a3385023bfff21ab4b139ac3a200b"
+},
+{
+  "input": [
+    "5daf552d-4bb8-432d-8eaa-a8ed1b5927af",
+    "space-51bb77c271db89ccccaa3f9293cce93a",
+    1
+  ],
+  "kind": "row",
+  "output": "row-ef09a5afba432e6015a57c4d27c43725"
+},
+{
+  "input": [
+    "96ddc5bc-babe-47be-9c02-394f60461bb2",
+    "space-51bb77c271db89ccccaa3f9293cce93a",
+    9223372036854775807
+  ],
+  "kind": "row",
+  "output": "row-9b2524cbc7f6e53118991f29813a0827"
+},
+{
+  "input": [
+    "2ae60090-34f1-49e5-ac89-250820791a1d",
+    "space-51bb77c271db89ccccaa3f9293cce93a",
+    9223372036854775807
+  ],
+  "kind": "row",
+  "output": "row-b4e2a8df021481ffb2c2a84c1e5f0103"
+},
+{
+  "input": [
+    "cn-beijing",
+    "text-embedding-v4"
+  ],
+  "kind": "space",
+  "output": "space-51bb77c271db89ccccaa3f9293cce93a"
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        },
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "afterMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "s",
+            "origin": "human",
+            "predicate": {
+              "id": "missing-concept",
+              "kind": "concept"
+            },
+            "subject": {
+              "id": "survivor",
+              "kind": "paper"
+            }
+          }
+        ],
+        "after_annotations": [
+          {
+            "id": "a",
+            "notePageId": "preserved-duplicate-core-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          }
+        ],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        },
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "deleteMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "expectedAssignmentsJson": "[{\"itemId\":\"survivor\",\"relationId\":\"r\"},{\"itemId\":\"survivor\",\"relationId\":\"r\"}]",
+      "expectedMembershipsJson": "[{\"itemId\":\"survivor\",\"collectionId\":\"a\"},{\"itemId\":\"survivor\",\"collectionId\":\"b\"}]",
+      "nal": {
+        "deleteAnnotationIds": [
+          "a"
+        ],
+        "deleteStatementIds": [
+          "s"
+        ],
+        "expectedAnnotationsJson": "[{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"preserved-duplicate-core-note\"}]",
+        "expectedStatementsJson": "[{\"id\":\"s\",\"subject\":{\"kind\":\"paper\",\"id\":\"survivor\"},\"predicate\":{\"kind\":\"concept\",\"id\":\"missing-concept\"},\"origin\":\"human\"}]"
+      }
+    },
+    "snapshotSha256": "1914d845998c0942829141bb84ea104a9e01a850d9cb4242b8b96130a806653c"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "afterMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "s",
+            "origin": "human",
+            "predicate": {
+              "id": "missing-concept",
+              "kind": "concept"
+            },
+            "subject": {
+              "id": "survivor",
+              "kind": "paper"
+            }
+          }
+        ],
+        "after_annotations": [
+          {
+            "id": "a",
+            "notePageId": "different-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          }
+        ],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "deleteMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "expectedAssignmentsJson": "[{\"itemId\":\"survivor\",\"relationId\":\"r\"}]",
+      "expectedMembershipsJson": "[{\"itemId\":\"survivor\",\"collectionId\":\"a\"},{\"itemId\":\"survivor\",\"collectionId\":\"b\"}]",
+      "nal": {
+        "deleteAnnotationIds": [
+          "a"
+        ],
+        "deleteStatementIds": [
+          "s"
+        ],
+        "expectedAnnotationsJson": "[{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"different-note\"}]",
+        "expectedStatementsJson": "[{\"id\":\"s\",\"subject\":{\"kind\":\"paper\",\"id\":\"survivor\"},\"predicate\":{\"kind\":\"concept\",\"id\":\"missing-concept\"},\"origin\":\"human\"}]"
+      }
+    },
+    "snapshotSha256": "27b29675b569523f0377fb677218db4f1b53e068f7a46aed918a0f532e42d0fe"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "afterMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        }
+      ],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "s",
+            "origin": "human",
+            "predicate": {
+              "id": "missing-concept",
+              "kind": "concept"
+            },
+            "subject": {
+              "id": "survivor",
+              "kind": "paper"
+            }
+          }
+        ],
+        "after_annotations": [
+          {
+            "id": "a",
+            "notePageId": "preserved-duplicate-core-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          }
+        ],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "deleteMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        }
+      ],
+      "expectedAssignmentsJson": "[{\"itemId\":\"survivor\",\"relationId\":\"r\"}]",
+      "expectedMembershipsJson": "[{\"itemId\":\"survivor\",\"collectionId\":\"a\"},{\"itemId\":\"survivor\",\"collectionId\":\"b\"},{\"itemId\":\"survivor\",\"collectionId\":\"a\"}]",
+      "nal": {
+        "deleteAnnotationIds": [
+          "a"
+        ],
+        "deleteStatementIds": [
+          "s"
+        ],
+        "expectedAnnotationsJson": "[{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"preserved-duplicate-core-note\"}]",
+        "expectedStatementsJson": "[{\"id\":\"s\",\"subject\":{\"kind\":\"paper\",\"id\":\"survivor\"},\"predicate\":{\"kind\":\"concept\",\"id\":\"missing-concept\"},\"origin\":\"human\"}]"
+      }
+    },
+    "snapshotSha256": "3e99da97cd4b53ade0a1c39dc8b521b846714f62baea93449700fcd28ab12a4b"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [
+      "anchor"
+    ],
+    "attachmentIds": [
+      "attachment"
+    ],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "afterMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "s",
+            "origin": "human",
+            "predicate": {
+              "id": "missing-concept",
+              "kind": "concept"
+            },
+            "subject": {
+              "id": "survivor",
+              "kind": "paper"
+            }
+          }
+        ],
+        "after_annotations": [
+          {
+            "id": "a",
+            "notePageId": "preserved-duplicate-core-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          }
+        ],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "deleteMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "expectedAssignmentsJson": "[{\"itemId\":\"survivor\",\"relationId\":\"r\"}]",
+      "expectedMembershipsJson": "[{\"itemId\":\"survivor\",\"collectionId\":\"a\"},{\"itemId\":\"survivor\",\"collectionId\":\"b\"}]",
+      "nal": {
+        "deleteAnnotationIds": [
+          "a"
+        ],
+        "deleteStatementIds": [
+          "s"
+        ],
+        "expectedAnnotationsJson": "[{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"preserved-duplicate-core-note\"}]",
+        "expectedStatementsJson": "[{\"id\":\"s\",\"subject\":{\"kind\":\"paper\",\"id\":\"survivor\"},\"predicate\":{\"kind\":\"concept\",\"id\":\"missing-concept\"},\"origin\":\"human\"}]"
+      }
+    },
+    "snapshotSha256": "909d18b58154e088fc99ab033a90ffe548ee112cb3e2bbdb3ecbd419e5290d1d"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [
+      "anchor"
+    ],
+    "attachmentIds": [
+      "attachment"
+    ],
+    "candidateId": "merge-candidate",
+    "classification": {
+      "afterAssignments": [],
+      "afterMemberships": [
+        {
+          "collectionId": "c",
+          "itemId": "survivor"
+        }
+      ],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "982bac0d-a1e9-420e-ab88-c83479ce7f65",
+            "origin": "legacy",
+            "predicate": {
+              "id": "ffa41537-62fa-4f63-80cd-812accc3d4cb",
+              "kind": "concept"
+            },
+            "subject": {
+              "kind": "product",
+              "terms": [
+                {
+                  "id": "survivor",
+                  "kind": "paper"
+                },
+                {
+                  "id": "1506b0a1-cbfa-4613-ad92-11eed9cdab75",
+                  "kind": "concept"
+                }
+              ]
+            }
+          }
+        ],
+        "after_annotations": [],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [],
+      "deleteMemberships": [
+        {
+          "collectionId": "c",
+          "itemId": "survivor"
+        }
+      ],
+      "expectedAssignmentsJson": "[]",
+      "expectedMembershipsJson": "[{\"itemId\":\"survivor\",\"collectionId\":\"c\"}]",
+      "nal": {
+        "deleteAnnotationIds": [],
+        "deleteStatementIds": [
+          "982bac0d-a1e9-420e-ab88-c83479ce7f65"
+        ],
+        "expectedAnnotationsJson": "[]",
+        "expectedStatementsJson": "[{\"id\":\"982bac0d-a1e9-420e-ab88-c83479ce7f65\",\"subject\":{\"kind\":\"product\",\"terms\":[{\"kind\":\"paper\",\"id\":\"survivor\"},{\"kind\":\"concept\",\"id\":\"1506b0a1-cbfa-4613-ad92-11eed9cdab75\"}]},\"predicate\":{\"kind\":\"concept\",\"id\":\"ffa41537-62fa-4f63-80cd-812accc3d4cb\"},\"origin\":\"legacy\"}]"
+      }
+    },
+    "snapshotSha256": "2f280196a221c7debc6c2105e4f32f7472d864cb6232b769091f31e99ee9b2ce"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "afterMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "s",
+            "origin": "legacy",
+            "predicate": {
+              "id": "missing-concept",
+              "kind": "concept"
+            },
+            "subject": {
+              "id": "survivor",
+              "kind": "paper"
+            }
+          }
+        ],
+        "after_annotations": [
+          {
+            "id": "a",
+            "notePageId": "preserved-duplicate-core-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          }
+        ],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "deleteMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "expectedAssignmentsJson": "[{\"itemId\":\"survivor\",\"relationId\":\"r\"}]",
+      "expectedMembershipsJson": "[{\"itemId\":\"survivor\",\"collectionId\":\"a\"},{\"itemId\":\"survivor\",\"collectionId\":\"b\"}]",
+      "nal": {
+        "deleteAnnotationIds": [
+          "a"
+        ],
+        "deleteStatementIds": [
+          "s"
+        ],
+        "expectedAnnotationsJson": "[{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"preserved-duplicate-core-note\"}]",
+        "expectedStatementsJson": "[{\"id\":\"s\",\"subject\":{\"kind\":\"paper\",\"id\":\"survivor\"},\"predicate\":{\"kind\":\"concept\",\"id\":\"missing-concept\"},\"origin\":\"legacy\"}]"
+      }
+    },
+    "snapshotSha256": "94966ed3f678c638d6bf32347622443b916eacc6c39d5bf0ff7a78322d8884af"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [
+      "missing",
+      "missing"
+    ],
+    "addedProvenanceFields": [
+      "missing",
+      "missing"
+    ],
+    "addedTagIds": [
+      "missing",
+      "missing"
+    ],
+    "anchorIds": [
+      "anchor",
+      "anchor"
+    ],
+    "attachmentIds": [
+      "attachment",
+      "attachment"
+    ],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "afterMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "s",
+            "origin": "human",
+            "predicate": {
+              "id": "missing-concept",
+              "kind": "concept"
+            },
+            "subject": {
+              "id": "survivor",
+              "kind": "paper"
+            }
+          }
+        ],
+        "after_annotations": [
+          {
+            "id": "a",
+            "notePageId": "preserved-duplicate-core-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          }
+        ],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [
+      "missing",
+      "missing"
+    ],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "deleteMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "expectedAssignmentsJson": "[{\"itemId\":\"survivor\",\"relationId\":\"r\"}]",
+      "expectedMembershipsJson": "[{\"itemId\":\"survivor\",\"collectionId\":\"a\"},{\"itemId\":\"survivor\",\"collectionId\":\"b\"}]",
+      "nal": {
+        "deleteAnnotationIds": [
+          "a"
+        ],
+        "deleteStatementIds": [
+          "s"
+        ],
+        "expectedAnnotationsJson": "[{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"preserved-duplicate-core-note\"}]",
+        "expectedStatementsJson": "[{\"id\":\"s\",\"subject\":{\"kind\":\"paper\",\"id\":\"survivor\"},\"predicate\":{\"kind\":\"concept\",\"id\":\"missing-concept\"},\"origin\":\"human\"}]"
+      }
+    },
+    "snapshotSha256": "b25044a44653112b9d26b4dc8f65dc060e4b29dd71a38d9ced03be5f741a62ce"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [],
+      "afterMemberships": [],
+      "beforeAssignments": [],
+      "beforeMemberships": []
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [],
+      "deleteMemberships": [],
+      "expectedAssignmentsJson": "[]",
+      "expectedMembershipsJson": "[]",
+      "nal": null
+    },
+    "snapshotSha256": "b250f3c7ed913928aa061d674f7a83331757736b5fc198860d7c5fbcf4b147a6"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": null,
+    "snapshotSha256": "b62b149cec1da4bddf2d3cb61a03a4fcb991aa83ff5df592dbdc4e17b381f681"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [],
+      "afterMemberships": [],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "s",
+            "origin": "human",
+            "predicate": {
+              "id": "missing-paper-entity",
+              "kind": "paper"
+            },
+            "subject": {
+              "kind": "product",
+              "terms": [
+                {
+                  "id": "survivor",
+                  "kind": "paper"
+                },
+                {
+                  "id": "missing-concept-entity",
+                  "kind": "concept"
+                }
+              ]
+            }
+          }
+        ],
+        "after_annotations": [
+          {
+            "id": "a",
+            "notePageId": "preserved-duplicate-core-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          }
+        ],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [],
+      "deleteMemberships": [],
+      "expectedAssignmentsJson": "[]",
+      "expectedMembershipsJson": "[]",
+      "nal": {
+        "deleteAnnotationIds": [
+          "a"
+        ],
+        "deleteStatementIds": [
+          "s"
+        ],
+        "expectedAnnotationsJson": "[{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"preserved-duplicate-core-note\"}]",
+        "expectedStatementsJson": "[{\"id\":\"s\",\"subject\":{\"kind\":\"product\",\"terms\":[{\"kind\":\"paper\",\"id\":\"survivor\"},{\"kind\":\"concept\",\"id\":\"missing-concept-entity\"}]},\"predicate\":{\"kind\":\"paper\",\"id\":\"missing-paper-entity\"},\"origin\":\"human\"}]"
+      }
+    },
+    "snapshotSha256": "b93a7c51442b4b80d92a56fc058526c787828ea945e6ffb26960c12613012292"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "afterMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "source"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "s",
+            "origin": "human",
+            "predicate": {
+              "id": "missing-concept",
+              "kind": "concept"
+            },
+            "subject": {
+              "id": "survivor",
+              "kind": "paper"
+            }
+          }
+        ],
+        "after_annotations": [
+          {
+            "id": "a",
+            "notePageId": "preserved-duplicate-core-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          }
+        ],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "deleteMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "source"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "expectedAssignmentsJson": "[{\"itemId\":\"survivor\",\"relationId\":\"r\"}]",
+      "expectedMembershipsJson": "[{\"itemId\":\"source\",\"collectionId\":\"a\"},{\"itemId\":\"survivor\",\"collectionId\":\"b\"}]",
+      "nal": {
+        "deleteAnnotationIds": [
+          "a"
+        ],
+        "deleteStatementIds": [
+          "s"
+        ],
+        "expectedAnnotationsJson": "[{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"preserved-duplicate-core-note\"}]",
+        "expectedStatementsJson": "[{\"id\":\"s\",\"subject\":{\"kind\":\"paper\",\"id\":\"survivor\"},\"predicate\":{\"kind\":\"concept\",\"id\":\"missing-concept\"},\"origin\":\"human\"}]"
+      }
+    },
+    "snapshotSha256": "bb77f9c77020f5c070731132f6db556adc018d2742465079c1df774d189b0ac2"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "afterMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "s",
+            "origin": "human",
+            "predicate": {
+              "id": "missing-concept",
+              "kind": "concept"
+            },
+            "subject": {
+              "id": "survivor",
+              "kind": "paper"
+            }
+          },
+          {
+            "id": "s",
+            "origin": "human",
+            "predicate": {
+              "id": "missing-concept",
+              "kind": "concept"
+            },
+            "subject": {
+              "id": "survivor",
+              "kind": "paper"
+            }
+          }
+        ],
+        "after_annotations": [
+          {
+            "id": "a",
+            "notePageId": "preserved-duplicate-core-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          }
+        ],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "deleteMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "expectedAssignmentsJson": "[{\"itemId\":\"survivor\",\"relationId\":\"r\"}]",
+      "expectedMembershipsJson": "[{\"itemId\":\"survivor\",\"collectionId\":\"a\"},{\"itemId\":\"survivor\",\"collectionId\":\"b\"}]",
+      "nal": {
+        "deleteAnnotationIds": [
+          "a"
+        ],
+        "deleteStatementIds": [
+          "s",
+          "s"
+        ],
+        "expectedAnnotationsJson": "[{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"preserved-duplicate-core-note\"}]",
+        "expectedStatementsJson": "[{\"id\":\"s\",\"subject\":{\"kind\":\"paper\",\"id\":\"survivor\"},\"predicate\":{\"kind\":\"concept\",\"id\":\"missing-concept\"},\"origin\":\"human\"},{\"id\":\"s\",\"subject\":{\"kind\":\"paper\",\"id\":\"survivor\"},\"predicate\":{\"kind\":\"concept\",\"id\":\"missing-concept\"},\"origin\":\"human\"}]"
+      }
+    },
+    "snapshotSha256": "bfaaec37a8b3d7015226c55cb2bbd951e281ed7f1c5572395054a19db58c966c"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "afterMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "s",
+            "origin": "human",
+            "predicate": {
+              "id": "missing-concept",
+              "kind": "concept"
+            },
+            "subject": {
+              "id": "survivor",
+              "kind": "paper"
+            }
+          }
+        ],
+        "after_annotations": [
+          {
+            "id": "a",
+            "notePageId": "preserved-duplicate-core-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          },
+          {
+            "id": "a",
+            "notePageId": "preserved-duplicate-core-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          }
+        ],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "deleteMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "expectedAssignmentsJson": "[{\"itemId\":\"survivor\",\"relationId\":\"r\"}]",
+      "expectedMembershipsJson": "[{\"itemId\":\"survivor\",\"collectionId\":\"a\"},{\"itemId\":\"survivor\",\"collectionId\":\"b\"}]",
+      "nal": {
+        "deleteAnnotationIds": [
+          "a",
+          "a"
+        ],
+        "deleteStatementIds": [
+          "s"
+        ],
+        "expectedAnnotationsJson": "[{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"preserved-duplicate-core-note\"},{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"preserved-duplicate-core-note\"}]",
+        "expectedStatementsJson": "[{\"id\":\"s\",\"subject\":{\"kind\":\"paper\",\"id\":\"survivor\"},\"predicate\":{\"kind\":\"concept\",\"id\":\"missing-concept\"},\"origin\":\"human\"}]"
+      }
+    },
+    "snapshotSha256": "c82ca47badb76e022b6f973cf4655c69518834b6fedfc323c2e1e39958dc7ab4"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "afterMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [
+          {
+            "id": "s",
+            "origin": "human",
+            "predicate": {
+              "id": "missing-concept",
+              "kind": "concept"
+            },
+            "subject": {
+              "id": "survivor",
+              "kind": "paper"
+            }
+          }
+        ],
+        "after_annotations": [
+          {
+            "id": "a",
+            "notePageId": "preserved-duplicate-core-note",
+            "targetId": "s",
+            "targetKind": "statement"
+          }
+        ],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [
+        {
+          "itemId": "survivor",
+          "relationId": "r"
+        }
+      ],
+      "deleteMemberships": [
+        {
+          "collectionId": "a",
+          "itemId": "survivor"
+        },
+        {
+          "collectionId": "b",
+          "itemId": "survivor"
+        }
+      ],
+      "expectedAssignmentsJson": "[{\"itemId\":\"survivor\",\"relationId\":\"r\"}]",
+      "expectedMembershipsJson": "[{\"itemId\":\"survivor\",\"collectionId\":\"a\"},{\"itemId\":\"survivor\",\"collectionId\":\"b\"}]",
+      "nal": {
+        "deleteAnnotationIds": [
+          "a"
+        ],
+        "deleteStatementIds": [
+          "s"
+        ],
+        "expectedAnnotationsJson": "[{\"id\":\"a\",\"targetKind\":\"statement\",\"targetId\":\"s\",\"notePageId\":\"preserved-duplicate-core-note\"}]",
+        "expectedStatementsJson": "[{\"id\":\"s\",\"subject\":{\"kind\":\"paper\",\"id\":\"survivor\"},\"predicate\":{\"kind\":\"concept\",\"id\":\"missing-concept\"},\"origin\":\"human\"}]"
+      }
+    },
+    "snapshotSha256": "e46eeaca438d0fc7cdbe29ae79236eed476ca2968b379037f66918b929dbc0fb"
+  }
+},
+{
+  "input": {
+    "addedProjectIds": [],
+    "addedProvenanceFields": [],
+    "addedTagIds": [],
+    "anchorIds": [],
+    "attachmentIds": [],
+    "candidateId": "candidate",
+    "classification": {
+      "afterAssignments": [],
+      "afterMemberships": [],
+      "beforeAssignments": [],
+      "beforeMemberships": [],
+      "nal": {
+        "after": [],
+        "after_annotations": [],
+        "before": [],
+        "before_annotations": []
+      }
+    },
+    "createdReadingState": false,
+    "identifierIds": [],
+    "mergedArchivedAt": null
+  },
+  "kind": "undo",
+  "output": {
+    "classification": {
+      "deleteAssignments": [],
+      "deleteMemberships": [],
+      "expectedAssignmentsJson": "[]",
+      "expectedMembershipsJson": "[]",
+      "nal": {
+        "deleteAnnotationIds": [],
+        "deleteStatementIds": [],
+        "expectedAnnotationsJson": "[]",
+        "expectedStatementsJson": "[]"
+      }
+    },
+    "snapshotSha256": "e55b986e53171268e82fed6c11b38207b87bf49ddd65e7b94c158785f26e9a4d"
+  }
+}
+]

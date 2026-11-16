@@ -77,11 +77,10 @@ async fn setup(value: Value) -> (Fixture, AiCandidate) {
 pub(super) async fn qualify(f: &Fixture, candidate: &AiCandidate) -> AiCandidate {
     let (value, _) = crate::ai::review_support::current_payload_source(candidate).unwrap();
     // Decode by the existing candidate decoder, which is deliberately broader than untagged Serde.
-    let decoded =
-        research_literature_library_native::analysis_workflow::candidate::decode_candidate_value(
-            value,
-            &std::collections::HashSet::from(["ev-quote".into()]),
-        );
+    let decoded = protocol::decode_candidate_value(
+        value,
+        &std::collections::HashSet::from(["ev-quote".into()]),
+    );
     let decoded = decoded.unwrap();
     let references = decoded.citation_references();
     for reference in references {

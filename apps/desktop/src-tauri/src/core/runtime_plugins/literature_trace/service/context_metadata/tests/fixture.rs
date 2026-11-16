@@ -98,7 +98,7 @@ impl Fixture {
             .push(json!({"id":"literature.context-metadata","version":1}));
         fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
         let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for name in ["header", "creators", "identifiers"] {
             let file = format!("context-metadata-{name}.v1.sql");
             fs::copy(source.join(&file), directory.join("data").join(file)).unwrap();
@@ -173,8 +173,11 @@ impl Fixture {
         let captured = resources
             .capture(&self.store.connection().unwrap(), "paper")
             .unwrap();
-        let body_json =
-            research_literature_library_native::context_metadata::project(&captured.input).unwrap();
+        assert_eq!(captured.input.paper_id, "paper");
+        let mut body = captured.input.base.as_object().unwrap().clone();
+        body.insert("creators".into(), json!(captured.input.creators));
+        body.insert("identifiers".into(), json!(captured.input.identifiers));
+        let body_json = serde_json::Value::Object(body).to_string();
         CatalogOutput::ContextMetadata {
             outcome: Box::new(ContextMetadataOutcomeV1 {
                 input: Box::new(ContextMetadataRequestV1 {

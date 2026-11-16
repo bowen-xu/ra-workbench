@@ -45,7 +45,7 @@ async fn wrong_projection_id_in_a_valid_real_reply_retires_and_reaps_the_service
         .push(json!({"id":"literature.catalog-read","version":1}));
     fs::write(&manifest_path, serde_json::to_vec(&manifest).unwrap()).unwrap();
     let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in [
         "list-active-ids",
         "search-fts-ids",

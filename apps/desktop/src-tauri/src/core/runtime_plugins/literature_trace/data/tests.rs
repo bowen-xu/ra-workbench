@@ -1,42 +1,22 @@
 use super::*;
 use research_agent_core::submission::ContextSourceKind;
 use rusqlite::{Connection, params};
-use std::{fs, path::Path};
+use std::fs;
 
 #[path = "fixture.rs"]
 mod fixture;
 use fixture::*;
 
 #[test]
-fn fixed_package_resources_equal_original_decoded_sql_bytes_without_added_newline() {
-    let source = fs::read_to_string(
-        Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("src/plugins/literature_library/knowledge/concept_retrieval/trace_repository.rs"),
-    )
-    .unwrap();
-    for (name, marker, expected_hash) in [
-        (
-            "read",
-            "select paper_id, query_sha256, status, context_text, context_sha256,",
-            READ_HASH,
-        ),
-        (
-            "expire",
-            "update concept_retrieval_traces set status = 'expired' where id = ?1",
-            EXPIRE_HASH,
-        ),
-        (
-            "mark-sent",
-            "update concept_retrieval_traces\n         set status = 'sent'",
-            MARK_HASH,
-        ),
+fn fixed_package_resources_keep_original_hashes_without_added_newline() {
+    for (name, expected_hash) in [
+        ("read", READ_HASH),
+        ("expire", EXPIRE_HASH),
+        ("mark-sent", MARK_HASH),
     ] {
-        let start = source.find(&format!("\"{marker}")).unwrap() + 1;
-        let original = source[start..].split('"').next().unwrap();
         let bytes = fs::read(resource_directory().join(format!("trace-{name}.v1.sql"))).unwrap();
-        assert_eq!(bytes, original.as_bytes());
         assert!(!bytes.ends_with(b"\n"));
-        assert_eq!(hash(original), expected_hash);
+        assert_eq!(hash(std::str::from_utf8(&bytes).unwrap()), expected_hash);
     }
     let package = PackageFixture::new();
     let resources = package.resources();

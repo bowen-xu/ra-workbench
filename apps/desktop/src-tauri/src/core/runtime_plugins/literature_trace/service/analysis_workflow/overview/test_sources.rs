@@ -15,15 +15,16 @@ pub(crate) fn preview(
             Ok(value) => return Ok(value),
             Err(CaptureError::Original(error)) => return Err(*error),
             Err(CaptureError::Need(input)) => {
-                let output = research_literature_library_native::catalog::dispatch(
+                let output = crate::runtime_plugins::native::package::tests::catalog_oracle(
+                    catalog,
+                    key,
                     CatalogInput::DecideAnalysisWorkflow {
                         input: Box::new(WorkflowWireInputV1 {
                             cbor_base64: encode_payload(&*input)
                                 .map_err(|_| AiError::TemporaryUnavailable)?,
                         }),
                     },
-                )
-                .map_err(|_| AiError::TemporaryUnavailable)?;
+                );
                 let CatalogOutput::AnalysisWorkflow { outcome } = output else {
                     return Err(AiError::TemporaryUnavailable);
                 };

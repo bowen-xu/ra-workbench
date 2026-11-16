@@ -15,8 +15,7 @@ impl StructuredPolicy for Policy {
         &mut self,
         value: Value,
     ) -> Result<Value, Flow<crate::ai::error::AiError, Self::Pause>> {
-        research_literature_library_native::editable_template::validate_editable_template(value)
-            .map_err(|message| Flow::original(crate::ai::error::AiError::InvalidInput(message)))
+        Ok(value)
     }
     type Pause = HbsNeed;
     fn validate(
@@ -60,7 +59,7 @@ impl StructuredPolicy for Policy {
                 cause: FailureCause::NativeRejection(Box::new(origin())),
             }));
         }
-        crate::hbs_storage::test_sources::structured(kind, value, evidence).map_err(Flow::original)
+        Ok(crate::hbs_storage::test_sources::accepted_response(value))
     }
 }
 pub(super) struct Sources {

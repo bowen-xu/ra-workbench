@@ -1,0 +1,1 @@
+select exists(select 1 from concepts where deleted_at is null and label='related-field' and explanation in ('旧集合关系。反向显示：related-field；有向：false。','从旧集合关系迁移。反向显示：related-field；有向：false。'))

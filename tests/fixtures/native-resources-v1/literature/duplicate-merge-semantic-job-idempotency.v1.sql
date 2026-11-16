@@ -1,0 +1,1 @@
+select 'embedding:'||?1||':1'

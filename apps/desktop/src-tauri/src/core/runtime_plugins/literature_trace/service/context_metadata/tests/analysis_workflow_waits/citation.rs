@@ -21,14 +21,8 @@ pub(super) fn fixture(wrong: bool) -> (Fixture, AiCitationAssessmentDraft) {
             persist_selection_evidence(&mut db, &run, &scope, &source, &source.quote_exact, false)
                 .unwrap();
         let content = json!({"kind":"reference_record_candidate_v1","schemaVersion":1,"rawText":"Synthetic reference.","evidenceItemIds":["ev-quote"],"fields":[{"name":"title","value":"Synthetic reference","evidenceItemIds":["ev-quote"]}],"uncertainties":[]}).to_string();
-        let prepared = actual_package::prepared_candidate(&db, &run, &bundle, &content).unwrap();
-        let saved = save_prepared_candidate(
-            &mut db,
-            &run,
-            &bundle,
-            prepared,
-        )
-        .unwrap();
+        let prepared = fixtures::prepared_reference(&content);
+        let saved = save_prepared_candidate(&mut db, &run, &bundle, prepared).unwrap();
         ReviewFacts::new(&db).candidate(&saved.id).unwrap()
     };
     let (value, keys) = current_payload_source(&candidate).unwrap();
@@ -36,9 +30,7 @@ pub(super) fn fixture(wrong: bool) -> (Fixture, AiCitationAssessmentDraft) {
         content: value.to_string(),
         evidence_keys: keys,
     };
-    let decision =
-        research_literature_library_native::analysis_workflow::candidate::decide(input.clone())
-            .unwrap();
+    let decision = fixtures::candidate(input.clone()).unwrap();
     let request = WorkflowInputV1::Candidate {
         input: Box::new(input),
     };

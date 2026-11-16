@@ -24,10 +24,7 @@ fn fixture(wrong: bool) -> (Fixture, AiCandidateRevisionDraft) {
         };
         let CandidateDecisionV1::Decoded {
             payload_cbor_base64,
-        } = research_literature_library_native::analysis_workflow::candidate::decide(
-            decode.clone(),
-        )
-        .unwrap()
+        } = fixtures::candidate(decode.clone()).unwrap()
         else {
             panic!("expected original decode")
         };
@@ -76,11 +73,7 @@ fn fixture(wrong: bool) -> (Fixture, AiCandidateRevisionDraft) {
         .into_iter()
         .enumerate()
         .map(|(index, input)| {
-            let decision =
-                research_literature_library_native::analysis_workflow::candidate::decide(
-                    input.clone(),
-                )
-                .unwrap();
+            let decision = fixtures::candidate(input.clone()).unwrap();
             let response = if wrong && index == 2 {
                 WorkflowDecisionV1::Validated { rejection: None }
             } else {

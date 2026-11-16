@@ -26,7 +26,7 @@ fn setup(outputs: &[CatalogOutput], gate: usize) -> Fixture {
         .push(json!({"id":"literature.evidence-matrix","version":1}));
     fs::write(path, serde_json::to_vec(&manifest).unwrap()).unwrap();
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in [
         "ids",
         "cell-header",

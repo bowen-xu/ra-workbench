@@ -88,9 +88,7 @@ async fn actual_package_evolution_errors_empty_runs_and_existing_foundation_resu
     assert_eq!(empty.status, "succeeded");
     let id = {
         let db = f.store.connection().unwrap();
-        let sql = KnowledgeSql::for_test(
-            &research_literature_library_native::knowledge_promotion::storage::static_sql(),
-        );
+        let sql = KnowledgeSql::for_test(super::super::wait_policy_fixtures::KNOWLEDGE_SQL);
         let run = algorithm_runs::start(
             &db,
             &sql,

@@ -1,0 +1,1 @@
+update bibliographic_items set abstract_text = ?2 where id = ?1

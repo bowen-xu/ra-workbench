@@ -16,9 +16,9 @@ fn seed_template(f: &Fixture) {
     ]});
     generic_reading::seed(f, value.clone());
     let portrait = json!({"kind":"paper_portrait_v1","schemaVersion":1,"coverage":"一页",
-        "claims":research_literature_library_native::structured_validation::PORTRAIT_DIMENSIONS.iter().enumerate().map(|(index,dimension)|json!({"id":format!("claim_{index}"),"dimension":dimension,"label":"形式描述","description":"明确模型","certainty":"supported","evidence":[{"evidenceItemId":"ev-quote","quote":"evidence Ω"}]})).collect::<Vec<_>>(),
+        "claims":(["genre", "mode", "paradigm"]).iter().enumerate().map(|(index,dimension)|json!({"id":format!("claim_{index}"),"dimension":dimension,"label":"形式描述","description":"明确模型","certainty":"supported","evidence":[{"evidenceItemId":"ev-quote","quote":"evidence Ω"}]})).collect::<Vec<_>>(),
         "template":fields});
-    research_literature_library_native::analysis_workflow::candidate::decode_candidate_value(
+    protocol::decode_candidate_value(
         portrait.clone(),
         &std::collections::HashSet::from(["ev-quote".into()]),
     )

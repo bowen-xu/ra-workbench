@@ -1,0 +1,1 @@
+update bibliographic_items set item_type = ?2 where id = ?1

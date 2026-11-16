@@ -111,7 +111,7 @@ impl Fixture {
         ]);
         fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
         let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for name in ["snapshot-hash", "snapshot-rows", "validation-latest"] {
             let name = format!("reading-evidence-{name}.v1.sql");
             fs::copy(source.join(&name), directory.join("data").join(name)).unwrap();

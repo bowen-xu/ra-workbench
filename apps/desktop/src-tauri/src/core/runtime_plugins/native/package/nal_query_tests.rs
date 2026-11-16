@@ -27,7 +27,7 @@ fn fixture(
             .push(json!({"id":id,"version":1}));
     }
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in ["nal-query-read.v1.sql", "nal-query-save.v1.sql"] {
         fs::copy(source.join(name), package.join("data").join(name)).unwrap();
     }

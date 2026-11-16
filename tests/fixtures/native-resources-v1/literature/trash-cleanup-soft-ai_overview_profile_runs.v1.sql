@@ -1,0 +1,1 @@
+insert into literature_cleanup_rows(item_id,table_name,row_key) select ?1,?2,rowid from ai_overview_profile_runs where paper_id=?1

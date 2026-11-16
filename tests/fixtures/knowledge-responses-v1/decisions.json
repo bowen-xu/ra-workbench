@@ -1,0 +1,414 @@
+{
+  "concept_capture_waits": [
+    {
+      "input": {
+        "draft": {
+          "anchorId": "matrix-first-anchor",
+          "language": null,
+          "resolution": {
+            "concept": {
+              "changeReason": null,
+              "disambiguation": "",
+              "domain": "",
+              "explanation": "Source definition",
+              "label": "Captured concept",
+              "period": "",
+              "tradition": ""
+            },
+            "definitionStatement": null,
+            "kind": "create_new"
+          },
+          "termText": "Captured term",
+          "usageText": ""
+        },
+        "kind": "capture",
+        "quote": "Synthetic first result"
+      },
+      "decision": {
+        "kind": "capture",
+        "prepared": {
+          "resolution": {
+            "concept": {
+              "changeReason": null,
+              "disambiguation": "",
+              "domain": "",
+              "explanation": "Source definition",
+              "label": "Captured concept",
+              "period": "",
+              "tradition": ""
+            },
+            "definitionStatement": null,
+            "kind": "create_new"
+          },
+          "usageText": "Synthetic first result"
+        }
+      }
+    },
+    {
+      "input": {
+        "kind": "term",
+        "language": "",
+        "text": "Captured term"
+      },
+      "decision": {
+        "kind": "term",
+        "prepared": {
+          "language": "",
+          "normalizedText": "captured term",
+          "rejection": null,
+          "text": "Captured term"
+        }
+      }
+    },
+    {
+      "input": {
+        "details": {
+          "changeReason": null,
+          "disambiguation": "",
+          "domain": "",
+          "explanation": "Source definition",
+          "label": "Captured concept",
+          "period": "",
+          "tradition": ""
+        },
+        "kind": "details"
+      },
+      "decision": {
+        "kind": "details",
+        "result": {
+          "Ok": [
+            {
+              "changeReason": null,
+              "disambiguation": "",
+              "domain": "",
+              "explanation": "Source definition",
+              "label": "Captured concept",
+              "period": "",
+              "tradition": ""
+            },
+            "Captured concept"
+          ]
+        }
+      }
+    },
+    {
+      "input": {
+        "collision": false,
+        "kind": "nameCollision"
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    }
+  ],
+  "concept_evolution_waits": [
+    {
+      "input": {
+        "bytes": 14,
+        "isEmpty": false,
+        "kind": "algorithmId",
+        "purpose": "evolution"
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "kind": "evolutionEvents",
+        "noveltyStatuses": [
+          "adapted_by_paper",
+          "introduced_by_paper",
+          "unclear"
+        ]
+      },
+      "decision": {
+        "kind": "evolutionEvents",
+        "result": {
+          "Ok": [
+            "adapted",
+            "introduced",
+            "unclear"
+          ]
+        }
+      }
+    },
+    {
+      "input": {
+        "kind": "evolutionEvents",
+        "noveltyStatuses": [
+          "adapted_by_paper",
+          "introduced_by_paper"
+        ]
+      },
+      "decision": {
+        "kind": "evolutionEvents",
+        "result": {
+          "Ok": [
+            "adapted",
+            "introduced"
+          ]
+        }
+      }
+    }
+  ],
+  "concept_identity_waits": [
+    {
+      "input": {
+        "characters": 5,
+        "kind": "identityMergeRationale"
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "duplicateSources": false,
+        "includesSurvivor": false,
+        "kind": "identityMergeShape",
+        "sourceCount": 1,
+        "survivorIsEmpty": false
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "hasChildren": false,
+        "kind": "identityTarget",
+        "mapped": false
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "currentRevision": 1,
+        "expectedRevision": 1,
+        "kind": "definitionRevision"
+      },
+      "decision": {
+        "kind": "definitionRevision",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "kind": "identitySnapshot"
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "duplicateSources": false,
+        "kind": "identitySplitShape",
+        "rationaleCharacters": 5,
+        "sourceCount": 1
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "isMerge": true,
+        "kind": "identitySplitEvent",
+        "selectedAreActive": true
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "changed": 1,
+        "kind": "identityMappingDeleted"
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "duplicateSources": false,
+        "kind": "identitySplitShape",
+        "rationaleCharacters": 15,
+        "sourceCount": 1
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    }
+  ],
+  "manual_definition_waits": [
+    {
+      "input": {
+        "currentRevision": null,
+        "expectedRevision": null,
+        "kind": "definitionRevision"
+      },
+      "decision": {
+        "kind": "definitionRevision",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "kind": "manualDefinition",
+        "statementIsEmpty": false
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    }
+  ],
+  "manual_relation_waits": [
+    {
+      "input": {
+        "facts": {
+          "anchorPresent": false,
+          "evidenceStance": null,
+          "predicateKind": "related_to",
+          "rationaleCharacters": null,
+          "rationaleIsEmpty": true,
+          "reasonCharacters": null,
+          "scopeCharacters": 7
+        },
+        "kind": "relationDraft"
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "idBytes": 5,
+        "idIsEmpty": false,
+        "kind": "relationNode",
+        "nodeKind": "paper"
+      },
+      "decision": {
+        "kind": "relationNode",
+        "result": {
+          "Ok": "paper"
+        }
+      }
+    },
+    {
+      "input": {
+        "idBytes": 13,
+        "idIsEmpty": false,
+        "kind": "relationNode",
+        "nodeKind": "note_page"
+      },
+      "decision": {
+        "kind": "relationNode",
+        "result": {
+          "Ok": "note_page"
+        }
+      }
+    },
+    {
+      "input": {
+        "kind": "relationEndpoints",
+        "same": false
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "currentRevision": null,
+        "expectedRevision": null,
+        "kind": "relationRevision"
+      },
+      "decision": {
+        "kind": "relationRevision",
+        "rejection": null
+      }
+    }
+  ],
+  "shared_foundations_waits": [
+    {
+      "input": {
+        "invalidId": false,
+        "kind": "foundationScope",
+        "uniquePapers": 3
+      },
+      "decision": {
+        "kind": "checked",
+        "rejection": null
+      }
+    },
+    {
+      "input": {
+        "input": {
+          "paperIds": [
+            "paper-1",
+            "paper-2",
+            "paper-3"
+          ],
+          "papers": {
+            "paper-1": {
+              "concepts": {
+                "concept-other": {
+                  "label": "Other foundation",
+                  "revision": 1
+                },
+                "concept-shared": {
+                  "label": "Shared foundation",
+                  "revision": 1
+                }
+              },
+              "title": "Origin paper"
+            },
+            "paper-2": {
+              "concepts": {
+                "concept-shared": {
+                  "label": "Shared foundation",
+                  "revision": 1
+                }
+              },
+              "title": "Adaptation paper"
+            },
+            "paper-3": {
+              "concepts": {
+                "concept-other": {
+                  "label": "Other foundation",
+                  "revision": 1
+                }
+              },
+              "title": "Alternative paper"
+            }
+          }
+        },
+        "kind": "foundationComparison"
+      },
+      "decision": {
+        "kind": "foundationComparison",
+        "result": {
+          "Ok": "oWJPa4OqZ29yZGluYWwAa2xlZnRQYXBlcklkZ3BhcGVyLTFubGVmdFBhcGVyVGl0bGVsT3JpZ2luIHBhcGVybHJpZ2h0UGFwZXJJZGdwYXBlci0yb3JpZ2h0UGFwZXJUaXRsZXBBZGFwdGF0aW9uIHBhcGVybnNoYXJlZENvbmNlcHRzgaRpY29uY2VwdElkbmNvbmNlcHQtc2hhcmVkb2NvbmNlcHRSZXZpc2lvbgFlbGFiZWxxU2hhcmVkIGZvdW5kYXRpb25md2VpZ2h0+z/i5lPBKTsxb3dlaWdodGVkSmFjY2FyZPk4AHJzaGFyZWRDb25jZXB0Q291bnQBc2xlZnRGb3VuZGF0aW9uQ291bnQCdHJpZ2h0Rm91bmRhdGlvbkNvdW50Aapnb3JkaW5hbAFrbGVmdFBhcGVySWRncGFwZXItMW5sZWZ0UGFwZXJUaXRsZWxPcmlnaW4gcGFwZXJscmlnaHRQYXBlcklkZ3BhcGVyLTNvcmlnaHRQYXBlclRpdGxlcUFsdGVybmF0aXZlIHBhcGVybnNoYXJlZENvbmNlcHRzgaRpY29uY2VwdElkbWNvbmNlcHQtb3RoZXJvY29uY2VwdFJldmlzaW9uAWVsYWJlbHBPdGhlciBmb3VuZGF0aW9uZndlaWdodPs/4uZTwSk7MW93ZWlnaHRlZEphY2NhcmT5OAByc2hhcmVkQ29uY2VwdENvdW50AXNsZWZ0Rm91bmRhdGlvbkNvdW50AnRyaWdodEZvdW5kYXRpb25Db3VudAGqZ29yZGluYWwCa2xlZnRQYXBlcklkZ3BhcGVyLTJubGVmdFBhcGVyVGl0bGVwQWRhcHRhdGlvbiBwYXBlcmxyaWdodFBhcGVySWRncGFwZXItM29yaWdodFBhcGVyVGl0bGVxQWx0ZXJuYXRpdmUgcGFwZXJuc2hhcmVkQ29uY2VwdHOAb3dlaWdodGVkSmFjY2FyZPmAAHJzaGFyZWRDb25jZXB0Q291bnQAc2xlZnRGb3VuZGF0aW9uQ291bnQBdHJpZ2h0Rm91bmRhdGlvbkNvdW50AQ=="
+        }
+      }
+    }
+  ]
+}

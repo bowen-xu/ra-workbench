@@ -1,0 +1,1 @@
+select '{"kind":"product","terms":[{"kind":"concept","id":'||data_json_quote_v1(?1)||'},{"kind":"concept","id":'||data_json_quote_v1(?2)||'}]}','{"kind":"concept","id":'||data_json_quote_v1(?3)||'}',?3,'legacy'

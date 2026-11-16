@@ -69,12 +69,7 @@ async fn actual_package_paper_confirmation_normalizes_and_qualifies_original_can
         project_id: None,
         idempotency_key: "field-key".into(),
     };
-    let expected = research_literature_library_native::paper_confirmation::overview::qualify(
-        &candidate,
-        &field_draft,
-        research_literature_library_native::analysis_workflow::candidate::decode_candidate_value,
-    )
-    .unwrap();
+    let expected = protocol::qualify(&candidate, &field_draft).unwrap();
     let PaperConfirmationDecisionV1::OverviewCandidate { qualified } = stage(
         &f,
         PaperConfirmationInputV1::OverviewCandidate {

@@ -1,0 +1,1 @@
+select revision,definitions,cache,legacy_imported from nal_query_collections where id=1

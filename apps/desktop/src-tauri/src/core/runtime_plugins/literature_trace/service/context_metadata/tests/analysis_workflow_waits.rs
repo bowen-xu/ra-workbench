@@ -39,6 +39,7 @@ mod acceptance;
 mod citation;
 #[path = "analysis_workflow_waits/docling.rs"]
 mod docling;
+pub(super) mod fixtures;
 mod matrix;
 mod pages;
 mod revision;
@@ -299,7 +300,7 @@ async fn creation_releases_the_original_transaction_and_rejects_changed_admissio
         .push(json!({"id":CAPABILITY_ID,"version":CAPABILITY_VERSION}));
     fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for file in [
         "analysis-history-latest.v1.sql",
         "analysis-workflow-generation-active.v1.sql",

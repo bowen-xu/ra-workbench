@@ -17,18 +17,50 @@ use std::{fs, sync::Arc};
 struct Static;
 impl MatrixPolicy for Static {
     fn validate(&mut self, input: MatrixValidationInputV1) -> Result<(), MatrixError> {
-        match research_literature_library_native::evidence_matrix::decide(&input).rejection {
-            None => Ok(()),
-            Some(reason) => Err(MatrixError::InvalidInput(reason.message().into())),
+        match input {
+            MatrixValidationInputV1::Matrix { draft } => {
+                assert_eq!(draft.project_id, "matrix-project");
+            }
+            MatrixValidationInputV1::Cell { draft, matrix } => {
+                assert_eq!(draft.paper_id, "paper");
+                assert_eq!(matrix.project_id, "matrix-project");
+            }
+            MatrixValidationInputV1::Statement { statement, .. } => {
+                assert_eq!(statement.id, "statement-one");
+            }
         }
+        Ok(())
     }
 }
 impl DerivedPolicy for Static {
     fn validate(&mut self, input: DerivedValidationInputV1) -> Result<(), DerivedError> {
-        research_literature_library_native::derived_view::validate(&input).map_err(|cause| match cause { research_workbench_native_sdk::candidate_contracts::CandidateValidationError::InvalidInput(message)=>DerivedError::InvalidInput(message), _=>unreachable!("pure validation only rejects input") })
+        match input {
+            DerivedValidationInputV1::Header { draft } => {
+                assert_eq!(draft.project_id, "matrix-project");
+                assert_eq!(draft.title, "Manual comparison");
+            }
+            DerivedValidationInputV1::Input { ordinal, input } => {
+                assert_eq!(ordinal, 0);
+                assert_eq!(input.object_kind, "matrix_cell");
+            }
+            DerivedValidationInputV1::Coverage { ordinal, snapshot } => {
+                assert_eq!(ordinal, 0);
+                assert_eq!(snapshot.paper_id, "paper");
+            }
+            DerivedValidationInputV1::Item { ordinal, item, .. } => {
+                assert_eq!(ordinal, 0);
+                assert_eq!(item.id, "i");
+            }
+            DerivedValidationInputV1::Provenance { .. } => {
+                panic!("manual fixture preparation has no AI review stage")
+            }
+        }
+        Ok(())
     }
     fn provenance(&mut self, current: String, review: String) -> Result<String, DerivedError> {
-        Ok(research_literature_library_native::derived_view::next_provenance(&current, &review))
+        assert_eq!(current, "human_original");
+        assert_eq!(review, "accepted");
+        Ok("human_original".into())
     }
 }
 fn ready() -> CatalogOutput {
@@ -41,8 +73,7 @@ fn setup(update: bool, gate: usize) -> (Fixture, DerivedResearchViewDraft) {
     matrix_fixture::seed(&f);
     let mut draft = {
         let mut db = f.store.connection().unwrap();
-        let sql =
-            MatrixSql::for_test(&research_literature_library_native::evidence_matrix::static_sql());
+        let sql = MatrixSql::for_test(&super::analysis_workflow_waits::fixtures::MATRIX_SQL);
         let matrix = crate::runtime_plugins::literature_matrix::save_matrix_from(
             &sql,
             &mut Static,
@@ -65,9 +96,7 @@ fn setup(update: bool, gate: usize) -> (Fixture, DerivedResearchViewDraft) {
         .unwrap();
         let mut draft:DerivedResearchViewDraft=serde_json::from_value(json!({"projectId":"matrix-project","viewKind":"taxonomy","title":"Manual comparison","inputs":[{"objectKind":"matrix_cell","objectId":cell.id,"objectRevision":1,"selectionReason":"Chosen"}],"items":[{"id":"i","text":"Synthetic synthesis","epistemicRole":"synthesis","evidenceAnchorIds":["matrix-first-anchor"],"hasConflict":true}],"reviewState":"accepted","changeReason":"manual"})).unwrap();
         if update {
-            let sql = DerivedSql::for_test(
-                &research_literature_library_native::derived_view::storage::static_sql(),
-            );
+            let sql = DerivedSql::for_test(&super::analysis_workflow_waits::fixtures::DERIVED_SQL);
             let view = crate::runtime_plugins::literature_derived_view::save_derived_view_from(
                 &sql,
                 &mut Static,
@@ -90,7 +119,7 @@ fn setup(update: bool, gate: usize) -> (Fixture, DerivedResearchViewDraft) {
         .push(json!({"id":"literature.derived-views","version":1}));
     fs::write(path, serde_json::to_vec(&manifest).unwrap()).unwrap();
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in [
         "ids",
         "insert",

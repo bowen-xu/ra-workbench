@@ -1,0 +1,1 @@
+select revision from nal_state where id = 1

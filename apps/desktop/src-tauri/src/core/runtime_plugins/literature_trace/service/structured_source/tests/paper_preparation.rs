@@ -27,7 +27,7 @@ fn outputs(f: &Fixture) -> Vec<CatalogOutput> {
             &["selected".into()],
         )
         .unwrap();
-    let prepared = research_literature_library_native::paper_context::build(&capture.input);
+    let prepared = crate::runtime_plugins::literature_context::test_fixture::build(&capture.input);
     let projection = SnapshotProjectionInputV1 {
         paper_id: "paper".into(),
         attachment_statuses: prepared.attachment_statuses.clone(),
@@ -50,7 +50,7 @@ fn outputs(f: &Fixture) -> Vec<CatalogOutput> {
     ]
     .into_iter()
     .map(|input| {
-        research_literature_library_native::catalog::dispatch(CatalogInput::PreparePaperContext {
+        catalog_response(CatalogInput::PreparePaperContext {
             input: Box::new(input),
         })
         .unwrap()
@@ -257,4 +257,8 @@ async fn legacy_session_sql_failure_keeps_original_storage_code_and_resource_dia
     assert_eq!(f.counts(), (0, 0));
     assert!(!f.lifecycle().contains("call 1"));
     f.service.shutdown().await.unwrap();
+}
+
+fn catalog_response(input: CatalogInput) -> Result<CatalogOutput, String> {
+    Ok(crate::runtime_plugins::literature_context::test_fixture::policy_catalog(input))
 }

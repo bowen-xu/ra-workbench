@@ -23,12 +23,7 @@ async fn actual_package_docling_projections_preserve_original_rows_prompt_images
     let mut evidence = Vec::new();
     let mut assets = BTreeMap::new();
     for item in &items {
-        if let Some(row) =
-            research_literature_library_native::analysis_workflow::docling::evidence_row(
-                "run", item,
-            )
-            .unwrap()
-        {
+        if let Some(row) = protocol::docling_row("run", item).unwrap() {
             evidence.push(EvidenceQuote {
                 citation_key: item.id.clone(),
                 quote_exact: row.quote,
@@ -58,7 +53,7 @@ async fn actual_package_docling_projections_preserve_original_rows_prompt_images
             .unwrap(),
         ),
     };
-    let expected = research_literature_library_native::analysis_workflow::docling_prompt::build_overview_input(&prompt).unwrap();
+    let expected = protocol::docling_prompt(&prompt).unwrap();
     assert!(expected.has_images());
     f.bind_actual_package(catalog, key.clone());
     assert!(f.store.generation_policy_source().is_none());
@@ -86,11 +81,7 @@ async fn actual_package_docling_projections_preserve_original_rows_prompt_images
             }
         }));
     for item in items {
-        let expected =
-            research_literature_library_native::analysis_workflow::docling::evidence_row(
-                "run", &item,
-            )
-            .unwrap();
+        let expected = protocol::docling_row("run", &item).unwrap();
         let (actual, origin) = f
             .service
             .project_docling_evidence_row(

@@ -1,0 +1,1 @@
+insert or ignore into collection_memberships (item_id, collection_id) select ?1, collection_id from collection_memberships where item_id = ?2

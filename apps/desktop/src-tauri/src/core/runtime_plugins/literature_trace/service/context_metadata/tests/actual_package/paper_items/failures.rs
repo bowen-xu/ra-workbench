@@ -206,12 +206,11 @@ async fn actual_package_paper_items_keep_citation_inspection_role_and_shared_tur
     let actual = decide(&f, draft.clone()).await.unwrap_err();
     assert!(actual.to_string().contains(&expected.to_string()));
     assert_eq!(counts(&f), (0, 0, 0, 0, 0, 0));
-    let decoded =
-        research_literature_library_native::analysis_workflow::candidate::decode_candidate_value(
-            payload(),
-            &std::collections::HashSet::from(["ev-quote".into()]),
-        )
-        .unwrap();
+    let decoded = protocol::decode_candidate_value(
+        payload(),
+        &std::collections::HashSet::from(["ev-quote".into()]),
+    )
+    .unwrap();
     for reference in decoded.citation_references() {
         crate::ai::review_support::record_citation_assessment_with(
             &f.store.connection().unwrap(),

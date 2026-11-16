@@ -1,0 +1,1 @@
+select id, name, description, concept_id from collections order by id

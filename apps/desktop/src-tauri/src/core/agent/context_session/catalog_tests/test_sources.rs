@@ -3,7 +3,6 @@ use crate::agent::{
     context_catalog::{ContextCatalogEntries, ContextCatalogError, ContextCatalogSource},
     paper_metadata::PaperMetadataError,
 };
-use research_workbench_native_sdk::context_metadata::ContextMetadataInputV1;
 use rusqlite::Connection;
 
 fn pairs(db: &Connection, sql: &str, key: &str) -> Result<Vec<(String, String)>, rusqlite::Error> {
@@ -19,7 +18,7 @@ pub(super) fn catalog() -> ContextCatalogSource {
                 db,
                 include_str!(concat!(
                     env!("CARGO_MANIFEST_DIR"),
-                    "/../../../tests/fixtures/context-resources-v1/literature_library/context-catalog-papers.v1.sql"
+                    "/../../../tests/fixtures/native-resources-v1/literature/context-catalog-papers.v1.sql"
                 )),
                 query,
             )
@@ -29,7 +28,7 @@ pub(super) fn catalog() -> ContextCatalogSource {
                 db,
                 include_str!(concat!(
                     env!("CARGO_MANIFEST_DIR"),
-                    "/../../../tests/fixtures/context-resources-v1/literature_library/context-catalog-pdf-attachments.v1.sql"
+                    "/../../../tests/fixtures/native-resources-v1/literature/context-catalog-pdf-attachments.v1.sql"
                 )),
                 paper,
             )
@@ -51,18 +50,19 @@ pub(super) fn metadata(db: &Connection, paper: &str) -> Result<String, PaperMeta
         .query_row(
             include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
-                "/../../../tests/fixtures/context-resources-v1/literature_library/context-metadata-header.v1.sql"
+                "/../../../tests/fixtures/native-resources-v1/literature/context-metadata-header.v1.sql"
             )),
             [paper],
             |row| row.get(0),
         )
         .map_err(|_| PaperMetadataError::SourceUnavailable)?;
-    let base = serde_json::from_str(&header).map_err(|_| PaperMetadataError::Unavailable)?;
+    let mut base: serde_json::Value =
+        serde_json::from_str(&header).map_err(|_| PaperMetadataError::Unavailable)?;
     let creators = pairs(
         db,
         include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../../tests/fixtures/context-resources-v1/literature_library/context-metadata-creators.v1.sql"
+            "/../../../tests/fixtures/native-resources-v1/literature/context-metadata-creators.v1.sql"
         )),
         paper,
     )
@@ -71,22 +71,13 @@ pub(super) fn metadata(db: &Connection, paper: &str) -> Result<String, PaperMeta
         db,
         include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
-            "/../../../tests/fixtures/context-resources-v1/literature_library/context-metadata-identifiers.v1.sql"
+            "/../../../tests/fixtures/native-resources-v1/literature/context-metadata-identifiers.v1.sql"
         )),
         paper,
     )
     .map_err(|_| PaperMetadataError::Unavailable)?;
-    research_literature_library_native::context_metadata::project(&ContextMetadataInputV1 {
-        paper_id: paper.into(),
-        base,
-        creators: creators
-            .into_iter()
-            .map(|(first, second)| [first, second])
-            .collect(),
-        identifiers: identifiers
-            .into_iter()
-            .map(|(first, second)| [first, second])
-            .collect(),
-    })
-    .map_err(|_| PaperMetadataError::Unavailable)
+    // The fixture supplies the accepted response over the caller's observed rows.
+    base["creators"] = serde_json::json!(creators);
+    base["identifiers"] = serde_json::json!(identifiers);
+    Ok(base.to_string())
 }

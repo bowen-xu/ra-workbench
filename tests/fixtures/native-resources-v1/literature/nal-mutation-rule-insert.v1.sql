@@ -1,0 +1,1 @@
+insert into nal_relation_rules(relation_concept_id,kind) values (?1,'transitive') on conflict do nothing

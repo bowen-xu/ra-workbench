@@ -1,0 +1,1 @@
+select exists(select 1 from embedding_spaces where id = ?1 and retired_at is null)

@@ -21,7 +21,7 @@ impl KnowledgePolicy for Recorded {
         _ordinal: usize,
         input: Input,
     ) -> Result<Decision, PromotionError<Infallible>> {
-        let decision = research_literature_library_native::knowledge_promotion::decide(&input);
+        let decision = super::wait_policy_fixtures::knowledge("manual_relation_waits", &input);
         self.0.push(input);
         Ok(decision)
     }
@@ -39,9 +39,7 @@ fn fixture() -> (Fixture, RelationAssertionDraft) {
     f.store.connection().unwrap().execute_batch("insert into note_pages(id,title,position,status,is_favorite,revision,schema_version,created_at,updated_at) values('relation-note','Relation note',0,'active',0,0,1,'now','now');").unwrap();
     let draft:RelationAssertionDraft=serde_json::from_value(json!({"subject":{"kind":"paper","id":"paper"},"predicateKind":"related_to","object":{"kind":"note_page","id":"relation-note"},"scopeNote":" Scope "})).unwrap();
     let mut policy = Recorded(Vec::new());
-    let sql = KnowledgeSql::for_test(
-        &research_literature_library_native::knowledge_promotion::storage::static_sql(),
-    );
+    let sql = KnowledgeSql::for_test(super::wait_policy_fixtures::KNOWLEDGE_SQL);
     relation::prepare_relation(&f.store.connection().unwrap(), &sql, &mut policy, &draft).unwrap();
     let outputs = policy
         .0
@@ -49,7 +47,7 @@ fn fixture() -> (Fixture, RelationAssertionDraft) {
         .enumerate()
         .map(|(ordinal, input)| {
             let decision = WorkflowDecisionV1::KnowledgeValidation {
-                decision: research_literature_library_native::knowledge_promotion::decide(&input),
+                decision: super::wait_policy_fixtures::knowledge("manual_relation_waits", &input),
             };
             let input = WorkflowInputV1::KnowledgeValidation {
                 ordinal,
@@ -75,14 +73,7 @@ fn fixture() -> (Fixture, RelationAssertionDraft) {
             .push(json!({"id":id,"version":1}));
     }
     fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
-    let resources = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
-    for entry in fs::read_dir(resources).unwrap() {
-        let entry = entry.unwrap();
-        if entry.path().extension().is_some_and(|e| e == "sql") {
-            fs::copy(entry.path(), directory.join("data").join(entry.file_name())).unwrap();
-        }
-    }
+    super::wait_policy_fixtures::install_knowledge_sql(&directory);
     f.configure(&outputs, Some(3), false);
     f.bind();
     (f, draft)

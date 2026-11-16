@@ -1,0 +1,1 @@
+select title, issued_year from bibliographic_items where id = ?1

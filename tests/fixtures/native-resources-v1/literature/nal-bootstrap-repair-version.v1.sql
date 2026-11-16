@@ -1,0 +1,1 @@
+select relation_semantics_version from nal_state where id=1

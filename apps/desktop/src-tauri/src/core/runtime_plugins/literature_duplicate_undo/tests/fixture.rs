@@ -6,9 +6,7 @@ use crate::{
         literature_duplicates::tests::fixture::{Fixture as CoreFixture, PAGE},
     },
 };
-use research_workbench_native_sdk::duplicate_undo::{
-    PreparedDuplicateUndoV1, UndoMergePrepareInputV1,
-};
+use research_workbench_native_sdk::duplicate_undo::PreparedDuplicateUndoV1;
 use rusqlite::{Connection, params};
 use serde_json::{Value, json};
 use std::{
@@ -66,7 +64,7 @@ impl Fixture {
         .unwrap();
         fs::write(directory.join("index.js"), "export {};\n").unwrap();
         let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for name in [
             "header",
             "collection-revision",
@@ -145,10 +143,7 @@ impl Fixture {
     }
 
     pub fn prepared(&self, captured: &CapturedUndo) -> PreparedDuplicateUndoV1 {
-        research_literature_library_native::duplicate_undo::prepare(&UndoMergePrepareInputV1 {
-            snapshot_json: captured.snapshot_json.clone(),
-        })
-        .unwrap()
+        prepared_undo(&captured.snapshot_json)
     }
 
     pub fn apply(&self) -> Result<(), UndoFailure> {
@@ -355,4 +350,79 @@ pub(crate) fn rows(db: &Connection, sql: &str) -> Vec<String> {
         .unwrap()
         .collect::<Result<_, _>>()
         .unwrap()
+}
+
+/// Match the recorded domain observations while binding opaque Core identities.
+/// Only render observations omit Core timestamps, which the renderer does not consume.
+fn observation_key(value: &Value, render: bool) -> (Value, Vec<String>) {
+    fn visit(value: &Value, key: &str, render: bool, identities: &mut Vec<String>) -> Value {
+        match value {
+            Value::Object(object) => Value::Object(
+                object
+                    .iter()
+                    .filter(|(key, _)| {
+                        !render || !matches!(key.as_str(), "createdAt" | "updatedAt")
+                    })
+                    .map(|(key, value)| (key.clone(), visit(value, key, render, identities)))
+                    .collect(),
+            ),
+            Value::Array(values) => Value::Array(
+                values
+                    .iter()
+                    .map(|value| visit(value, key, render, identities))
+                    .collect(),
+            ),
+            Value::String(identity)
+                if (key == "id" || key.ends_with("Id"))
+                    && uuid::Uuid::parse_str(identity).is_ok() =>
+            {
+                let index = match identities.iter().position(|current| current == identity) {
+                    Some(index) => index,
+                    None => {
+                        identities.push(identity.clone());
+                        identities.len() - 1
+                    }
+                };
+                json!(format!("$core_identity_{index}"))
+            }
+            _ => value.clone(),
+        }
+    }
+    let mut identities = Vec::new();
+    (visit(value, "", render, &mut identities), identities)
+}
+
+pub(crate) fn recorded_cases() -> Vec<Value> {
+    serde_json::from_str(include_str!(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../../tests/fixtures/duplicate-policy-v1/cases.json"
+    )))
+    .unwrap()
+}
+
+pub(crate) fn contract_reply(kind: &str, input: Value) -> Value {
+    let (key, identities) = observation_key(&input, kind == "render");
+    for case in recorded_cases()
+        .into_iter()
+        .filter(|case| case["kind"] == kind)
+    {
+        let (recorded, original_ids) = observation_key(&case["input"], kind == "render");
+        if recorded != key {
+            continue;
+        }
+        let mut response = serde_json::to_string(&case["output"]).unwrap();
+        if kind == "undo" {
+            for (original, current) in original_ids.iter().zip(&identities) {
+                response = response.replace(original, current);
+            }
+        }
+        return serde_json::from_str(&response).unwrap();
+    }
+    panic!("unrecorded duplicate policy fixture: {kind}")
+}
+pub(crate) fn prepared_undo(snapshot_json: &str) -> PreparedDuplicateUndoV1 {
+    use sha2::{Digest, Sha256};
+    let mut response = contract_reply("undo", serde_json::from_str(snapshot_json).unwrap());
+    response["snapshotSha256"] = json!(format!("{:x}", Sha256::digest(snapshot_json.as_bytes())));
+    serde_json::from_value(response).unwrap()
 }

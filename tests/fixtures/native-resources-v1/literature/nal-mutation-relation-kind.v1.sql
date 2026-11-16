@@ -1,0 +1,1 @@
+select exists(select 1 from nal_concept_kinds where concept_id=?1 and kind='relation')

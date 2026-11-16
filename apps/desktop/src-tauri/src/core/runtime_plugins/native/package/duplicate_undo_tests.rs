@@ -58,8 +58,8 @@ const HEADER_PATH: &str = "data/duplicate-undo-header.v1.sql";
 fn copy_header(root: &tempfile::TempDir) -> Vec<u8> {
     let bytes = fs::read(
         std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native")
-            .join(HEADER_PATH),
+            .join("../../../tests/fixtures/native-resources-v1/literature")
+            .join("duplicate-undo-header.v1.sql"),
     )
     .unwrap();
     fs::write(root.path().join("writing").join(HEADER_PATH), &bytes).unwrap();

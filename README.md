@@ -7,14 +7,15 @@
 ```sh
 node /path/to/sdk-artifacts/install-sdk.mjs /path/to/sdk-artifacts .
 pnpm install --frozen-lockfile
-pnpm test-dependencies:install -- /path/to/literature-test-artifacts /path/to/writing-test-artifacts
 pnpm build
 pnpm build:native
 pnpm typecheck
-pnpm test -- apps/web/src/core/runtime/plugins/viewRegistry.test.ts
+pnpm exec vitest run apps/web/src/core/runtime/plugins/viewRegistry.test.ts
 ```
 
-SDK 公开依赖位于本工程 .dependencies/sdk/。现有 Native 回归使用文献和写作库的版本化测试支持产物，安装到 .dependencies/test-plugins/。Cargo 解析应用 manifest 时同时解析 dev-dependencies，测试支持产物也需要先准备。主仓库的统一安装和构建入口自动准备这些依赖。
+SDK 公开依赖位于本工程 `.dependencies/sdk/`。Core 自身的安装、前后端构建和测试使用本工程源码、SDK 与工具依赖。固定 SQL、JSON 及有限策略响应是带有精确来源和摘要的自有测试输入。领域规则及单插件协作测试由各插件工程拥有。
+
+显式真实包的 Core 接纳／事务集成用例由父仓选择并提供预构建包，通过原有限 Native 协议验证。其包目录和执行结果单独记录。
 
 包和锁文件由本工程维护。Web SDK 的 UI／Hook 声明绑定到本次 Core 构建的 /sdk/v1/。插件通过这些 facade 消费同一 React、文档、HBS 和 Agent 实例。Agent 执行机制位于 packages/agent-core，公开输入与纯编解码使用 SDK 的 agent-api。
 
@@ -24,7 +25,7 @@ build:native 编译 research-assistant 和 note-pdf-worker 两个运行程序，
 
 ## 开发与回归
 
-pnpm dev 提供 Core 前端。pnpm dev:desktop 和 pnpm bundle:dev 消费 RESEARCH_ASSISTANT_RUNTIME_PLUGIN_DIRECTORY 指定的预构建插件目录。完整产品的默认三插件组装由主仓库入口负责。
+`pnpm dev` 提供 Core 前端。`pnpm dev:desktop` 和 `pnpm bundle:dev` 默认启动零插件工作台，显式设置 `RESEARCH_ASSISTANT_RUNTIME_PLUGIN_DIRECTORY` 时消费该目录的预构建插件包。完整产品的默认三插件组装由主仓库入口负责。
 
 本工程拥有 Core 源码、单元测试、Agent／存储／解析运行包及其测试。`tests/ui/` 的通用 Core 浏览器验收通过 `pnpm test:ui` 执行。
 

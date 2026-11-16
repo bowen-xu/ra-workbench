@@ -1,0 +1,1 @@
+select id, subject, predicate, origin from nal_statements order by rowid

@@ -1,0 +1,1 @@
+select case when ?1 = 1 then null else '概念已不存在，请刷新' end

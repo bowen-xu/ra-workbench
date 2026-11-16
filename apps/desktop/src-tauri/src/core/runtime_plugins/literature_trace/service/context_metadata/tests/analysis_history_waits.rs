@@ -41,7 +41,7 @@ fn configure(f: &mut Fixture, outputs: &[CatalogOutput], gate: Option<usize>) {
         .push(json!({"id":"literature.analysis-history","version":1}));
     fs::write(manifest, serde_json::to_vec(&value).unwrap()).unwrap();
     let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../plugins/literature_library/native/data");
+        .join("../../../tests/fixtures/native-resources-v1/literature");
     for name in ["workflow", "latest", "turns", "attempts"] {
         let file = format!("analysis-history-{name}.v1.sql");
         fs::copy(source.join(&file), directory.join("data").join(file)).unwrap();

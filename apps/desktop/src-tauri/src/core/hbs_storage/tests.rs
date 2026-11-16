@@ -225,17 +225,20 @@ fn structured_authority_uses_real_content_baseline_and_validator() {
         )
         .unwrap();
     assert_eq!(serde_json::from_str::<Value>(&raw).unwrap(), saved);
-    let failed = commit(
+    let rejected = json!({"kind":"wrong"});
+    let failed = super::commit_with(
+        &mut super::test_sources::Sources::rejecting(rejected.clone()),
         &mut db,
         "structured",
         &id,
-        request(
+        &request(
             "invalid",
             result["snapshot"]["version"].as_i64().unwrap(),
-            json!({"kind":"wrong"}),
+            rejected,
             saved,
         ),
-    );
+    )
+    .map_err(super::boundary::BoundaryError::into_static);
     assert!(failed.unwrap_err().contains("MODEL_INVALID_DOCUMENT"));
     assert_eq!(read(&db, "structured", &id).unwrap(), result["snapshot"]);
     let inspected = inspection::read(&mut db, "structured", &id).unwrap();

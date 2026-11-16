@@ -27,7 +27,7 @@ impl Fixture {
         .unwrap();
         fs::write(package_root.join("index.js"), "export {};\n").unwrap();
         let original = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../plugins/literature_library/native/data");
+            .join("../../../tests/fixtures/native-resources-v1/literature");
         for key in [
             "ids",
             "record",

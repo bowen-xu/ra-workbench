@@ -1,0 +1,1 @@
+delete from nal_relation_rules where relation_concept_id=?1

@@ -1,0 +1,1 @@
+select id, source_id, target_id, type_id from collection_relations order by id

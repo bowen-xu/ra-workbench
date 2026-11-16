@@ -1,0 +1,1 @@
+select '文献阅读 · ' || substr(title,1,140) from bibliographic_items where id=?1 and trashed_at is null
