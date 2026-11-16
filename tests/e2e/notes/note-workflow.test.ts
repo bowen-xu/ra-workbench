@@ -86,7 +86,7 @@ describe("unified note workflow", () => {
 
     // This storage-only adapter has no durable search port. The same edit /
     // trash / restore search contract runs on real IndexedDB in
-    // tests/product-ui/note-manager-runtime-baseline.pw.ts.
+    // parent tests/acceptance/ui/note-manager-runtime-baseline.pw.ts.
     await expect(browserNotesGateway.searchNotes({search: "revised", paperId: "paper-1", noteType: "annotation"}))
       .rejects.toMatchObject({code: "storage_error", message: expect.stringContaining("note_search_adapter_unavailable")});
     expect((await browserNotesGateway.listPages()).find((page) => page.id === parent.page.id)).toBeDefined();
