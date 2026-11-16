@@ -3,9 +3,11 @@ import path from "node:path";
 import {fileURLToPath} from "node:url";
 import {withCachedBuild} from "../.dependencies/sdk/tooling/build-artifacts.mjs";
 import {runBuildCommand} from "../.dependencies/sdk/tooling/build-command.mjs";
+import {prepareDesktopRuntime} from "./prepare-desktop-runtime.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const receipt = await withCachedBuild({root, kind: "workbench-native", inputs: ["apps/desktop", "packages/agent-core", "packages/data-runtime", "packages/docling-runtime", "scripts", "package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", ".cargo"]}, async context => {
+  prepareDesktopRuntime({root});
   const result = await runBuildCommand("core-native", "cargo", ["build", "--locked", "--manifest-path",
     "apps/desktop/src-tauri/Cargo.toml", "--no-default-features", "--bin", "research-assistant", "--bin", "note-pdf-worker", "--message-format", "json"],
   {cwd: root, env: process.env}, path.join(context.logDirectory, "cargo.log"));

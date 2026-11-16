@@ -2,8 +2,7 @@ import {spawn, spawnSync} from "node:child_process";
 import {resolve} from "node:path";
 import {pathToFileURL} from "node:url";
 import {prepareBuiltinPluginResources} from "./prepare-builtin-plugin-packages.mjs";
-import {prepareCodexRuntime} from "./prepare-codex-runtime.mjs";
-import {prepareSemanticEngine} from "./prepare-semantic-engine.mjs";
+import {prepareDesktopRuntime} from "./prepare-desktop-runtime.mjs";
 import {developmentWorkbenchArguments, readDevelopmentWorkbenchSelection} from "./workbench-development-arguments.mjs";
 
 export function createRuntimeDesktopDevArguments(root, extraArguments = [], selection) {
@@ -26,8 +25,7 @@ export async function runDesktopDevelopment(extraArguments = []) {
   const packages = prepareBuiltinPluginResources({root, environment, ...(explicitCoreOnly ? {pluginIds: []} : {})});
   if (environment.RESEARCH_ASSISTANT_RUNTIME_PLUGIN_DIRECTORY === undefined)
     environment = {...environment, RESEARCH_ASSISTANT_RUNTIME_PLUGIN_DIRECTORY: packages.directory};
-  prepareCodexRuntime();
-  prepareSemanticEngine();
+  prepareDesktopRuntime({root, environment});
   if (process.platform === "darwin") {
     const renderer = spawnSync("cargo", developmentWorkbenchArguments([
       "build", "--manifest-path", "apps/desktop/src-tauri/Cargo.toml",
@@ -35,7 +33,7 @@ export async function runDesktopDevelopment(extraArguments = []) {
     ], selection, [], {cargo: true}), {stdio: "inherit", env: environment});
     if (renderer.status !== 0) throw new Error("Native note PDF renderer build failed");
   }
-  console.log("Starting desktop development with Core and independent plugin packages");
+  console.log("Starting Core Workbench desktop development");
   const child = spawn("pnpm", arguments_, {stdio: "inherit", env: environment});
   return new Promise((resolveExit, reject) => {
     child.once("error", reject);

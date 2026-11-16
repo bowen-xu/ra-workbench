@@ -13,9 +13,7 @@ import {
   DEVELOPMENT_IDENTIFIER,
   TEMPORARY_APPLICATION_BUILD_ARGUMENTS,
 } from "./release-environments.mjs";
-import { prepareCodexRuntime } from "./prepare-codex-runtime.mjs";
-import { prepareDoclingRuntime } from "./prepare-docling-runtime.mjs";
-import { prepareSemanticEngine } from "./prepare-semantic-engine.mjs";
+import { prepareDesktopRuntime } from "./prepare-desktop-runtime.mjs";
 import { developmentWorkbenchArguments, readDevelopmentWorkbenchSelection } from "./workbench-development-arguments.mjs";
 import {prepareBuiltinPluginResources} from "./prepare-builtin-plugin-packages.mjs";
 
@@ -202,9 +200,7 @@ export function buildDevelopmentApplication({
     frontendDist: resolve(root, "apps/web/dist"),
   }, bundle: {resources: {[packages.directory + "/"]: "plugins/"}}})];
   const buildArguments = developmentWorkbenchArguments(TEMPORARY_APPLICATION_BUILD_ARGUMENTS, selection, frontend);
-  prepareCodexRuntime(root);
-  prepareSemanticEngine({ root, profile: "debug", environment });
-  prepareDoclingRuntime({ root, environment });
+  prepareDesktopRuntime({ root, environment });
   removeLooseApplications(root, "debug");
   try {
     const build = spawnSync(

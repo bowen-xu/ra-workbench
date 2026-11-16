@@ -68,7 +68,7 @@ describe("temporary development application", () => {
     );
   });
 
-  it("builds the default temporary application from one Core and independently prepared builtin packages", () => {
+  it("builds the default temporary Core with its own runtimes and the selected resource directory", () => {
     const build = attemptedBuild({}, undefined);
     const override = JSON.parse(build.arguments.find(value => value.startsWith("{")));
     expect(override).toEqual({build: {
@@ -77,6 +77,13 @@ describe("temporary development application", () => {
     }, bundle: {resources: {[resolve(build.root, ".generated-test/plugins") + "/"]: "plugins/"}}});
     expect(build.arguments).toContain("--no-default-features");
     expect(f.packages).toHaveBeenCalledExactlyOnceWith({root: build.root, environment: {
+      RESEARCH_ASSISTANT_BUILTIN_PLUGINS: "none", RESEARCH_ASSISTANT_RUNTIME_PLUGINS: "1",
+    }});
+    expect(f.codex).toHaveBeenCalledExactlyOnceWith(build.root);
+    expect(f.semantic).toHaveBeenCalledExactlyOnceWith({root: build.root, profile: "debug", environment: {
+      RESEARCH_ASSISTANT_BUILTIN_PLUGINS: "none", RESEARCH_ASSISTANT_RUNTIME_PLUGINS: "1",
+    }});
+    expect(f.docling).toHaveBeenCalledExactlyOnceWith({root: build.root, environment: {
       RESEARCH_ASSISTANT_BUILTIN_PLUGINS: "none", RESEARCH_ASSISTANT_RUNTIME_PLUGINS: "1",
     }});
   });
