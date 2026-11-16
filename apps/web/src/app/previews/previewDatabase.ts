@@ -110,4 +110,3 @@ export async function openAppPreviewDatabase(name: string): Promise<PreviewDatab
     }),
   };
 }
-
