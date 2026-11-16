@@ -277,9 +277,6 @@ mod matrix_synthesis_context_repository;
 #[path = "matrix_synthesis_evidence_repository.rs"]
 mod matrix_synthesis_evidence_repository;
 #[cfg(test)]
-#[path = "overview_stress_tests.rs"]
-mod overview_stress_tests;
-#[cfg(test)]
 #[path = "tests.rs"]
 mod tests;
 

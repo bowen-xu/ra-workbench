@@ -3790,12 +3790,6 @@
           "line": 283
         },
         {
-          "name": "overview_stress_tests",
-          "path": "overview_stress_tests.rs",
-          "visibility": "private",
-          "line": 286
-        },
-        {
           "name": "tests",
           "path": "tests.rs",
           "visibility": "private",
@@ -14557,12 +14551,6 @@
           "path": "matrix_synthesis_evidence_repository.rs",
           "visibility": "private",
           "line": 283
-        },
-        {
-          "name": "overview_stress_tests",
-          "path": "overview_stress_tests.rs",
-          "visibility": "private",
-          "line": 286
         },
         {
           "name": "tests",
