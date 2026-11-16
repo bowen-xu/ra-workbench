@@ -1,0 +1,100 @@
+import {expect,test} from "@playwright/test";
+
+test("file pickers omit temporary captions and right-align the search shortcut",async({page})=>{
+  await page.goto("/?preview=app");
+  await page.getByRole("row",{name:/Synthetic Research Preview/}).dblclick();
+  await page.getByRole("button",{name:"打开对话",exact:true}).click();
+  const input=page.getByRole("textbox",{name:"给研究助手发送消息",exact:true});
+  await input.fill("@");
+  const picker=page.getByRole("menu",{name:"选择 Agent 资源",exact:true});
+  const pdf=picker.getByRole("menuitem",{name:/Synthetic Research Preview.*sample.pdf/});
+  await expect(pdf).toBeVisible();
+  await expect(pdf.locator("small")).toHaveCount(0);
+  await expect(picker).not.toContainText("仅本轮");
+  const search=picker.getByRole("menuitem",{name:"搜索",exact:true});
+  await search.hover();
+  const hint=search.getByText("Tab 查看更多",{exact:true});
+  await expect(hint).toBeVisible();
+  const alignment=await hint.evaluate(element=>{
+    const row=element.parentElement!, style=getComputedStyle(row);
+    const range=document.createRange();range.selectNodeContents(element);
+    return {textRight:range.getBoundingClientRect().right,
+      contentRight:row.getBoundingClientRect().right-parseFloat(style.paddingRight)-parseFloat(style.borderRightWidth)};
+  });
+  expect(Math.abs(alignment.textRight-alignment.contentRight)).toBeLessThanOrEqual(1);
+  await picker.screenshot({path:".tmp/reference-picker-hint-right.png"});
+  await input.press("Tab");
+  await expect(picker.getByRole("menuitem",{name:"返回已打开的文件",exact:true})).toBeVisible();
+  await expect(pdf).toBeVisible();
+  await expect(pdf.locator("small")).toHaveCount(0);
+  await expect(picker).not.toContainText("仅本轮");
+  await input.press("Escape");
+  await input.fill("");
+  await page.getByRole("button",{name:"添加上下文和工具",exact:true}).click();
+  await page.getByRole("menuitem",{name:/^文件/}).click();
+  await page.getByRole("searchbox",{name:"搜索文件",exact:true}).fill("sample.pdf");
+  const fileMenu=page.getByRole("menuitem",{name:/Synthetic Research Preview.*sample.pdf/});
+  await expect(fileMenu).toBeVisible();
+  await expect(fileMenu.locator("small")).toHaveCount(0);
+  await expect(fileMenu.locator("..")).not.toContainText("仅本轮");
+  await fileMenu.click();
+  await expect(input).toContainText("Synthetic Research Preview");
+});
+
+test("an open paper exposes newly saved ordinary notes in @ and sends updated note permissions",async({page})=>{
+  await page.goto("/?preview=app");
+  await page.getByRole("row",{name:/Synthetic Research Preview/}).dblclick();
+  await page.getByRole("button",{name:"打开对话",exact:true}).click();
+  // Open the chat first: the candidate was registered before this note existed.
+  await page.getByRole("tab",{name:"高亮与笔记",exact:true}).click();
+  await page.getByRole("button",{name:"写文献笔记",exact:true}).click();
+  const note=page.getByRole("dialog",{name:"文献笔记编辑面板",exact:true});
+  await note.getByRole("textbox",{name:"笔记标题",exact:true}).fill("算法整理");
+  await page.getByRole("button",{name:"关闭阅读笔记",exact:true}).click();
+  await expect(note).toHaveCount(0);
+  await page.getByRole("button",{name:"打开对话",exact:true}).click();
+  const input=page.getByRole("textbox",{name:"给研究助手发送消息",exact:true});
+  await input.fill("@");
+  const picker=page.getByRole("menu",{name:"选择 Agent 资源",exact:true});
+  const noteChoice=picker.getByRole("menuitem",{name:/算法整理.*Synthetic Research Preview/});
+  await expect(noteChoice).toBeVisible();
+  await expect(noteChoice.locator("strong")).toHaveText("算法整理");
+  await expect(noteChoice.locator("small")).toHaveText("Synthetic Research Preview: Evidence and Autonomy");
+  const titleBox=await noteChoice.locator("strong").boundingBox(), sourceBox=await noteChoice.locator("small").boundingBox();
+  expect(sourceBox!.y).toBeGreaterThanOrEqual(titleBox!.y+titleBox!.height);
+  await picker.screenshot({path:".tmp/literature-note-picker.png"});
+  await noteChoice.click();
+  await expect(input).toContainText("算法整理");
+  await input.press("ControlOrMeta+a");await input.press("Backspace");
+  const settings=page.getByRole("button",{name:"上下文管理",exact:true});
+  const dialog=page.getByRole("dialog",{name:"上下文管理",exact:true});
+  await settings.click();
+  const row=dialog.locator('.context-catalog-item[data-selected="true"]');
+  const notes=row.getByRole("switch",{name:/阅读笔记 权限$/});
+  const portrait=row.getByRole("switch",{name:/文献画像 权限$/});
+  await expect(notes).toBeChecked();
+  await expect(portrait).toBeChecked();
+  await expect(row.getByRole("switch",{name:/sample.pdf 权限$/})).toBeDisabled();
+  await notes.uncheck();
+  await page.keyboard.press("Escape");
+  await input.click();await input.pressSequentially("读取笔记");
+  await page.getByRole("button",{name:"发送消息",exact:true}).click();
+  await expect(page.locator('.writing-agent-message.assistant')).toContainText("本轮已读取");
+  await expect(page.getByRole("button",{name:"停止生成",exact:true})).toHaveCount(0);
+  await settings.click();
+  await notes.check();
+  await expect(portrait).toBeChecked();
+  await dialog.screenshot({path:".tmp/context-permission-switches.png"});
+  const switches=await row.getByRole("switch").evaluateAll(nodes=>nodes.map(node=>({width:node.getBoundingClientRect().width,height:node.getBoundingClientRect().height})));
+  expect(switches.every(box=>box.width===32&&box.height===18)).toBe(true);
+  await page.keyboard.press("Escape");
+  await input.click();await input.pressSequentially("现在写入笔记");
+  await page.getByRole("button",{name:"发送消息",exact:true}).click();
+  await expect.poll(()=>page.evaluate(()=>{
+    const entries=JSON.parse(localStorage.getItem("research-assistant.app-preview.v3:independent-submissions")??"[]");
+    return entries.map((entry: [string,{input:{context:{anchor:string}[]}}])=>entry[1].input.context.map(grant=>{
+      const resource=JSON.parse(grant.anchor).resource;
+      return resource.parts.find((part:{resource:{kind:string}})=>part.resource.kind==="paperNotes")?.access??resource.newMemberAccess;
+    })[0]);
+  })).toEqual(["readOnly","readWrite"]);
+});
