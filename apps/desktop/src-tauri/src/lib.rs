@@ -231,8 +231,16 @@ use storage::AppStore;
 
 use tauri::Manager;
 
+#[cfg(all(debug_assertions, feature = "development-data"))]
+#[path = "app/api_test_host.rs"]
+mod api_test_host;
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    let context = tauri::generate_context!();
+    #[cfg(all(debug_assertions, feature = "development-data"))]
+    let context = api_test_host::configure_context(context)
+        .expect("failed to configure Workbench API test host");
     runtime_plugins_app::configure(tauri::Builder::default())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_dialog::init())
@@ -244,6 +252,8 @@ pub fn run() {
             }
         })
         .setup(|app| {
+            #[cfg(all(debug_assertions, feature = "development-data"))]
+            api_test_host::create_window(app)?;
             #[cfg(target_os = "macos")]
             {
                 desktop_lifecycle::install_termination_guard(app.handle())?;
@@ -346,6 +356,8 @@ pub fn run() {
             app.manage(note_export::NoteExportJobs::default());
             app.manage(ResearchExportManager::default());
             schedule_startup_service(startup_store, startup_docling_manager);
+            #[cfg(all(debug_assertions, feature = "development-data"))]
+            api_test_host::start(app.handle())?;
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -994,7 +1006,7 @@ pub fn run() {
 
             confirm_app_quit,
         ])
-        .build(tauri::generate_context!())
+        .build(context)
         .expect("failed to build Research Assistant")
         .run(handle_run_event);
 }

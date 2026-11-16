@@ -36,6 +36,10 @@ build:preview-host 发布 @research-assistant/workbench-preview，复用正式�
 开发包包含编译后 JS、声明、原 CSS、笔记查询 Wasm、词典和静态资源，版本跟随 Workbench。
 显式模块清单在 apps/web/previewHostSurface.json，产物在 artifacts/preview-host/，定向回归使用 pnpm test:preview-host。
 
+`pnpm build:api-test-host` 通过现有临时开发包流程提供零插件原生测试应用，发布到
+`artifacts/api-test-host/`。指定版本的公开客户端从预览包 `/api-test-host` 子路径导入。
+构建、消费和数据隔离约定见 [公开 API 测试宿主](docs/testing/api-test-host.md)。
+
 ## 构建缓存与产物
 
 标准构建入口复用通过完整性校验的既有包。产物在本工程 `artifacts/<kind>/<内容哈希>/package/`，当前入口在 `artifacts/<kind>/latest.json`。回执随产物保存，`.cache/build` 保存索引，`.cache/logs` 保存日志，`.cache/work` 为完成后清理的隔离工作目录。清理编译缓存后仍可复用已保存的当前包。

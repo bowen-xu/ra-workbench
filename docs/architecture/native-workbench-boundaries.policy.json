@@ -3242,6 +3242,11 @@
           "path": "core/system_documents/mod.rs",
           "visibility": "private",
           "line": 173
+        },
+        {
+          "name": "api_test_host",
+          "path": "app/api_test_host.rs",
+          "visibility": "private"
         }
       ]
     },
@@ -13402,6 +13407,14 @@
       "role": "test",
       "reason": "Preserved Core HBS asset ownership assertions migrated out of the retired static HTTP fixture.",
       "moduleDeclarations": []
+    },
+    {
+      "file": "apps/desktop/src-tauri/src/app/api_test_host.rs",
+      "module": "crate::api_test_host",
+      "owner": "app",
+      "role": "app",
+      "reason": "Explicit development-only transport through registered Tauri commands; Core retains the command handlers, ACL and lifecycle.",
+      "moduleDeclarations": []
     }
   ],
   "facades": [
@@ -13763,6 +13776,11 @@
           "path": "core/system_documents/mod.rs",
           "visibility": "private",
           "line": 173
+        },
+        {
+          "name": "api_test_host",
+          "path": "app/api_test_host.rs",
+          "visibility": "private"
         }
       ],
       "exactModules": true

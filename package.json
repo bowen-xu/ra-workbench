@@ -27,6 +27,7 @@
     "dev": "pnpm --filter @research-assistant/web dev",
     "dev:desktop": "node scripts/dev-desktop.mjs",
     "bundle:dev": "node scripts/build-development-application.mjs",
+    "build:api-test-host": "node scripts/build-api-test-host.mjs",
     "typecheck": "pnpm --filter @research-assistant/web typecheck",
     "test": "pnpm test:contracts && vitest run",
     "test:native": "node scripts/run-native-tests.mjs --manifest-path apps/desktop/src-tauri/Cargo.toml --features development-data",

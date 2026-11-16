@@ -4453,6 +4453,18 @@
       "source": "apps/web/src/app/previews/hbs-table-review/TableReviewPreview.tsx",
       "exports": [],
       "types": []
+    },
+    {
+      "name": "browser-test-setup",
+      "source": "tests/setup/browserNotesDatabase.ts",
+      "exports": [],
+      "types": []
+    },
+    {
+      "name": "markdown-test-setup",
+      "source": "apps/web/src/core/features/agent/markdown/markdownWorker.testSetup.ts",
+      "exports": [],
+      "types": []
     }
   ],
   "styles": [
