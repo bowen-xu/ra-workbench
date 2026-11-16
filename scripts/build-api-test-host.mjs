@@ -6,11 +6,12 @@ import {withCachedBuild} from "../.dependencies/sdk/tooling/build-artifacts.mjs"
 import {runBuildCommand} from "../.dependencies/sdk/tooling/build-command.mjs";
 import {temporaryApplicationPath} from "./development-application.mjs";
 import {DEVELOPMENT_IDENTIFIER} from "./release-environments.mjs";
+import {NATIVE_BUILD_EXCLUDES} from "./native-build-inputs.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 if (process.platform !== "darwin") throw new Error("workbench_api_test_host_bundle_platform_unsupported");
 const receipt = await withCachedBuild({root, kind: "api-test-host", native: true,
-  exclude: ["apps/web/public/dictionary"],
+  exclude: ["apps/web/public/dictionary", ...NATIVE_BUILD_EXCLUDES],
   inputs: ["apps", "packages", "scripts", "patches", "preview-host", ".cargo", "package.json",
     "pnpm-lock.yaml", "pnpm-workspace.yaml", "tsconfig.base.json"],
 }, async context => {

@@ -52,7 +52,7 @@
     "reader:fixtures": "bash scripts/verify-pdf-reader-fixtures.sh",
     "ai:calibration:run": "cargo run --manifest-path apps/desktop/src-tauri/Cargo.toml --features development-data --bin ai-calibration",
     "format:rust": "cargo fmt --manifest-path apps/desktop/src-tauri/Cargo.toml",
-    "test:contracts": "node --test scripts/native-workbench-boundaries.test.mjs scripts/prepare-codex-runtime.test.mjs scripts/workbench-build-plan.test.mjs",
+    "test:contracts": "node --test scripts/native-workbench-boundaries.test.mjs scripts/prepare-codex-runtime.test.mjs scripts/workbench-build-plan.test.mjs scripts/api-test-client.test.mjs scripts/native-build-inputs.test.mjs",
     "check:docling": "cargo fmt --manifest-path packages/docling-runtime/Cargo.toml --check && cargo test --manifest-path packages/docling-runtime/Cargo.toml --locked && cargo fmt --manifest-path apps/desktop/docling-daemon/Cargo.toml --check && cargo clippy --manifest-path apps/desktop/docling-daemon/Cargo.toml --locked --all-targets -- -D warnings && cargo test --manifest-path apps/desktop/docling-daemon/Cargo.toml --locked",
     "check:data-runtime": "cargo fmt --manifest-path packages/data-runtime/Cargo.toml --check && cargo clippy --locked --manifest-path packages/data-runtime/Cargo.toml --all-targets -- -D warnings && cargo test --locked --manifest-path packages/data-runtime/Cargo.toml",
     "build:desktop": "pnpm prepare:docling && pnpm prepare:codex && pnpm prepare:semantic-engine:release && pnpm --filter @research-assistant/desktop tauri build",

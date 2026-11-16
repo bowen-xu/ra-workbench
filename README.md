@@ -18,7 +18,9 @@ SDK 公开依赖位于本工程 .dependencies/sdk/。现有 Native 回归使用�
 
 包和锁文件由本工程维护。Web SDK 的 UI／Hook 声明绑定到本次 Core 构建的 /sdk/v1/。插件通过这些 facade 消费同一 React、文档、HBS 和 Agent 实例。Agent 执行机制位于 packages/agent-core，公开输入与纯编解码使用 SDK 的 agent-api。
 
-build:native 编译 research-assistant 和 note-pdf-worker 两个运行程序，通过 artifacts/workbench-native/latest.json 定位公开产物，Cargo 缓存归本工程 .cache/cargo。安装包生成沿主仓库既有发布流程执行。
+build:native 编译 research-assistant 和 note-pdf-worker 两个运行程序，通过 artifacts/workbench-native/latest.json 定位公开产物。
+当前 Core 的 Cargo 缓存在各原生 manifest 所属目录的 `target/`，产物索引与日志在
+本工程 `.cache/`。安装包生成沿主仓库既有发布流程执行。
 
 ## 开发与回归
 
