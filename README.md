@@ -24,6 +24,8 @@ build:native 编译 research-assistant 和 note-pdf-worker 两个运行程序，
 
 pnpm dev 提供 Core 前端。pnpm dev:desktop 和 pnpm bundle:dev 消费 RESEARCH_ASSISTANT_RUNTIME_PLUGIN_DIRECTORY 指定的预构建插件目录。完整产品的默认三插件组装由主仓库入口负责。
 
-本工程拥有 Core 源码、Core 单元测试、Agent／存储／解析运行包及其测试。多个插件、私有跨工程夹具和完整产品预览的验收位于主仓库 integration/。
+本工程拥有 Core 源码、单元测试、Agent／存储／解析运行包及其测试。`tests/ui/` 的通用 Core 浏览器验收通过 `pnpm test:ui` 执行。
+
+完整产品浏览器验收位于 `tests/product-ui/`，通过 `pnpm test:ui:product` 显式执行，目前使用主仓库的完整预览入口。`tests/plugin-integration/` 通过 `pnpm test:product` 显式执行，依赖外部插件测试夹具。普通 Core Vitest 测试排除这组组合验收。纯 AI 契约由 SDK 拥有，写作网关流程与编译夹具由写作插件拥有。
 
 插件 UI 测试可将 apps/web/dist 作为 RA_WORKBENCH_SDK_DIRECTORY，使用本次构建的公开同源 SDK。该测试入口消费 Core 构建产物。

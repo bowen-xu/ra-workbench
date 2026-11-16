@@ -1,0 +1,34 @@
+// @vitest-environment happy-dom
+import { act } from "react";
+import { createRoot } from "react-dom/client";
+import { afterEach, expect, it, vi } from "vitest";
+import type { ReadingNoteBlock } from "@research-assistant/core/notes";
+import { PositionNoteMarker } from "../../../../../../../plugins/ra-literature-library/src/features/reader/PositionNoteMarker";
+vi.mock("../../../../../../apps/web/src/core/services/notifications", () => ({ notify: { error: vi.fn() } }));
+let cleanup: (() => Promise<void>) | undefined;
+afterEach(async () => { await cleanup?.(); vi.unstubAllGlobals(); });
+it("selects on click, opens on double click and persists one clamped drag while cancellation stays local", async () => {
+  vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
+  const host = document.createElement("div"); document.body.append(host); const root = createRoot(host);
+  cleanup = async () => { await act(async () => root.unmount()); host.remove(); };
+  const select = vi.fn(), open = vi.fn(), menu = vi.fn(), move = vi.fn(async () => undefined);
+  const note = { id: "position", body: "", color: "#91bde8", source: { pageIndex: 0, rects: [{ x: .25, y: .3, width: .00001, height: .00001 }] } } as unknown as ReadingNoteBlock;
+  await act(async () => root.render(<PositionNoteMarker note={note} selected={false} getPageBounds={() => new DOMRect(0, 0, 400, 600)} onSelect={select} onOpen={open} onMove={move} onContextMenu={menu} />));
+  const button = host.querySelector("button")!;
+  expect(button.style.getPropertyValue("--position-note-color")).toBe("#91bde8");
+  await act(async () => button.click()); expect(select).toHaveBeenCalledOnce(); expect(open).not.toHaveBeenCalled();
+  const context = new MouseEvent("contextmenu", { bubbles: true, cancelable: true });
+  await act(async () => button.dispatchEvent(context)); expect(context.defaultPrevented).toBe(true); expect(menu).toHaveBeenCalledOnce(); expect(open).not.toHaveBeenCalled();
+  await act(async () => button.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }))); expect(open).toHaveBeenCalledOnce();
+  await act(async () => button.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerId: 1, clientX: 100, clientY: 180 })));
+  await act(async () => window.dispatchEvent(new PointerEvent("pointermove", { pointerId: 1, clientX: 200, clientY: 300 })));
+  expect(button.style.left).toBe("50%"); expect(button.style.top).toBe("50%");
+  await act(async () => window.dispatchEvent(new PointerEvent("pointerup", { pointerId: 1, clientX: 200, clientY: 300 })));
+  expect(move).toHaveBeenCalledExactlyOnceWith({ x: .5, y: .5, width: .00001, height: .00001 });
+  await act(async () => button.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0, pointerId: 2, clientX: 100, clientY: 180 })));
+  await act(async () => window.dispatchEvent(new PointerEvent("pointermove", { pointerId: 2, clientX: 900, clientY: -200 })));
+  expect(button.style.left).toBe("99.99900000000001%"); expect(button.style.top).toBe("0%");
+  await act(async () => window.dispatchEvent(new PointerEvent("pointercancel", { pointerId: 2 })));
+  expect(move).toHaveBeenCalledTimes(1); expect(button.style.left).toBe("25%");
+  await act(async () => button.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }))); expect(open).toHaveBeenCalledTimes(2);
+});

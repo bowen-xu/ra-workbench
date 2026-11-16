@@ -1,0 +1,61 @@
+import { expect, test } from "@playwright/test";
+import { addBlock, copula, editSlot } from "./nal-query-editor";
+
+test("isolated Narsese preview edits real slots, cancels drafts and resets without writing app storage", async ({ page }) => {
+  await page.goto("/nal-editor.html");
+  await expect(page.getByRole("heading", { name: "嵌入式语句编辑", exact: true })).toBeVisible();
+  const before = await page.evaluate(() => JSON.stringify({ ...localStorage }));
+  const expression = page.getByLabel("条件 1 Narsese 语句", { exact: true });
+  await expect(expression).toHaveText("(?文章 × AI领域) → 所属领域");
+  await editSlot(page, "条件 1 左槽 · 第 2 项", "深度学习领域");
+  await expect(expression).toHaveText("(?文章 × 深度学习领域) → 所属领域");
+  const token = page.getByRole("button", { name: "条件 1 左槽 · 第 2 项", exact: true });
+  await token.press("Enter");
+  const editor = page.getByRole("menu", { name: "条件 1 左槽 · 第 2 项", exact: true });
+  await editor.press("Escape");
+  await expect(token).toBeFocused();
+  await expect(expression).toContainText("深度学习领域");
+  await page.getByRole("button", { name: "移除输出变量 ?文章", exact: true }).click();
+  await expect(page.getByRole("button", { name: "添加输出变量 ?文章", exact: true })).toHaveAttribute("aria-pressed", "false");
+  await page.getByRole("button", { name: "重置当前示例", exact: true }).click();
+  await expect(expression).toHaveText("(?文章 × AI领域) → 所属领域");
+  await expect(page.getByRole("button", { name: "移除输出变量 ?文章", exact: true })).toBeVisible();
+  expect(await page.evaluate(() => JSON.stringify({ ...localStorage }))).toBe(before);
+  await page.screenshot({ path: ".tmp/verification/nal-editor-preview-relation.png" });
+});
+
+test("preview demonstrates blank creation, compound sorting, nested groups and nested statements", async ({ page }) => {
+  await page.goto("/nal-editor.html");
+  await page.getByRole("button", { name: "从空白开始", exact: true }).click();
+  const expression = page.getByLabel("条件 1 Narsese 语句", { exact: true });
+  await expect(expression).toHaveText("[选择连接符]");
+  await copula(page, 1);
+  await editSlot(page, "条件 1 左槽", "product（×）");
+  await editSlot(page, "条件 1 左槽 · 第 1 项", "变量", "x");
+  await editSlot(page, "条件 1 左槽 · 第 2 项", "AI领域");
+  await editSlot(page, "条件 1 右槽", "所属领域");
+  const terms = expression.locator(".nal-compound-item");
+  await terms.nth(0).dragTo(terms.nth(1));
+  await expect(expression).toHaveText("(AI领域 × ?x) → 所属领域");
+  await editSlot(page, "条件 1 左槽 connector 1", "disjunction（∨）");
+  await expect(expression).toHaveText("(AI领域 ∨ ?x) → 所属领域");
+  await page.getByRole("button", { name: "嵌套分组", exact: true }).click();
+  await expect(page.getByRole("button", { name: "分组 1 connector", exact: true })).toHaveText("∨ disjunction");
+  await expect(page.getByRole("button", { name: "分组 1.2 connector", exact: true })).toHaveText("∧ conjunction");
+  await expect(page.getByRole("button", { name: "移除输出变量 ?方法", exact: true })).toBeVisible();
+  await addBlock(page, "分组 1.2", "disjunction 分组");
+  await expect(page.getByRole("button", { name: "分组 1.3 connector", exact: true })).toHaveText("∨ disjunction");
+  await page.screenshot({ path: ".tmp/verification/nal-editor-preview-groups.png" });
+
+  await page.getByRole("button", { name: "嵌套语句", exact: true }).click();
+  await expect(expression).toHaveText("<(?文章 × ?方法) → 基于方法> ⇒ <(?文章 × AI领域) → 所属领域>");
+  await page.setViewportSize({ width: 420, height: 760 });
+  await page.getByRole("button", { name: "条件 1 右槽 右槽", exact: true }).click();
+  const editor = page.getByRole("menu", { name: "条件 1 右槽 右槽", exact: true });
+  await expect(editor).toBeVisible();
+  const rect = await editor.boundingBox();
+  expect(rect!.x).toBeGreaterThanOrEqual(0); expect(rect!.x + rect!.width).toBeLessThanOrEqual(420);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(420);
+  await page.screenshot({ path: ".tmp/verification/nal-editor-preview-mobile.png" });
+  await editor.press("Escape");
+});

@@ -1,0 +1,53 @@
+import {publicPackagePath} from "../ui/projectPaths";
+import {test,expect} from '@playwright/test';
+import {seedNoteWorkspaceCatalog} from './note-workspace-catalog-fixture.browser';
+import {installNoteWorkspaceQueryMetrics,readNoteWorkspaceQueryMetrics,resetNoteWorkspaceQueryMetrics} from './note-workspace-query-metrics.browser';
+
+const paths={core:publicPackagePath('@research-assistant/core/notes'),data:publicPackagePath('@research-assistant/data/notes'),writing:publicPackagePath('@research-assistant/writing')};
+test.setTimeout(180_000);
+test('the real note workspace pages 4800 saved notes, retains hot editors and searches only persisted projections',async({page})=>{
+  page.setDefaultTimeout(15_000);
+  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
+  const fixture=await seedNoteWorkspaceCatalog(page,paths);await installNoteWorkspaceQueryMetrics(page,fixture.names);await page.reload();
+  await page.getByRole('button',{name:'笔记',exact:true}).waitFor();await expect.poll(async()=>(await readNoteWorkspaceQueryMetrics(page)).pending).toBe(0);
+  const startup=await readNoteWorkspaceQueryMetrics(page);await resetNoteWorkspaceQueryMetrics(page);
+  expect(startup.rows['notes.documents']??0).toBe(0);expect(startup.rows['writing.writingBodies']??0).toBe(0);
+  const wasmBefore=await page.evaluate(()=>performance.getEntriesByType('resource').filter(row=>row.name.includes('note-query')&&row.name.endsWith('.wasm')).length);
+  await page.getByRole('button',{name:'笔记',exact:true}).click();
+  await expect(page.locator('.notes-explorer .note-recent-row')).toHaveCount(20);await expect(page.locator('.notes-explorer [role=alert]')).toHaveCount(0);
+  await expect.poll(async()=>(await readNoteWorkspaceQueryMetrics(page)).pending).toBe(0);const first=await readNoteWorkspaceQueryMetrics(page);
+  expect(first.rows['notes.documents']??0).toBe(0);expect(first.rows['writing.writingBodies']??0).toBe(0);expect(first.rows['notes.catalogBodies']??0).toBe(0);expect(first.rows['writing.catalogBodies']??0).toBe(0);
+  expect((first.rows['notes.catalogHeaders']??0)+(first.rows['writing.catalogHeaders']??0)).toBe(46);
+  for(const store of ['pages','sources','links','operations','revisions'])expect(first.rows['notes.'+store]??0).toBe(0);
+  console.log('note-workspace-cold',JSON.stringify({startup,first}));
+  expect(await page.evaluate(()=>performance.getEntriesByType('resource').filter(row=>row.name.includes('note-query')&&row.name.endsWith('.wasm')).length)).toBe(wasmBefore);
+  await resetNoteWorkspaceQueryMetrics(page);
+  for(let trip=0;trip<5;trip++){await page.getByRole('button',{name:'文献',exact:true}).click();await page.getByRole('button',{name:'笔记',exact:true}).click();}
+  await expect(page.locator('.notes-explorer .note-recent-row')).toHaveCount(20);await expect.poll(async()=>(await readNoteWorkspaceQueryMetrics(page)).pending).toBe(0);const hot=await readNoteWorkspaceQueryMetrics(page);expect(hot.requests).toEqual({});
+  await resetNoteWorkspaceQueryMetrics(page);
+  await page.getByRole('link',{name:'打开笔记：'+fixture.ordinaryTitle,exact:true}).click();const editor=page.locator('.retained-note-editor:not([hidden]) .bn-editor');
+  await expect(editor).toBeVisible({timeout:15_000});
+  await expect.poll(async()=>(await readNoteWorkspaceQueryMetrics(page)).pending).toBe(0);const opened=await readNoteWorkspaceQueryMetrics(page);expect(opened.documentIds).toEqual([fixture.ordinaryId]);
+  expect(opened.rows['notes.pages']).toBeLessThanOrEqual(6);expect(opened.requests['notes.pages.openCursor']??0).toBe(0);expect(opened.requests['notes.sources.openCursor']??0).toBe(0);
+  expect(await page.evaluate(()=>performance.getEntriesByType('resource').filter(row=>row.name.includes('note-query')&&row.name.endsWith('.wasm')).length)).toBe(wasmBefore);
+  await editor.evaluate(node=>window.__retainedCatalogEditor=node);
+  await resetNoteWorkspaceQueryMetrics(page);
+  for(let trip=0;trip<5;trip++){await page.getByRole('button',{name:'文献',exact:true}).click();await page.getByRole('button',{name:'笔记',exact:true}).click();}
+  await expect(editor).toBeVisible();expect(await editor.evaluate(node=>node===window.__retainedCatalogEditor)).toBe(true);
+  await expect.poll(async()=>(await readNoteWorkspaceQueryMetrics(page)).pending).toBe(0);const hotEditor=await readNoteWorkspaceQueryMetrics(page);expect(hotEditor.rows['notes.documents']??0).toBe(0);expect(hotEditor.rows['writing.writingBodies']??0).toBe(0);expect(hotEditor.rows['notes.catalogHeaders']??0).toBe(0);expect(hotEditor.rows['writing.catalogHeaders']??0).toBe(0);
+  await editor.click();await page.keyboard.press('ControlOrMeta+End');await page.keyboard.insertText(' incremental-search-1998');
+  await expect(editor).toContainText('incremental-search-1998');await expect(page.locator('.notes-content:not([hidden]) .note-save-state')).toHaveAttribute('aria-label','已保存',{timeout:15_000});
+  await page.getByRole('button',{name:'查看所有',exact:true}).click();await expect(page.getByRole('main',{name:'完整笔记列表'})).toBeVisible();await expect(page.locator('.notes-library[aria-busy=false]')).toBeVisible();
+  expect(await page.evaluate(()=>window.__retainedCatalogEditor.isConnected)).toBe(true);
+  await expect.poll(async()=>(await readNoteWorkspaceQueryMetrics(page)).pending).toBe(0);await resetNoteWorkspaceQueryMetrics(page);
+  await page.getByRole('textbox',{name:'搜索全部笔记',exact:true}).fill('unique-needle-1737');
+  await expect(page.locator('.notes-library tbody tr[data-selection-id]')).toHaveCount(2);await expect(page.locator('.notes-explorer .notes-index-list>div')).toHaveCount(2);
+  await expect.poll(async()=>(await readNoteWorkspaceQueryMetrics(page)).pending).toBe(0);const searched=await readNoteWorkspaceQueryMetrics(page);
+  expect(searched.rows['notes.documents']??0).toBe(0);expect(searched.rows['writing.writingBodies']??0).toBe(0);
+  expect(searched.rows['notes.catalogBodies']).toBe(2);expect(searched.rows['writing.catalogBodies']).toBe(2);
+  await resetNoteWorkspaceQueryMetrics(page);await page.getByRole('textbox',{name:'搜索全部笔记',exact:true}).fill('incremental-search-1998');
+  await expect(page.locator('.notes-library tbody tr[data-selection-id]')).toHaveCount(1);await expect(page.locator('.notes-explorer .notes-index-list>div')).toHaveCount(1);
+  await expect.poll(async()=>(await readNoteWorkspaceQueryMetrics(page)).pending).toBe(0);const incremental=await readNoteWorkspaceQueryMetrics(page);expect(incremental.rows['notes.documents']??0).toBe(0);expect(incremental.rows['notes.catalogBodies']).toBe(2);expect(incremental.rows['writing.catalogBodies']??0).toBe(0);
+  await page.screenshot({path:'.tmp/note-workspace-catalog-search.png'});
+  expect(errors).toEqual([]);console.log('note-workspace-catalog',JSON.stringify({rows:fixture.rows,startup,first,hot,opened,hotEditor,searched,incremental}));
+});
