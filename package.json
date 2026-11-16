@@ -55,6 +55,8 @@
     "check:docling": "cargo fmt --manifest-path packages/docling-runtime/Cargo.toml --check && cargo test --manifest-path packages/docling-runtime/Cargo.toml --locked && cargo fmt --manifest-path apps/desktop/docling-daemon/Cargo.toml --check && cargo clippy --manifest-path apps/desktop/docling-daemon/Cargo.toml --locked --all-targets -- -D warnings && cargo test --manifest-path apps/desktop/docling-daemon/Cargo.toml --locked",
     "check:data-runtime": "cargo fmt --manifest-path packages/data-runtime/Cargo.toml --check && cargo clippy --locked --manifest-path packages/data-runtime/Cargo.toml --all-targets -- -D warnings && cargo test --locked --manifest-path packages/data-runtime/Cargo.toml",
     "build:desktop": "pnpm prepare:docling && pnpm prepare:codex && pnpm prepare:semantic-engine:release && pnpm --filter @research-assistant/desktop tauri build",
-    "test:ui": "playwright test --config playwright.config.mts"
+    "test:ui": "playwright test --config playwright.config.mts",
+    "build:preview-host": "node scripts/build-preview-host.mjs",
+    "test:preview-host": "node --test scripts/preview-host.test.mjs"
   }
 }

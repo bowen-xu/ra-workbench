@@ -10,9 +10,11 @@ const prefix = "apps/web/src/";
 const toPosix = value => value.split(sep).join("/");
 const platformImport = name => name.startsWith("@tauri-apps/");
 const rootPluginSource = file => /^plugins\/([^/]+)\/src\//u.exec(file);
-const workbenchSource = file => file.startsWith(prefix) || Boolean(rootPluginSource(file));
+const workbenchSource = file => file.startsWith(prefix) || file.startsWith("tests/") || file.startsWith("preview-host/") || Boolean(rootPluginSource(file));
 
 function owner(file) {
+  if (file.startsWith("preview-host/")) return "preview-host";
+  if (file.startsWith("tests/") || file.startsWith(prefix) && !file.startsWith(prefix + "plugins/") && /\.(?:test|spec|browser|testSupport)\.tsx?$/u.test(file)) return "core-test";
   const rootPlugin = rootPluginSource(file);
   if (rootPlugin) return `plugins/${rootPlugin[1]}`;
   if (!file.startsWith(prefix)) return "consumer";
@@ -97,7 +99,7 @@ export function collectWorkbenchImports(root, directories) {
     const plugins = resolve(root, "plugins");
     const pluginSources = existsSync(plugins) ? readdirSync(plugins, {withFileTypes: true})
       .filter(entry => !projectSources.some(([physical]) => physical === `plugins/${entry.name}`)).filter(entry => entry.isDirectory() || (entry.isSymbolicLink() && ["literature_library", "note_manager", "writing_projects"].includes(entry.name))).map(entry => `plugins/${entry.name}/src`) : [];
-    directories = ["apps/web/src", ...pluginSources, "tests", "docs/ui-templates/reorder-template"];
+    directories = ["apps/web/src", "preview-host", ...pluginSources, "tests", "docs/ui-templates/reorder-template"];
   }
   const configFile = resolve(root, "apps/web/tsconfig.app.json");
   const config = existsSync(configFile) ? ts.readConfigFile(configFile, ts.sys.readFile) : { config: {} };
@@ -218,16 +220,22 @@ export function classifyBoundary(edge, policy) {
     if (!targetContract && !publicPackageType) return "contract-private-import";
   }
   if (sourcePublic && edge.kind === "export" && edge.names === "*") return "public-star-export";
-  if (edge.computed) return "computed-import";
+  if (edge.computed) return sourceOwner === "core-test" && /^tests\/ui\//u.test(edge.from) ? null : "computed-import";
   if (platformImport(edge.target)) return sourceOwner.startsWith("plugins/") ? "plugin-platform-import" : null;
   if (!workbenchSource(edge.target)) return null;
   // Test composition is never a production API, including inside App itself.
   if (policy.testAssemblyEntries?.includes(edge.target))
-    return /\.(?:test|spec)\.tsx?$/.test(edge.from) && edge.kind === "import" ? null : "application-reverse-import";
+    return sourceOwner === "preview-host" || /\.(?:test|spec)\.tsx?$/.test(edge.from) && edge.kind === "import" ? null : "application-reverse-import";
   if (policy.browserTestEntries?.includes(edge.target)) {
     const browserDriver = /^tests\/ui\/.+\.pw\.ts$/.test(edge.from)
       || policy.browserTestHelpers?.includes(edge.from);
     return browserDriver && (edge.kind === "dynamic-import" || edge.typeOnly) ? null : "application-reverse-import";
+  }
+  if (targetOwner === "core-test" && !["core-test", "preview-host"].includes(sourceOwner)) return "production-test-import";
+  if (targetOwner === "preview-host" && !["core-test", "preview-host"].includes(sourceOwner)) return "production-preview-import";
+  if (["core-test", "preview-host"].includes(sourceOwner)) {
+    if (targetOwner.startsWith("plugins/")) return "core-plugin-implementation";
+    if (["core", "app", "core-test", "preview-host"].includes(targetOwner)) return null;
   }
   if (sourceOwner === targetOwner) return null;
   if (targetOwner === "app") {
@@ -311,9 +319,10 @@ export function checkWorkbenchBoundaries(edges, policy, baseline) {
     active.set(key, count);
     // New public and contract files must be clean from their first introduction.
     const freshSurface = policy.publicEntries.includes(edge.from) || policy.contracts.includes(edge.from);
+    const isolatedCore = ["core-test", "preview-host"].includes(owner(edge.from)) && reason === "core-plugin-implementation";
     const coreImplementation = edge.from.startsWith(prefix + "core/") && !/\.(?:test|spec)\./.test(edge.from)
       && ["core-plugin-implementation", "application-reverse-import"].includes(reason);
-    if (freshSurface || coreImplementation || count > (allowance.get(key)?.count ?? 0)) violations.push({ ...edge, reason });
+    if (freshSurface || isolatedCore || coreImplementation || count > (allowance.get(key)?.count ?? 0)) violations.push({ ...edge, reason });
   }
   const stale = [...allowance].filter(([key, value]) => (active.get(key) ?? 0) < value.count)
     .map(([key, value]) => ({ key, allowed: value.count, current: active.get(key) ?? 0, workItem: value.workItem }));

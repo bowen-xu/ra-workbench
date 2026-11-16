@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { boundaryKey, collectWorkbenchImports, checkWorkbenchBoundaries, findExcludedWorkbenchPluginSources } from "./workbench-boundaries.mjs";
+import { classifyBoundary, boundaryKey, collectWorkbenchImports, checkWorkbenchBoundaries, findExcludedWorkbenchPluginSources } from "./workbench-boundaries.mjs";
 
 const roots = [];
 function fixture(files) {
@@ -67,10 +67,10 @@ describe("Web ownership boundaries", () => {
     });
     const report = check(root);
     expect(report.violations).toEqual([expect.objectContaining({
-      from: "tests/ui/writing.pw.ts", target, kind: "dynamic-import", names: "*", reason: "consumer-private-import",
+      from: "tests/ui/writing.pw.ts", target, kind: "dynamic-import", names: "*", reason: "core-plugin-implementation",
     })]);
     const baseline = {...empty, exceptions: [["tests/ui/writing.pw.ts", target, "dynamic-import", "*", 1, "migration"]]};
-    expect(checkWorkbenchBoundaries(collectWorkbenchImports(root), policy, baseline).ok).toBe(true);
+    expect(checkWorkbenchBoundaries(collectWorkbenchImports(root), policy, baseline).ok).toBe(false);
   });
 
   it.each([
@@ -133,7 +133,7 @@ describe("Web ownership boundaries", () => {
       [core + "feature.ts", "import", entry], [plugin + "feature.tsx", "import", entry],
       ["apps/web/src/app/Production.tsx", "import", entry], ["apps/web/src/app/feature.spec.tsx", "dynamic-import", entry],
       [plugin + "feature.test.tsx", "dynamic-import", entry], [plugin + "feature.test.tsx", "mock", entry],
-      [plugin + "feature.test.tsx", "export", entry], [plugin + "feature.test.tsx", "import", "apps/web/src/app/Private.testSupport.tsx"],
+      [plugin + "feature.test.tsx", "export", entry],
       ["tests/ui/feature.pw.ts", "import", entry], ["tests/unit/feature.test.js", "import", entry],
     ]) expect(checkWorkbenchBoundaries([{from, target, kind, names: "bind", line: 1}], scoped, empty).violations[0]).toMatchObject({reason: "application-reverse-import"});
   });
@@ -151,14 +151,13 @@ describe("Web ownership boundaries", () => {
       "tests/ui/continuity.pw.ts": 'void import("/src/app/notes/Continuity.browser.tsx");'});
     const scoped = {...policy, browserTestEntries: [entry]};
     expect(checkWorkbenchBoundaries(collectWorkbenchImports(root), scoped, empty).ok).toBe(true);
-    expect(check(root).violations[0]).toMatchObject({reason: "application-reverse-import", target: entry});
+    expect(check(root).ok).toBe(true);
     for (const [from, kind, target] of [
       [core + "feature.ts", "dynamic-import", entry],
       [plugin + "feature.ts", "dynamic-import", entry],
       [plugin + "feature.test.ts", "dynamic-import", entry],
       ["tests/unit/feature.test.ts", "dynamic-import", entry],
       ["tests/ui/continuity.pw.ts", "import", entry],
-      ["tests/ui/continuity.pw.ts", "dynamic-import", "apps/web/src/app/notes/Private.browser.tsx"],
     ]) {
       const edge = {from, target, kind, names: "*", typeOnly: false, line: 1};
       expect(checkWorkbenchBoundaries([edge], scoped, empty).violations[0]).toMatchObject({reason: "application-reverse-import"});
@@ -181,7 +180,6 @@ describe("Web ownership boundaries", () => {
       {...edge, from: core + "feature.ts"},
       {...edge, from: plugin + "feature.ts"},
       {...edge, kind: "import"},
-      {...edge, target: "apps/web/src/app/previews/PrivateFixture.ts"},
     ]) expect(checkWorkbenchBoundaries([forbidden], scoped, empty).violations[0])
       .toMatchObject({reason: "application-reverse-import"});
   });
@@ -192,9 +190,9 @@ describe("Web ownership boundaries", () => {
     expect(() => checkWorkbenchBoundaries([], {...policy, browserTestHelpers: ["tests/ui/a.ts", "tests/ui/a.ts"]}, empty))
       .toThrow("exact tests/ui helper files");
   });
-  it("permits a Core-only test to reject plugin loading without importing the plugin", () => {
+  it("rejects Core test references to plugin code including mock declarations", () => {
     const root=fixture({...support,[core+"shell.test.ts"]:'vi.mock("../plugins/demo/public/workspace",()=>{throw Error("plugin was loaded");});'});
-    expect(check(root).ok).toBe(true);
+    expect(check(root).violations[0]).toMatchObject({reason:"core-plugin-implementation"});
     writeFileSync(join(root,core+"shell.test.ts"),'import {pluginValue} from "../plugins/demo/public/workspace";');
     expect(check(root).violations[0]).toMatchObject({reason:"core-plugin-implementation"});
   });
@@ -373,4 +371,15 @@ describe("Web ownership boundaries", () => {
     const baseline = { ...empty, exceptions: [[edge.from, edge.target, edge.kind, edge.names, 1, "migration"]] };
     expect(checkWorkbenchBoundaries([edge], policy, baseline).violations).toHaveLength(1);
   });
+});
+
+it("keeps Core test and preview-host access within Workbench ownership", () => {
+  const policy = {contracts: [], publicEntries: []};
+  const edge = (from, target) => ({from, target, kind: "import", names: "value", typeOnly: false});
+  expect(classifyBoundary(edge("tests/ui/reader.browser.ts", "apps/web/src/core/private.ts"), policy)).toBeNull();
+  expect(classifyBoundary(edge("preview-host/index.ts", "apps/web/src/app/preview.tsx"), policy)).toBeNull();
+  expect(classifyBoundary(edge("tests/ui/reader.browser.ts", "plugins/ra-literature-library/src/private.ts"), policy)).toBe("core-plugin-implementation");
+  expect(classifyBoundary(edge("preview-host/index.ts", "plugins/ra-writing-projects/src/private.ts"), policy)).toBe("core-plugin-implementation");
+  expect(classifyBoundary(edge("apps/web/src/core/private.ts", "tests/setup/fixture.ts"), policy)).toBe("production-test-import");
+  expect(classifyBoundary(edge("apps/web/src/app/App.tsx", "preview-host/index.ts"), policy)).toBe("production-preview-import");
 });

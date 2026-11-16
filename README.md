@@ -28,3 +28,10 @@ pnpm dev 提供 Core 前端。pnpm dev:desktop 和 pnpm bundle:dev 消费 RESEAR
 
 
 插件 UI 测试可将 apps/web/dist 作为 RA_WORKBENCH_SDK_DIRECTORY，使用本次构建的公开同源 SDK。该测试入口消费 Core 构建产物。
+
+## 公开预览宿主
+
+build:preview-host 发布 @research-assistant/workbench-preview，复用正式工作台与 Core 组件。
+各插件拥有自己的预览，调用宿主的 PreviewWorkbench 并提供 loadPlugins。
+开发包包含编译后 JS、声明、原 CSS、笔记查询 Wasm、词典和静态资源，版本跟随 Workbench。
+显式模块清单在 apps/web/previewHostSurface.json，产物在 artifacts/preview-host/，定向回归使用 pnpm test:preview-host。
