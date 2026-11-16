@@ -29,3 +29,7 @@ pnpm dev 提供 Core 前端。pnpm dev:desktop 和 pnpm bundle:dev 消费 RESEAR
 完整产品浏览器验收位于 `tests/product-ui/`，通过 `pnpm test:ui:product` 显式执行，目前使用主仓库的完整预览入口。`tests/plugin-integration/` 通过 `pnpm test:product` 显式执行，依赖外部插件测试夹具。普通 Core Vitest 测试排除这组组合验收。纯 AI 契约由 SDK 拥有，写作网关流程与编译夹具由写作插件拥有。
 
 插件 UI 测试可将 apps/web/dist 作为 RA_WORKBENCH_SDK_DIRECTORY，使用本次构建的公开同源 SDK。该测试入口消费 Core 构建产物。
+
+## 构建缓存与产物
+
+标准构建入口复用通过完整性校验的既有包。产物在本工程 `artifacts/<kind>/<内容哈希>/package/`，当前入口在 `artifacts/<kind>/latest.json`。回执随产物保存，`.cache/build` 保存索引，`.cache/logs` 保存日志，`.cache/work` 为完成后清理的隔离工作目录。清理编译缓存后仍可复用已保存的当前包。

@@ -10,7 +10,7 @@ describe("dynamic desktop development", () => {
     expect(args.slice(-3)).toEqual(["--no-watch", "--", "--no-default-features"]);
     expect(JSON.parse(args.find(value => value.startsWith("{")))).toEqual({build: {
       beforeDevCommand: "node ../../scripts/build-workbench-composition.mjs --plugins none",
-      devUrl: null, frontendDist: "/workspace/.tmp/workbench-compositions/core/web",
+      devUrl: null, frontendDist: "/workspace/apps/web/dist",
     }});
   });
 });

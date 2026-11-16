@@ -265,8 +265,9 @@ export function runtimeSdkPlugin(enabled = process.env.RESEARCH_ASSISTANT_RUNTIM
     configResolved(config) {
       const output = path.resolve(config.root, config.build.outDir);
       if (output !== path.join(repository, "apps/web/dist")
-        && !output.startsWith(path.join(repository, ".tmp") + path.sep))
-        throw new Error("runtime_sdk_output_invalid: use the normal Web dist or a repository .tmp output");
+        && !output.startsWith(path.join(repository, ".tmp") + path.sep)
+        && !output.startsWith(path.join(repository, "artifacts") + path.sep))
+        throw new Error("runtime_sdk_output_invalid: use the normal Web dist or a repository artifacts/.tmp output");
     },
     resolveId(id) {if (id.startsWith(prefix) && facades.some(value => id === prefix + value.name)) return "\0" + id;},
     load(id) {

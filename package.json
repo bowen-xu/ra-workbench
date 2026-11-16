@@ -23,7 +23,7 @@
     "sdk:install": "node scripts/install-sdk.mjs",
     "build": "pnpm --filter @research-assistant/web build",
     "build:workbench": "node scripts/build-workbench-composition.mjs --plugins none",
-    "build:native": "cargo build --locked --manifest-path apps/desktop/src-tauri/Cargo.toml --no-default-features --bin research-assistant --bin note-pdf-worker",
+    "build:native": "node scripts/build-native.mjs",
     "dev": "pnpm --filter @research-assistant/web dev",
     "dev:desktop": "node scripts/dev-desktop.mjs",
     "bundle:dev": "node scripts/build-development-application.mjs",

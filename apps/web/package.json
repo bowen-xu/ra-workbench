@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node ../../scripts/prepare-note-query.mjs && node ../../scripts/prepare-dictionary.mjs && tsc -b && vite build",
+    "build": "node ../../scripts/build-web.mjs",
     "dev": "node ../../scripts/prepare-note-query.mjs && node ../../scripts/prepare-dictionary.mjs && vite --host 127.0.0.1",
     "preview": "vite preview --host 127.0.0.1",
     "typecheck": "tsc -b --pretty false"
