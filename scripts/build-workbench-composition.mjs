@@ -21,6 +21,7 @@ export async function buildWorkbenchWeb({checkBoundaries = false, planOnly = fal
   const {withCachedBuild} = await import("../.dependencies/sdk/tooling/build-artifacts.mjs");
   const receipt = await withCachedBuild({
     root, kind: "workbench-web",
+    exclude: ["apps/web/public/dictionary"],
     inputs: ["apps/web", "packages/ui", "scripts", "docs/architecture", "package.json",
       "pnpm-lock.yaml", "pnpm-workspace.yaml", "tsconfig.base.json"],
   }, async context => {

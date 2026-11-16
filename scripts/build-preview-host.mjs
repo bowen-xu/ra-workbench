@@ -9,7 +9,7 @@ import {emitPreviewModules, packPreview} from "../preview-host/plugin-preview.mj
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(path.join(root, "apps/web/package.json"));
-const receipt = await withCachedBuild({root, kind: "preview-host", inputs: [
+const receipt = await withCachedBuild({root, kind: "preview-host", exclude: ["apps/web/public/dictionary"], inputs: [
   "apps/web", "packages/ui", "preview-host", "apps/desktop/agent-resources", "scripts/build-preview-host.mjs", "scripts/prepare-note-query.mjs", "scripts/prepare-dictionary.mjs",
   "patches", "tsconfig.preview-host.json", "tsconfig.base.json", "package.json", "pnpm-lock.yaml",
 ]}, async ({workDirectory, logDirectory, output}) => {
