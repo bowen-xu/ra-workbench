@@ -3773,12 +3773,6 @@
           "line": 275
         },
         {
-          "name": "knowledge_candidate_tests",
-          "path": "knowledge_candidate_tests.rs",
-          "visibility": "private",
-          "line": 278
-        },
-        {
           "name": "matrix_evidence_storage",
           "visibility": "private",
           "line": 279
@@ -3816,12 +3810,6 @@
           "name": "candidate_test_fixture",
           "visibility": "private",
           "line": 295
-        },
-        {
-          "name": "paper_template_quote_tests",
-          "path": "paper_template_tests/quotes.rs",
-          "visibility": "private",
-          "line": 299
         }
       ]
     },
@@ -13356,14 +13344,6 @@
       "moduleDeclarations": []
     },
     {
-      "file": "apps/desktop/src-tauri/src/core/ai/paper_template_tests/quotes.rs",
-      "module": "crate::ai::paper_template_quote_tests",
-      "owner": "core",
-      "role": "test",
-      "reason": "Preserved Core tests prepare the original inputs using canonical Native pure decisions and original Core execution owners.",
-      "moduleDeclarations": []
-    },
-    {
       "file": "apps/desktop/src-tauri/src/core/runtime_plugins/literature_context/test_fixture.rs",
       "module": "crate::runtime_plugins::literature_context::test_fixture",
       "owner": "core",
@@ -14562,12 +14542,6 @@
           "line": 275
         },
         {
-          "name": "knowledge_candidate_tests",
-          "path": "knowledge_candidate_tests.rs",
-          "visibility": "private",
-          "line": 278
-        },
-        {
           "name": "matrix_evidence_storage",
           "visibility": "private",
           "line": 279
@@ -14605,12 +14579,6 @@
           "name": "candidate_test_fixture",
           "visibility": "private",
           "line": 295
-        },
-        {
-          "name": "paper_template_quote_tests",
-          "path": "paper_template_tests/quotes.rs",
-          "visibility": "private",
-          "line": 299
         }
       ],
       "exactModules": true

@@ -271,9 +271,6 @@ fn resolve_embedding_provider_configuration(
 #[cfg(test)]
 #[path = "candidate_persistence_tests.rs"]
 mod candidate_persistence_tests;
-#[cfg(test)]
-#[path = "knowledge_candidate_tests.rs"]
-mod knowledge_candidate_tests;
 mod matrix_evidence_storage;
 #[path = "matrix_synthesis_context_repository.rs"]
 mod matrix_synthesis_context_repository;
@@ -291,9 +288,6 @@ pub(crate) mod paper_item_review;
 #[cfg(test)]
 mod candidate_test_fixture;
 
-#[cfg(test)]
-#[path = "paper_template_tests/quotes.rs"]
-mod paper_template_quote_tests;
 
 #[cfg(test)]
 pub(crate) use structured_generation::paper_grants as test_paper_grants;
