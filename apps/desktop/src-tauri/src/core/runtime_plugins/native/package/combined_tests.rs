@@ -256,13 +256,11 @@ fn combined_manifest_cannot_bypass_original_snapshot_resources_or_sql_grants() {
         catalog.resource(&key, "style.css").err().unwrap().code,
         "runtime_plugin_resource_changed"
     );
-    assert_eq!(
-        accept(&catalog, &key, NativeProfile::NoteTraceDecision)
-            .err()
-            .unwrap()
-            .code,
-        "plugin_host_package_unavailable"
-    );
+    // Execution remains pinned to its discovered snapshot. Each consumer checks
+    // its own resources, so the unchanged trace SQL still uses the original key.
+    let accepted = accept(&catalog, &key, NativeProfile::NoteTraceDecision).unwrap();
+    assert_eq!(accepted.package_key, key);
+    TraceResources::load(&catalog, &accepted).unwrap();
     let key = catalog.discover().unwrap().packages[0].package_key.clone();
     let package = accept(&catalog, &key, NativeProfile::NoteTraceDecision).unwrap();
     fs::write(

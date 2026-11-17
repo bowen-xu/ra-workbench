@@ -109,7 +109,7 @@ pub(super) async fn run(
         "update reading_states set zoom=3.0 where attachment_id=?1",
         [attachment],
     )?;
-    let value = diagnostic(&error, key, "storage_error")?;
+    let value = diagnostic(&error, key, "storage_error", false)?;
     require(
         error.request_id.is_none()
             && error.data_error.as_ref().is_some_and(|e| {

@@ -6710,7 +6710,12 @@
       "owner": "core",
       "role": "policy",
       "reason": "Finite L03 attachment/PDF execution over fixed package resources and original Core owners; no domain implementation import, arbitrary SQL or path service.",
-      "moduleDeclarations": []
+      "moduleDeclarations": [
+        {
+          "name": "tests",
+          "visibility": "private"
+        }
+      ]
     },
     {
       "file": "apps/desktop/src-tauri/src/core/runtime_plugins/literature_trace/service/pdf_import.rs",

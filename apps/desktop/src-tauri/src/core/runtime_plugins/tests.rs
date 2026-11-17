@@ -6,6 +6,9 @@ use tempfile::TempDir;
 #[path = "location_tests.rs"]
 mod location_tests;
 
+#[path = "selection_tests.rs"]
+mod selection_tests;
+
 fn package(root: &Path, name: &str) -> PathBuf {
     let directory = root.join(name);
     fs::create_dir_all(directory.join("assets")).unwrap();

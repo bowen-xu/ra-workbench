@@ -71,6 +71,10 @@ impl LiteratureTraceService {
         request: AttachmentRequest,
     ) -> NativeResult<AttachmentResult> {
         self.available()?;
+        // This same lifetime gate already drains Core work that releases the
+        // host. Keep it through the blocking worker, including caller abort.
+        let _lifetime = self.doi_operations.read().await;
+        self.available()?;
         let catalog = Arc::clone(&self.catalog);
         let selected = key.to_owned();
         let resources = tokio::task::spawn_blocking(move || {
@@ -97,6 +101,20 @@ impl LiteratureTraceService {
         }
         #[cfg(unix)]
         {
+            if matches!(
+                &request,
+                AttachmentRequest::Read { .. }
+                    | AttachmentRequest::GetState { .. }
+                    | AttachmentRequest::IsIndexed { .. }
+            ) {
+                self.available()?;
+                return tokio::task::spawn_blocking(move || {
+                    literature_attachments::execute(&store, &resources, request, None)
+                        .map_err(AttachmentFailure::native)
+                })
+                .await
+                .map_err(|_| AttachmentFailure::unknown("execution").native())?;
+            }
             let mut slot = self.host.lock().await;
             self.available()?;
             let mut before = None;
@@ -258,3 +276,6 @@ fn plan_matches(input: &AttachmentPrepareInputV1, plan: &AttachmentPlanV1) -> bo
         _ => false,
     }
 }
+
+#[cfg(all(test, unix))]
+mod tests;

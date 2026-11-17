@@ -127,7 +127,7 @@ pub(super) async fn run(
         Err(error) => error,
         Ok(_) => return Err("terminal PDF job unexpectedly accepted cancellation".into()),
     };
-    let cancel_diagnostic = diagnostic(&rejection, key, "not_found")?;
+    let cancel_diagnostic = diagnostic(&rejection, key, "not_found", true)?;
     let progress = rejection
         .import_jobs
         .as_ref()

@@ -146,7 +146,10 @@ struct PackageSnapshot {
 pub(crate) struct RuntimePluginCatalog {
     root: Option<PathBuf>,
     bundled_root: Arc<OnceLock<PathBuf>>,
-    snapshots: Arc<Mutex<BTreeMap<String, PackageSnapshot>>>,
+    snapshots: Arc<Mutex<BTreeMap<String, Arc<PackageSnapshot>>>>,
+    discovery: Arc<Mutex<()>>,
+    #[cfg(test)]
+    discovery_count: Arc<std::sync::atomic::AtomicUsize>,
     native_writing_preview: bool,
     management: Arc<OnceLock<management::ManagedPlugins>>,
     #[cfg(unix)]
@@ -159,6 +162,9 @@ impl RuntimePluginCatalog {
             root,
             bundled_root: Arc::new(OnceLock::new()),
             snapshots: Arc::new(Mutex::new(BTreeMap::new())),
+            discovery: Arc::new(Mutex::new(())),
+            #[cfg(test)]
+            discovery_count: Arc::new(std::sync::atomic::AtomicUsize::new(0)),
             native_writing_preview: false,
             management: Arc::new(OnceLock::new()),
             #[cfg(unix)]
@@ -178,6 +184,14 @@ impl RuntimePluginCatalog {
     }
 
     pub(crate) fn discover(&self) -> Result<RuntimePluginListing, RuntimePluginError> {
+        let _discovery = self.discovery.lock().map_err(|_| catalog_unavailable())?;
+        self.discover_locked()
+    }
+
+    fn discover_locked(&self) -> Result<RuntimePluginListing, RuntimePluginError> {
+        #[cfg(test)]
+        self.discovery_count
+            .fetch_add(1, std::sync::atomic::Ordering::Relaxed);
         let discovered = self.bundled_packages()?;
         let discovered = match self.management.get() {
             Some(manager) => manager.select(discovered)?,
@@ -202,12 +216,48 @@ impl RuntimePluginCatalog {
             // to the SDK resolver as separate declarations; do not hide IDs.
             // A successful rescan refreshes a verified location for identical
             // content; retaining the first path would strand a renamed package.
-            snapshots.insert(package.package_key.clone(), snapshot);
+            snapshots.insert(package.package_key.clone(), Arc::new(snapshot));
             packages.push(package);
         }
         Ok(RuntimePluginListing {
             packages,
             native_writing_preview: self.native_writing_preview,
+        })
+    }
+
+    /// Execution stays bound to an already discovered content snapshot. Only a
+    /// fresh catalog needs discovery; concurrent first callers share that scan.
+    /// Explicit discovery still refreshes package locations and finds updates.
+    pub(crate) fn package(
+        &self,
+        package_key: &str,
+    ) -> Result<RuntimePluginPackage, RuntimePluginError> {
+        let known = || {
+            self.snapshots
+                .lock()
+                .map(|snapshots| snapshots.contains_key(package_key))
+                .map_err(|_| catalog_unavailable())
+        };
+        if !known()? {
+            let _discovery = self.discovery.lock().map_err(|_| catalog_unavailable())?;
+            if !known()? {
+                self.discover_locked()?;
+            }
+        }
+        // Recheck the small manifest against its original hash and controlled
+        // path on every acceptance. SQL and executable consumers independently
+        // verify their requested bytes against this same immutable snapshot.
+        let resource = self.resource(package_key, "manifest.json")?;
+        let manifest = serde_json::from_slice(&resource.bytes).map_err(|_| {
+            RuntimePluginError::new(
+                "runtime_plugin_manifest_invalid",
+                "插件包manifest不是有效JSON。",
+            )
+            .package(package_key)
+        })?;
+        Ok(RuntimePluginPackage {
+            package_key: package_key.to_owned(),
+            manifest,
         })
     }
 

@@ -84,7 +84,7 @@ pub(crate) struct LiteratureTraceService {
     cleanup_failed: AtomicBool,
     #[cfg(test)]
     admission_observed: Option<Arc<Notify>>,
-    // DOI/PDF stages and Core-owned legacy imports retain this lifetime gate
+    // DOI/PDF stages, attachment reads and Core-owned legacy imports retain this lifetime gate
     // while releasing the host, so shutdown drains accepted work before storage.
     doi_operations: tokio::sync::RwLock<()>,
 }
@@ -124,7 +124,7 @@ impl LiteratureTraceService {
         Ok(())
     }
 
-    /// Refresh and validate exactly the caller's selected key, without a DB guard.
+    /// Validate the caller's selected content snapshot, without a DB guard.
     /// No package ID, newest version, manifest or default implicitly selects one.
     pub(crate) async fn accept(&self, package_key: &str) -> NativeResult<TraceResources> {
         self.available()

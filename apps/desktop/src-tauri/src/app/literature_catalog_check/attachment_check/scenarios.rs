@@ -8,19 +8,31 @@ pub(super) fn require(condition: bool, message: &'static str) -> Result<(), Erro
         Err(message.into())
     }
 }
-pub(super) fn diagnostic(error: &NativeHostError, key: &str, code: &str) -> Result<Value, Error> {
+pub(super) fn diagnostic(
+    error: &NativeHostError,
+    key: &str,
+    code: &str,
+    used_host: bool,
+) -> Result<Value, Error> {
     require(
         error.code == code
             && error.package_key.as_deref() == Some(key)
             && error.cleanup_error.is_none(),
         "attachment rejection lost code/package or actual cleanup failed",
     )?;
-    uuid::Uuid::parse_str(
-        error
-            .instance_id
-            .as_deref()
-            .ok_or("attachment error lost instance")?,
-    )?;
+    if used_host {
+        uuid::Uuid::parse_str(
+            error
+                .instance_id
+                .as_deref()
+                .ok_or("attachment error lost instance")?,
+        )?;
+    } else {
+        require(
+            error.instance_id.is_none() && error.request_id.is_none(),
+            "Core-only read inherited an unrelated Native identity",
+        )?;
+    }
     let value = serde_json::to_value(error)?;
     require(
         !serde_json::to_string(&value)?.contains("private synthetic attachment"),
@@ -35,11 +47,17 @@ async fn rejected(
     request: AttachmentRequest,
     code: &str,
 ) -> Result<Value, Error> {
+    let used_host = !matches!(
+        &request,
+        AttachmentRequest::Read { .. }
+            | AttachmentRequest::GetState { .. }
+            | AttachmentRequest::IsIndexed { .. }
+    );
     match service
         .attachments(store.clone(), key.into(), request)
         .await
     {
-        Err(error) => diagnostic(&error, key, code),
+        Err(error) => diagnostic(&error, key, code, used_host),
         Ok(_) => Err("attachment rejection unexpectedly succeeded".into()),
     }
 }
@@ -349,7 +367,7 @@ async fn partial_failure(
     let error = result
         .err()
         .ok_or("partial attachment failure unexpectedly succeeded")?;
-    let value = diagnostic(&error, key, "storage_error")?;
+    let value = diagnostic(&error, key, "storage_error", true)?;
     let prefix = error
         .attachments
         .as_ref()

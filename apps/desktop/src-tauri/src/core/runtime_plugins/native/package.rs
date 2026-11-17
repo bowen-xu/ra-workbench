@@ -162,21 +162,20 @@ pub(crate) fn accept(
     key: &str,
     profile: NativeProfile,
 ) -> NativeResult<RuntimePluginPackage> {
-    let listing = catalog.discover().map_err(|error| {
-        NativeHostError::for_profile(profile, error.code, error.message).package(key)
-    })?;
-    let package = listing
-        .packages
-        .into_iter()
-        .find(|package| package.package_key == key)
-        .ok_or_else(|| {
-            NativeHostError::for_profile(
+    let package = catalog.package(key).map_err(|error| {
+        if matches!(
+            error.code,
+            "runtime_plugin_package_unknown" | "runtime_plugin_package_key_invalid"
+        ) {
+            return NativeHostError::for_profile(
                 profile,
                 "plugin_host_package_unavailable",
                 "显式选择的原生插件包不可用。",
             )
-            .package(key)
-        })?;
+            .package(key);
+        }
+        NativeHostError::for_profile(profile, error.code, error.message).package(key)
+    })?;
     let manifest: PackageManifest = serde_json::from_value(package.manifest.clone())
         .map_err(|_| profile_error(profile).package(key))?;
     validate_package(manifest, profile).map_err(|error| error.package(key))?;
