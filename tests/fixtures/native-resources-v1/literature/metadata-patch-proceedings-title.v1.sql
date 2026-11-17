@@ -1,1 +1,0 @@
-update bibliographic_items set proceedings_title = ?2 where id = ?1

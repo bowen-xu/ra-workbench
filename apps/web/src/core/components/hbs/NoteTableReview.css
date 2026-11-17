@@ -1,4 +1,0 @@
-.note-editor .hbs-table-row-added > :first-child { border-left-width: 2px; border-left-style: solid; }
-.note-editor .hbs-table-cell-current { padding-inline: var(--note-block-inset, 8px); }
-.note-editor .hbs-table-row-removed > :first-child { border-left-width: 2px; border-left-style: solid; }
-.note-editor .hbs-table-row-removed .note-diff-deleted-content { border: 0; background: transparent; }

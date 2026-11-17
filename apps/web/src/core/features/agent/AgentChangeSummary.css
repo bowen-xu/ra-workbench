@@ -1,6 +1,0 @@
-.writing-agent-inline-diff-card > :is(p, [role="alert"]) { margin: 8px 14px; font-size: var(--ui-font-caption); }
-
-.writing-agent-inline-diff-card.single-file > header { border-bottom: 0; }
-.agent-change-summary-file { border: 0; padding: 0; color: inherit; background: transparent; font: inherit; text-align: left; overflow-wrap: anywhere; cursor: pointer; }
-.agent-change-summary-file:hover:not(:disabled) { color: #2f6d45; }
-.agent-change-summary-file:disabled { cursor: default; opacity: .55; }

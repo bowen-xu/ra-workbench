@@ -1,1 +1,0 @@
-update nal_state set revision = revision + 1 where id = 1

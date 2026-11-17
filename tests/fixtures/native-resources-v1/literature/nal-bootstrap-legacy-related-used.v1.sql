@@ -1,1 +1,0 @@
-select exists(select 1 from collection_relations where type_id = ?1)

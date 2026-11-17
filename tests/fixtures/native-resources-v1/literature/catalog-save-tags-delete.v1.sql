@@ -1,1 +1,0 @@
-delete from item_tags where item_id = ?1

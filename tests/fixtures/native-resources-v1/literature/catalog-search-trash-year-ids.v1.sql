@@ -1,1 +1,0 @@
-select id from bibliographic_items where issued_year = ?1 and trashed_at is not null

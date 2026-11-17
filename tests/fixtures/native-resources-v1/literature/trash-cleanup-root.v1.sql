@@ -1,1 +1,0 @@
-insert into literature_cleanup_rows(item_id,table_name,row_key) select ?1,'bibliographic_items',rowid from bibliographic_items where id=?1

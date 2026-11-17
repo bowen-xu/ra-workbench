@@ -1,1 +1,0 @@
-select ?2,'从旧集合关系迁移。反向显示：'||?3||'；有向：'||case when ?4 then 'true' else 'false' end||'。' where ?1 <> 'sub-field' and (?1 <> 'related-field' or ?5)

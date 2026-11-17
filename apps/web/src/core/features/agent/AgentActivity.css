@@ -1,7 +1,0 @@
-.agent-launcher-spinner { animation: agent-launcher-spin 2s linear infinite; }
-.agent-spinner-track { stroke-opacity: .25; }
-.agent-spinner-arc { stroke-opacity: 1; }
-.agent-internal-activity { position: relative; display: grid; place-items: center; width: 24px; height: 24px; }
-.agent-internal-activity > .agent-launcher-spinner { position: absolute; inset: 0; margin: auto; width: 23px; height: 23px; }
-@keyframes agent-launcher-spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .agent-launcher-spinner { animation: none; } }

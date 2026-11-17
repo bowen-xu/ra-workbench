@@ -1,1 +1,0 @@
-select '{"kind":"product","terms":[{"kind":"concept","id":'||data_json_quote_v1(?1)||'},{"kind":"concept","id":'||data_json_quote_v1(?2)||'}]}','{"kind":"concept","id":'||data_json_quote_v1(case when ?3='sub-field' then ?4 else ?5 end)||'}',case when ?3='sub-field' then ?4 else ?5 end,'legacy' where ?3='sub-field' or ?5 is not null

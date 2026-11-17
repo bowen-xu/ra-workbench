@@ -1,1 +1,0 @@
-select exists(select 1 from concepts where id = ?1 and deleted_at is null)

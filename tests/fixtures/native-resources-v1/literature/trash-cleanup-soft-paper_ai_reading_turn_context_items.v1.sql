@@ -1,1 +1,0 @@
-insert into literature_cleanup_rows(item_id,table_name,row_key) select ?1,?2,rowid from paper_ai_reading_turn_context_items where paper_id=?1

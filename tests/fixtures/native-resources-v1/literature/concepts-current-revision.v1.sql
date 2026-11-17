@@ -1,1 +1,0 @@
-select revision from concepts where id = ?1

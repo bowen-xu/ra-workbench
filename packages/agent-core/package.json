@@ -1,0 +1,5 @@
+{
+  "name": "@research-assistant/agent-core",
+  "private": true,
+  "type": "module"
+}

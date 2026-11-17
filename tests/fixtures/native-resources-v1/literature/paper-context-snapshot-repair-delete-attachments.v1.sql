@@ -1,1 +1,0 @@
-delete from paper_context_attachments where snapshot_id=?1

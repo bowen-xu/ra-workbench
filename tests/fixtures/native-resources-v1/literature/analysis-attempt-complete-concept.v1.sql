@@ -1,1 +1,0 @@
-select exists(select 1 from paper_analysis_turns where workflow_id = ?1 and turn_kind = 'paper_concept_map')

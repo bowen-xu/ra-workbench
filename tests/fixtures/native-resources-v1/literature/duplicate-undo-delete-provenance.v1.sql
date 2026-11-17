@@ -1,1 +1,0 @@
-delete from metadata_provenance where field_name = ?1 and item_id = ?2

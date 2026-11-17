@@ -1,1 +1,0 @@
-select exists(select 1 from nal_relation_rules where relation_concept_id=?1) or exists(select 1 from nal_statements where json_extract(subject,'$.kind')='product' and json_extract(predicate,'$.kind')='concept' and json_extract(predicate,'$.id')=?1)

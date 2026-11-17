@@ -1,1 +1,0 @@
-select case when ?3 = 'legacy' then case when json_extract(?1,'$.kind') = 'product' then case when json_extract(?2,'$.kind') = 'concept' then json_extract(?2,'$.id') end end end

@@ -1,6 +1,0 @@
-@import "../ReorderMotion.css";
-.reorder-item { position: relative; transform: translate(var(--reorder-x, 0px), var(--reorder-y, 0px)); transition: opacity var(--reorder-motion-duration) ease, background .14s ease; }
-.reorder-group[data-reordering="true"] > .reorder-item { transition: transform var(--reorder-motion-duration) var(--reorder-motion-easing), opacity var(--reorder-motion-duration) ease, background .14s ease; }
-.reorder-group[data-reordering="true"] > .reorder-item[data-dragging="true"] { z-index: 1; opacity: var(--reorder-drag-opacity); background: transparent; border-color: transparent; box-shadow: none; cursor: grabbing; user-select: none; }
-.reorder-item[data-dragging="true"] button { cursor: grabbing; }
-@media (prefers-reduced-motion: reduce) { .reorder-item, .reorder-group[data-reordering="true"] > .reorder-item { transition: none; } }

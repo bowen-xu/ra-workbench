@@ -1,1 +1,0 @@
-select id from source_anchors where item_id = ?1

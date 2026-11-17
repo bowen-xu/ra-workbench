@@ -1,9 +1,0 @@
-# Reading template JSON
-
-Global library templates are independent of any paper. A paper-specific template has its own stable resource address beneath that paper and is generated from its portrait; it can combine, add, rename and reorder fields instead of merely choosing a global template. Use `kind: "reading_template_v1"`, `schemaVersion: 1`, `name`, and 1–20 ordered `fields`. Each field contains a stable lowercase `id`, `title`, `question` and optional six-digit hex `color`. Field descriptions define the kind of reading content, not the paper’s extracted answer. Do not put paper-specific content or portrait claim IDs in global definitions. Keep the portrait’s reasoning in its separate suggestion when proposing the paper template.
-
-Update an explicitly authorized template at its returned address. To create one, use Add File on the authorized managed template catalog address; the host returns the allocated child address. Directory creation authority does not authorize editing other templates.
-
-Valid writes remain proposals until the user clicks **保存模板** in the visual editor. This single action applies the exact proposed contents and base version, without a second confirmation screen. A changed proposal or base version rejects the stale application. Saving the paper-specific template adopts its exact version only for the owning paper. Published revisions are immutable; existing papers retain their pinned revision. Switching or upgrading an existing paper requires an explicit user action; it must not delete old reading fields. Raw JSON remains a tool format and is not exposed as a user editor.
-
-Exception for first use: a user's extraction action also lets the host apply the generated paper-specific template while the reading has neither body nor binding. It requires a real application receipt and stops on invalid or conflicting drafts. Extraction with an existing binding keeps that exact version and never silently upgrades to a new suggestion.

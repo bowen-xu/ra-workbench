@@ -1,1 +1,0 @@
-select cancellation_requested from import_jobs where id = ?1

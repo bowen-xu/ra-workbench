@@ -1,1 +1,0 @@
-select json_extract(annotation.value,'$.notePageId') from json_each(?1) annotation where json_extract(annotation.value,'$.targetId') = ?2 order by cast(annotation.key as integer)

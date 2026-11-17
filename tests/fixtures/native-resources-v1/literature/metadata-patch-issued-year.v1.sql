@@ -1,1 +1,0 @@
-update bibliographic_items set issued_year = ?2 where id = ?1

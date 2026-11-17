@@ -1,1 +1,0 @@
-select portrait_candidate_id, field_id from reading_unit_template_fields where reading_unit_id = ?1

@@ -1,1 +1,0 @@
-select page_index, zoom, view_state_json from reading_states where item_id = ?1 and attachment_id = ?2

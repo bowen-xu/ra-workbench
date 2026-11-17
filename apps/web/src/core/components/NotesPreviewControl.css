@@ -1,3 +1,0 @@
-.notes-preview-control { position: fixed; bottom: 8px; right: 12px; }
-.note-recovery-preview-control { bottom:68px; }
-.notes-preview-trigger { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid #c8d4c9; border-radius: 7px; color: #476552; background: #f3f7f2; font-size: var(--ui-font-label); cursor: pointer; }

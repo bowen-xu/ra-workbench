@@ -1,1 +1,0 @@
-insert or ignore into item_relation_assignments (item_id, relation_id) select ?1, relation_id from item_relation_assignments where item_id = ?2

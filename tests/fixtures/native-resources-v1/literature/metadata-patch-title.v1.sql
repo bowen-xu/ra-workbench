@@ -1,1 +1,0 @@
-update bibliographic_items set title = ?2 where id = ?1

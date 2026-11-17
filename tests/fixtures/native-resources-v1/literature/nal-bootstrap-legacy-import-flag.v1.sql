@@ -1,1 +1,0 @@
-update nal_state set legacy_imported = 1, revision = revision + 1 where id = 1

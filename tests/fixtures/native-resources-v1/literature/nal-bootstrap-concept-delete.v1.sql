@@ -1,1 +1,0 @@
-update concepts set deleted_at=strftime('%Y-%m-%dT%H:%M:%fZ','now'), revision=revision+1 where id=?1 and deleted_at is null

@@ -1,1 +1,0 @@
-select c.id,c.label,c.explanation,c.revision,coalesce(k.kind,'ordinary') from concepts c left join nal_concept_kinds k on k.concept_id=c.id where c.deleted_at is null order by c.label,c.id

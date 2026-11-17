@@ -1,1 +1,0 @@
-select ?1||'/generation-'||printf('%06d',?2)

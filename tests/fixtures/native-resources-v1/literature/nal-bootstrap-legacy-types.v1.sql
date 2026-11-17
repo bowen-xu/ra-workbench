@@ -1,1 +1,0 @@
-select id,name,inverse_name,directed from collection_relation_types order by id

@@ -1,8 +1,0 @@
-.inline-equation-preview { display: inline-flex; align-items: baseline; min-width: 1em; margin: 0 2px; padding: 0 2px; border: 0; outline: 0; color: inherit; background: transparent; font: inherit; vertical-align: baseline; cursor: pointer; }
-.inline-equation-preview:disabled { opacity: 1; cursor: default; }
-.inline-equation-preview.empty { align-items: center; gap: 4px; padding: 2px 6px; border-radius: 5px; color: #85817b; background: #f0efed; font-size: var(--ui-font-body); line-height: 1.5; }
-.inline-equation-placeholder-symbol { display: inline-flex; align-items: center; }
-.inline-equation-placeholder-symbol .katex { font-size: 1em; }
-.inline-equation-editor { z-index: 60; display: flex; align-items: flex-start; gap: 10px; width: min(400px, calc(100vw - 24px)); max-height: var(--popover-available-height); overflow: hidden; padding: 12px; border: 1px solid #e1ded7; border-radius: 10px; color: #2f2c27; background: #faf9f8; box-shadow: 0 12px 32px #28241d18; }
-.inline-equation-done { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; padding: 5px 8px; border: 0; border-radius: 6px; color: #fff; background: #315f45; font-size: var(--ui-font-body); white-space: nowrap; cursor: pointer; }
-.inline-equation-done svg { width: var(--ui-font-caption); height: var(--ui-font-caption); }

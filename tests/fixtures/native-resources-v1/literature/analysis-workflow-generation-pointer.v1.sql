@@ -1,1 +1,0 @@
-select conversation_id from paper_generation_conversations where paper_id=?1

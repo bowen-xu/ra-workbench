@@ -1,1 +1,0 @@
-delete from attachments where id=?1 and item_id=?2

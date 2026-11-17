@@ -1,1 +1,0 @@
-insert into nal_annotations(id,statement_id,note_page_id) values(?1,?2,?3) on conflict do nothing

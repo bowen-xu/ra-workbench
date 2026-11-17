@@ -1,1 +1,0 @@
-update concept_retrieval_traces set status = 'expired' where id = ?1

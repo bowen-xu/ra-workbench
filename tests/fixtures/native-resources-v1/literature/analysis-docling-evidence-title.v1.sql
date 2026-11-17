@@ -1,1 +1,0 @@
-select title from bibliographic_items where id = ?1

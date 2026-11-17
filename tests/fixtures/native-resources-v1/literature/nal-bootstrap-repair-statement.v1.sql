@@ -1,1 +1,0 @@
-update nal_statements set subject=?1,predicate=?2 where id=?3

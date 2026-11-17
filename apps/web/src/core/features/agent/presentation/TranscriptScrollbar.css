@@ -1,3 +1,0 @@
-/* Visibility and color belong to ApplicationScrollbars. Only the outer chat
- * track is narrower; its descendants keep the global 6px size. */
-.writing-agent-messages { --ui-scrollbar-size: 4px; scrollbar-gutter: stable; }

@@ -1,2 +1,0 @@
-:root { --reorder-motion-duration: 180ms; --reorder-motion-easing: cubic-bezier(.2,.8,.2,1); --reorder-drag-opacity: .35; }
-@media (prefers-reduced-motion: reduce) { :root { --reorder-motion-duration: 0ms; } }

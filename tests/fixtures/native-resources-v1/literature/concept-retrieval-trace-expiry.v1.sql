@@ -1,1 +1,0 @@
-select expires_at from concept_retrieval_traces where id = ?1

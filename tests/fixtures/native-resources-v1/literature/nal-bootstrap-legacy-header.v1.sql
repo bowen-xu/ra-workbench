@@ -1,1 +1,0 @@
-select legacy_imported from nal_state where id = 1

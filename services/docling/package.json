@@ -1,0 +1,5 @@
+{
+  "name": "@research-assistant/docling-service",
+  "private": true,
+  "type": "module"
+}

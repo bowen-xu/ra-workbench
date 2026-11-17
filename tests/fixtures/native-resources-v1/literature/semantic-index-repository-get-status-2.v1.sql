@@ -1,1 +1,0 @@
-select id from embedding_outbox_jobs where status = 'running' order by created_at

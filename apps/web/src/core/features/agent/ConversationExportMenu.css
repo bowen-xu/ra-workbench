@@ -1,3 +1,0 @@
-.conversation-export-content { width: 190px; padding: 6px; border: 1px solid #dce2dd; border-radius: 7px; background: #fff; color: #37473e; box-shadow: 0 8px 24px #24382b20; }
-.conversation-export-content > button { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 34px; border: 0; border-radius: 4px; padding: 8px 10px; background: transparent; color: inherit; text-align: left; font: inherit; }
-.conversation-export-content > button:hover, .conversation-export-content > button[data-active-item] { background: #edf5f0; }

@@ -1,1 +1,0 @@
-update reading_states set item_id = ?2 where attachment_id = ?1 and item_id = ?3

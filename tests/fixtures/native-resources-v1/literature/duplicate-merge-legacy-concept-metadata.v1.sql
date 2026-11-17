@@ -1,1 +1,0 @@
-select 'human_original','concept',1,'human','nal_collection_migration'

@@ -1,1 +1,0 @@
-insert into nal_statements (id,subject,predicate,origin) values (?1,?2,?3,?4) on conflict(subject,predicate) do nothing

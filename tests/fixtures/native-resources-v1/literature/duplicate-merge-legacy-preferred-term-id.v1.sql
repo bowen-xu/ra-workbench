@@ -1,1 +1,0 @@
-select json_extract(value,'$[0]') from json_each(?1) where json_extract(value,'$[1]')='preferred' order by cast(key as integer) limit 1

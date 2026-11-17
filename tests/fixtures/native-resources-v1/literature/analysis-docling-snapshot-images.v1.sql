@@ -1,1 +1,0 @@
-select context_item_id,image_content_sha256 from paper_context_items where snapshot_id=?1 and image_content_sha256 is not null order by context_item_id

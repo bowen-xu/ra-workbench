@@ -1,1 +1,0 @@
-insert into tags (id, name) values (?1, ?2) on conflict(name) do nothing

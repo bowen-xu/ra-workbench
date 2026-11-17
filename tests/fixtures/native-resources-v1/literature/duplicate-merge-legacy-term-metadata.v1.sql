@@ -1,1 +1,0 @@
-select 'human_original','term',1,'human','manual_create'

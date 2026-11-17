@@ -1,1 +1,0 @@
-delete from nal_annotations where id = ?1

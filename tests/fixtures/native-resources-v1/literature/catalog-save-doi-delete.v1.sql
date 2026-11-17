@@ -1,1 +1,0 @@
-delete from identifiers where item_id = ?1 and kind = 'doi'

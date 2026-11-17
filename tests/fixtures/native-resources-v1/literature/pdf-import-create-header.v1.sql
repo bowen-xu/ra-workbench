@@ -1,2 +1,0 @@
-insert into import_jobs (id, source_kind, state, total_count, created_at, updated_at)
-         values (?1, 'pdf', 'queued', ?2, strftime('%Y-%m-%dT%H:%M:%fZ', 'now'), strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))

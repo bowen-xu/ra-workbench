@@ -1,9 +1,0 @@
-{
-  "formatVersion": 1,
-  "sourceRepository": "git@github.com:bowen-xu/ra-literature-library.git",
-  "sourceRevision": "42b1508ef4c88a4381a33fd1b79fe61aed2a36ae",
-  "source": "native/src/review_selection.rs",
-  "sourceSha256": "4c7bfce365df8ef67e8708bc24c4035146a2655e38900faaaa006f130dbb8af7",
-  "fixtureSha256": "5b7e4c57e99bc49b32e1a7b99458c34582fa3f3cdbb0a1951c10a561880d60de",
-  "purpose": "Finite accepted selection responses captured for Core transaction/review fixture inputs; resource identity remains with the Core boundary"
-}

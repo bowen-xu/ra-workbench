@@ -1,1 +1,0 @@
-select exists(select 1 from note_pages where id = ?1 and status = 'active')

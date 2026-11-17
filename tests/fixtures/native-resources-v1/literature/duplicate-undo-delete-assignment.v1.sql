@@ -1,1 +1,0 @@
-delete from item_relation_assignments where item_id = ?1 and relation_id = ?2

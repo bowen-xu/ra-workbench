@@ -1,1 +1,0 @@
-insert into creators (id, family_name, given_name, literal_name) values (?1, ?2, ?3, ?4)

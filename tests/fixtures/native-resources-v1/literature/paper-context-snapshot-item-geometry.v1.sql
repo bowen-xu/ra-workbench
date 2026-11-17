@@ -1,1 +1,0 @@
-select parse_run_id,raw_ref,item_kind,regions_json from paper_context_items where snapshot_id=?1 and context_item_id=?2

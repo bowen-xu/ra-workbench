@@ -1,1 +1,0 @@
-select '{"kind":"product","terms":[{"kind":"paper","id":'||data_json_quote_v1(?1)||'},'||?2||',{"kind":"concept","id":'||data_json_quote_v1(?3)||'}]}','{"kind":"concept","id":'||data_json_quote_v1(?4)||'}',?4,'legacy'

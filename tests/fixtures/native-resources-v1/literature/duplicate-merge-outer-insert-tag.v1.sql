@@ -1,1 +1,0 @@
-insert into item_tags (item_id, tag_id) values (?1, ?2)

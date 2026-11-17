@@ -1,7 +1,0 @@
-.agent-skill-document { box-sizing: border-box; width: min(680px, calc(100vw - 32px)); max-height: calc(100vh - 48px); overflow: auto; padding: 20px; border: 1px solid #bdcec2; border-radius: 12px; color: var(--text-primary, #33463a); background: white; }
-.agent-skill-document::backdrop { background: #12251b55; }
-.agent-skill-document header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.agent-skill-document h2 { margin: 0; font-size: var(--ui-font-heading); }
-.agent-skill-document header button { display: inline-flex; padding: 6px; border: 0; background: transparent; color: inherit; cursor: pointer; }
-.agent-skill-document-source { font-size: var(--ui-font-caption); color: #78887f; overflow-wrap: anywhere; }
-.agent-skill-document .writing-agent-markdown { font-size: var(--ui-font-body); }

@@ -1,1 +1,0 @@
-select i.context_item_id,i.attachment_id,i.content_sha256,coalesce(i.page_index,0),coalesce(i.text_content,i.table_json,''),coalesce(a.content_sha256,'') from paper_context_items i left join attachments a on a.id=i.attachment_id where i.snapshot_id=?1 order by i.context_item_id

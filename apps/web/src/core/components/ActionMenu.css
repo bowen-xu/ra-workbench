@@ -1,4 +1,0 @@
-.action-menu { max-width: calc(100vw - 24px); outline: none; }
-.action-menu[hidden] { display: none; }
-.action-menu-trigger { border: 0; background: transparent; color: inherit; font: inherit; }
-.action-menu button[data-active-item] { outline: 2px solid #629378; outline-offset: -2px; }

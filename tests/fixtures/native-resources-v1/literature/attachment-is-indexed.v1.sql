@@ -1,1 +1,0 @@
-select exists(select 1 from full_text_index_jobs where attachment_id = ?1 and state = 'completed')

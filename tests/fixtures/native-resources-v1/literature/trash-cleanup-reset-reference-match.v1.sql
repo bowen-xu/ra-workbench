@@ -1,1 +1,0 @@
-update reference_records set matched_item_id=null,identity_state='unverified' where matched_item_id=?1

@@ -1,1 +1,0 @@
-select '{"kind":"product","terms":['||?1||','||?2||']}', '{"kind":"concept","id":'||data_json_quote_v1(?3)||'}'

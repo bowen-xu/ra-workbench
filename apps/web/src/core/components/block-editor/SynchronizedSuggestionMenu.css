@@ -1,3 +1,0 @@
-/* A stationary pointer must not paint a second active row after keyboard navigation. */
-.synchronized-suggestion-menu .bn-ak-menu-item:hover:not([aria-selected="true"]) { background-color: transparent; color: inherit; }
-.synchronized-suggestion-menu-container { max-height: inherit; }
