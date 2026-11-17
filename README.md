@@ -35,6 +35,11 @@ pnpm dev:desktop
 构建前端并启动零插件桌面工作台。显式设置 `RESEARCH_ASSISTANT_RUNTIME_PLUGIN_DIRECTORY`
 时消费该目录的预构建插件包。完整产品的默认三插件组装由父仓库入口负责。
 
+启动日志分别显示 Core 运行资源、前端准备和 PDF 辅助程序的耗时。前端完整性校验通过时
+保留 `apps/web/dist/` 的原文件和时间戳；缺失或损坏时从已验证包恢复。Tauri 等待前端准备完成，
+PDF 辅助程序与主程序共享 Tauri 的开发配置，Cargo 据此复用编译结果。首次构建、源码、
+配置或工具链变化仍会触发相应编译。
+
 ```sh
 RESEARCH_ASSISTANT_RUNTIME_PLUGIN_DIRECTORY=/absolute/path/to/plugin-directory pnpm dev:desktop
 pnpm bundle:dev

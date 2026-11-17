@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 
 const dependencies = vi.hoisted(() => ({
-  prepareDocling: vi.fn(() => { throw new Error("Server preparation must be explicit"); }),
+  prepareDocling: vi.fn(),
   prepareCodex: vi.fn(),
   prepareSemantic: vi.fn(),
   preparePackages: vi.fn(() => ({directory: "/synthetic/runtime/plugins"})),
@@ -42,9 +42,12 @@ beforeEach(() => {
 });
 afterEach(() => vi.unstubAllEnvs());
 
-it("starts the desktop client without building or publishing the independent Docling server", async () => {
+it("prepares Core resources before starting Tauri without an out-of-configuration helper build", async () => {
   expect(await runDesktopDevelopment(["--no-watch"])).toBe(0);
-  expect(dependencies.prepareDocling).not.toHaveBeenCalled();
+  expect(dependencies.prepareDocling).toHaveBeenCalledOnce();
+  expect(dependencies.prepareCodex).toHaveBeenCalledOnce();
+  expect(dependencies.prepareSemantic).toHaveBeenCalledOnce();
+  expect(dependencies.spawnSync).not.toHaveBeenCalled();
   const [program, args, options] = dependencies.spawn.mock.calls[0];
   expect(program).toBe("pnpm");
   expect(args).toEqual(expect.arrayContaining(["dev", "--no-watch", "--no-dev-server"]));
@@ -56,23 +59,22 @@ it("starts the desktop client without building or publishing the independent Doc
   expect(dependencies.preparePackages).toHaveBeenCalledOnce();
 });
 
-it("pairs the selected Web plan with both native helper and desktop features", async () => {
+it("waits for the development preparation hook before running Core", async () => {
   vi.stubEnv("RESEARCH_ASSISTANT_BUILTIN_PLUGINS", "none");
   dependencies.spawnSync.mockImplementation(command => command === process.execPath
     ? {status: 0, stdout: JSON.stringify({plugins: [], cargoFeatures: []})} : {status: 0});
   expect(await runDesktopDevelopment(["--no-watch"])).toBe(0);
-  expect(dependencies.prepareDocling).not.toHaveBeenCalled();
-  const calls = dependencies.spawnSync.mock.calls.map(([program, args, options]) => [program, args, options.stdio]);
-  if (process.platform === "darwin") expect(calls).toContainEqual(["cargo", [
-    "build", "--manifest-path", "apps/desktop/src-tauri/Cargo.toml", "--bin", "note-pdf-worker",
-    "--features", "development-data", "--no-default-features",
-  ], "inherit"]);
+  expect(dependencies.prepareDocling).toHaveBeenCalledOnce();
+  expect(dependencies.spawnSync).not.toHaveBeenCalled();
   const [program, args, options] = dependencies.spawn.mock.calls[0];
   expect(program).toBe("pnpm");
   expect(args).toEqual(expect.arrayContaining([
     "dev", "--features", "development-data", "--no-default-features", "--no-watch",
   ]));
   expect(options.stdio).toBe("inherit");
+  expect(JSON.parse(args.find(value => value.startsWith("{"))).build.beforeDevCommand).toEqual({
+    script: "node ../../scripts/prepare-desktop-development.mjs", wait: true,
+  });
 });
 
 it("retains an explicit package directory when starting a runtime Core-only selection", async () => {
@@ -83,6 +85,7 @@ it("retains an explicit package directory when starting a runtime Core-only sele
   const [, args, options] = dependencies.spawn.mock.calls[0];
   expect(args).toContain("--no-dev-server");
   expect(options.env.RESEARCH_ASSISTANT_RUNTIME_PLUGIN_DIRECTORY).toBe("/synthetic/explicit/plugins");
-  expect(dependencies.preparePackages.mock.calls[0][0].pluginIds).toEqual([]);
+  expect(dependencies.preparePackages.mock.calls[0][0].environment.RESEARCH_ASSISTANT_RUNTIME_PLUGIN_DIRECTORY)
+    .toBe("/synthetic/explicit/plugins");
   expect(dependencies.probe).not.toHaveBeenCalled();
 });

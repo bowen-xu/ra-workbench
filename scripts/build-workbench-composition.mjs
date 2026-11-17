@@ -5,6 +5,7 @@ import {fileURLToPath, pathToFileURL} from "node:url";
 import {readWorkbenchBuildPlan} from "./workbench-build-plan.mjs";
 import {findExcludedWorkbenchPluginSources} from "./workbench-boundaries.mjs";
 import {logicalProjectPath} from "./project-layout.mjs";
+import {materializeWorkbenchWeb} from "./materialize-workbench-web.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 function run(command, args, cwd = root, env = process.env) {
@@ -50,15 +51,7 @@ export async function buildWorkbenchWeb({checkBoundaries = false, planOnly = fal
     return {status: "passed", plugins: evidence.plugins,
       cargo: ["--no-default-features", ...(evidence.cargoFeatures.length ? ["--features", evidence.cargoFeatures.join(",")] : [])]};
   });
-  // Materialize the verified Web package at Tauri's frontendDist.
-  const distribution = path.join(root, "apps/web/dist");
-  await fs.mkdir(path.join(root, ".cache/work"), {recursive: true});
-  const stage = await fs.mkdtemp(path.join(root, ".cache/work/web-distribution-"));
-  try {
-    await fs.cp(path.join(receipt.output, "web"), stage, {recursive: true});
-    await fs.rm(distribution, {recursive: true, force: true});
-    await fs.rename(stage, distribution);
-  } finally {await fs.rm(stage, {recursive: true, force: true});}
+  await materializeWorkbenchWeb({root, receipt});
   return receipt;
 }
 

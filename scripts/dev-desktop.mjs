@@ -1,4 +1,4 @@
-import {spawn, spawnSync} from "node:child_process";
+import {spawn} from "node:child_process";
 import {resolve} from "node:path";
 import {pathToFileURL} from "node:url";
 import {prepareBuiltinPluginResources} from "./prepare-builtin-plugin-packages.mjs";
@@ -9,7 +9,7 @@ export function createRuntimeDesktopDevArguments(root, extraArguments = [], sele
   return developmentWorkbenchArguments([
     "--filter", "@research-assistant/desktop", "tauri", "dev", "--features", "development-data",
     "--config", "src-tauri/tauri.dev.conf.json", "--no-dev-server", "--config", JSON.stringify({build: {
-      beforeDevCommand: "node ../../scripts/build-workbench-composition.mjs --plugins none",
+      beforeDevCommand: {script: "node ../../scripts/prepare-desktop-development.mjs", wait: true},
       devUrl: null, frontendDist: resolve(root, "apps/web/dist"),
     }}),
   ], selection, extraArguments);
@@ -25,14 +25,10 @@ export async function runDesktopDevelopment(extraArguments = []) {
   const packages = prepareBuiltinPluginResources({root, environment, ...(explicitCoreOnly ? {pluginIds: []} : {})});
   if (environment.RESEARCH_ASSISTANT_RUNTIME_PLUGIN_DIRECTORY === undefined)
     environment = {...environment, RESEARCH_ASSISTANT_RUNTIME_PLUGIN_DIRECTORY: packages.directory};
+  const started = performance.now();
+  console.log("[desktop] Preparing Core runtime resources");
   prepareDesktopRuntime({root, environment});
-  if (process.platform === "darwin") {
-    const renderer = spawnSync("cargo", developmentWorkbenchArguments([
-      "build", "--manifest-path", "apps/desktop/src-tauri/Cargo.toml",
-      "--bin", "note-pdf-worker", "--features", "development-data",
-    ], selection, [], {cargo: true}), {stdio: "inherit", env: environment});
-    if (renderer.status !== 0) throw new Error("Native note PDF renderer build failed");
-  }
+  console.log(`[desktop] Core runtime resources ready in ${((performance.now() - started) / 1000).toFixed(2)}s`);
   console.log("Starting Core Workbench desktop development");
   const child = spawn("pnpm", arguments_, {stdio: "inherit", env: environment});
   return new Promise((resolveExit, reject) => {
