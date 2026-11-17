@@ -99,7 +99,7 @@ export function PluginManagementSettings({gateway, active = true, preview = fals
       select(plugin.id);
       setQuery("");
       setFilter("all");
-      setNotice(`${plugin.name} 已安装。${plugin.enabled ? "重启后生效。" : "启用后将在下次启动时加载。"}`);
+      setNotice(`${plugin.name} 已安装。${plugin.enabled ? "" : "启用后将在下次启动时加载。"}`);
     });
   }
 
@@ -154,7 +154,7 @@ export function PluginManagementSettings({gateway, active = true, preview = fals
           <div className="plugin-settings-actions">
             <button type="button" disabled={!gateway || busy || loading || selected.pendingRemoval} onClick={() => void run(async service => {
               await service.setEnabled(selected.id, !selected.enabled);
-              setNotice(`${selected.name} 的启用设置已保存，重启后生效。`);
+              setNotice(`${selected.name} 的启用设置已保存。`);
             })}>{selected.enabled ? "禁用" : "启用"}</button>
             <button type="button" disabled={!gateway || busy || loading || selected.pendingRemoval} onClick={() => {
               setError(undefined);

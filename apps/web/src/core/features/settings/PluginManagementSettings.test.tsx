@@ -56,6 +56,8 @@ it("imports through the supplied picker port and selects the returned package", 
   await click("导入本地插件");
   expect(gateway.importPackage).toHaveBeenCalledOnce();
   expect(host.querySelector('[aria-label="插件详情"]')?.textContent).toContain("写作管理");
+  expect(host.textContent).toContain("写作管理 已安装。");
+  expect(host.textContent).not.toContain("已安装。重启后生效");
 });
 
 it("keeps the list when package selection is cancelled", async () => {
