@@ -50,7 +50,7 @@ pub(super) fn discover(
     Ok(output)
 }
 
-fn read_package(
+pub(super) fn read_package(
     directory: &Path,
     controlled_root: &Path,
 ) -> Result<(RuntimePluginPackage, PackageSnapshot), RuntimePluginError> {

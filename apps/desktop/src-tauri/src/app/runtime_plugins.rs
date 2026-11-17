@@ -53,6 +53,14 @@ pub(crate) fn attach_bundled_packages(app: &tauri::AppHandle) -> tauri::Result<(
                 .attach_bundled_root(directory);
         }
     }
+    #[cfg(feature = "development-data")]
+    let data_directory = crate::storage_environment::development_data_directory_override()
+        .map_err(|error| tauri::Error::Anyhow(error.into()))?
+        .unwrap_or(app.path().app_data_dir()?);
+    #[cfg(not(feature = "development-data"))]
+    let data_directory = app.path().app_data_dir()?;
+    app.state::<Arc<RuntimePluginCatalog>>()
+        .attach_managed_root(data_directory.join("plugins"));
     Ok(())
 }
 

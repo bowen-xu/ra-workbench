@@ -36,6 +36,7 @@ pub(crate) mod literature_reference_records;
 pub(crate) mod literature_retrieval;
 pub(crate) mod literature_trace;
 pub(crate) mod literature_trash_cleanup;
+pub(crate) mod management;
 pub(crate) mod metadata_http;
 pub(crate) mod native;
 pub(crate) mod reading_evidence;
@@ -147,6 +148,7 @@ pub(crate) struct RuntimePluginCatalog {
     bundled_root: Arc<OnceLock<PathBuf>>,
     snapshots: Arc<Mutex<BTreeMap<String, PackageSnapshot>>>,
     native_writing_preview: bool,
+    management: Arc<OnceLock<management::ManagedPlugins>>,
     #[cfg(unix)]
     native_staging: Arc<Mutex<Option<Arc<native::staging::StagingSession>>>>,
 }
@@ -158,6 +160,7 @@ impl RuntimePluginCatalog {
             bundled_root: Arc::new(OnceLock::new()),
             snapshots: Arc::new(Mutex::new(BTreeMap::new())),
             native_writing_preview: false,
+            management: Arc::new(OnceLock::new()),
             #[cfg(unix)]
             native_staging: Arc::new(Mutex::new(None)),
         }
@@ -175,13 +178,11 @@ impl RuntimePluginCatalog {
     }
 
     pub(crate) fn discover(&self) -> Result<RuntimePluginListing, RuntimePluginError> {
-        let Some(root) = self.root.as_ref().or_else(|| self.bundled_root.get()) else {
-            return Ok(RuntimePluginListing {
-                packages: Vec::new(),
-                native_writing_preview: self.native_writing_preview,
-            });
+        let discovered = self.bundled_packages()?;
+        let discovered = match self.management.get() {
+            Some(manager) => manager.select(discovered)?,
+            None => discovered,
         };
-        let discovered = scan::discover(root)?;
         let mut snapshots = self.snapshots.lock().map_err(|_| catalog_unavailable())?;
         let additional = discovered
             .iter()
@@ -245,12 +246,7 @@ impl RuntimePluginCatalog {
             .resource(relative_path)
         })?;
         let result = (|| {
-            let root = self
-                .root
-                .as_ref()
-                .or_else(|| self.bundled_root.get())
-                .ok_or_else(catalog_unavailable)?;
-            let real_root = files::controlled_root(root)?;
+            let real_root = files::controlled_root(&snapshot.controlled_root)?;
             if real_root != snapshot.controlled_root
                 || files::directory(&snapshot.directory, &real_root)? != snapshot.real_directory
             {

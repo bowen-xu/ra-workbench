@@ -362,6 +362,10 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             runtime_plugins::list_runtime_plugin_packages,
+            runtime_plugins::management::commands::list_managed_plugins,
+            runtime_plugins::management::commands::install_managed_plugin,
+            runtime_plugins::management::commands::set_managed_plugin_enabled,
+            runtime_plugins::management::commands::uninstall_managed_plugin,
             runtime_plugins::native::preview_runtime_manuscript_import,
             runtime_plugins::native::preview_runtime_writing_project_import,
             runtime_plugins::writing_projects::list_runtime_manuscripts,

@@ -45,7 +45,7 @@ async function click(text: string): Promise<void> {
 
 it("shows the real empty integration state with unavailable mutations", async () => {
   await act(async () => root.render(<PluginManagementSettings/>));
-  expect(host.textContent).toContain("本地插件安装服务待接入");
+  expect(host.textContent).toContain("本地插件管理需要桌面应用");
   expect(host.querySelector("button")?.disabled).toBe(true);
   expect(host.textContent).not.toContain("笔记管理");
 });
@@ -64,7 +64,7 @@ it("keeps the list when package selection is cancelled", async () => {
   await act(async () => root.render(<PluginManagementSettings gateway={gateway}/>));
   await click("导入本地插件");
   expect(host.querySelector('[aria-label="插件详情"]')?.textContent).toContain("笔记管理");
-  expect(host.textContent).not.toContain("已导入");
+  expect(host.textContent).not.toContain("已安装");
   expect(host.querySelector('[role="alert"]')).toBeNull();
 });
 

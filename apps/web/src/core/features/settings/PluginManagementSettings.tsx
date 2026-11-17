@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Box, Download, Search, RefreshCw} from "lucide-react";
 import {DialogHeading} from "@ariakit/react";
 import {Dialog} from "../../components/overlay/OverlayDialog";
@@ -10,7 +10,9 @@ export interface ManagedPluginView {
   readonly version: string;
   readonly description: string;
   readonly enabled: boolean;
-  readonly runtime: "active" | "disabled" | "blocked" | "restart";
+  readonly runtime: "active" | "disabled" | "blocked" | "restart" | "loading";
+  readonly pendingRemoval?: boolean;
+  readonly origin?: "installed" | "bundled";
   readonly dependencies: readonly string[];
   readonly capabilities: readonly string[];
   readonly diagnostic?: string;
@@ -22,9 +24,10 @@ export interface PluginManagementViewGateway {
   importPackage(): Promise<ManagedPluginView | null>;
   setEnabled(id: string, enabled: boolean): Promise<void>;
   uninstall(id: string): Promise<void>;
+  subscribe?(listener: () => void): () => void;
 }
 
-const statuses = {active: "运行中", disabled: "已禁用", blocked: "依赖阻塞", restart: "待重启生效"};
+const statuses = {active: "运行中", disabled: "已禁用", blocked: "加载受阻", restart: "待重启生效", loading: "正在加载"};
 
 export function PluginManagementSettings({gateway, active = true, preview = false}: {
   readonly gateway?: PluginManagementViewGateway;
@@ -40,24 +43,30 @@ export function PluginManagementSettings({gateway, active = true, preview = fals
   const [error, setError] = useState<string>();
   const [notice, setNotice] = useState<string>();
   const [removing, setRemoving] = useState<ManagedPluginView>();
+  const readGeneration = useRef(0);
 
   useEffect(() => {
     if (!active || !gateway) return;
     let disposed = false;
-    setLoading(true);
-    void gateway.list()
+    const refresh = (): void => {
+      const generation = ++readGeneration.current;
+      setLoading(true);
+      void gateway.list()
       .then(value => {
-        if (disposed) return;
+        if (disposed || generation !== readGeneration.current) return;
         setPlugins(value);
         setError(undefined);
       })
       .catch(reason => {
-        if (!disposed) setError(reason instanceof Error ? reason.message : String(reason));
+        if (!disposed && generation === readGeneration.current) setError(reason instanceof Error ? reason.message : String(reason));
       })
       .finally(() => {
-        if (!disposed) setLoading(false);
+        if (!disposed && generation === readGeneration.current) setLoading(false);
       });
-    return () => {disposed = true;};
+    };
+    refresh();
+    const unsubscribe = gateway.subscribe?.(refresh);
+    return () => {disposed = true; readGeneration.current += 1; unsubscribe?.();};
   }, [gateway, active]);
 
   const visible = plugins.filter(plugin =>
@@ -72,11 +81,14 @@ export function PluginManagementSettings({gateway, active = true, preview = fals
     setNotice(undefined);
     try {
       await operation(gateway);
-      setPlugins(await gateway.list());
+      const generation = ++readGeneration.current;
+      const plugins = await gateway.list();
+      if (generation === readGeneration.current) setPlugins(plugins);
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : String(reason));
     } finally {
       setBusy(false);
+      setLoading(false);
     }
   }
 
@@ -87,7 +99,7 @@ export function PluginManagementSettings({gateway, active = true, preview = fals
       select(plugin.id);
       setQuery("");
       setFilter("all");
-      setNotice(`${plugin.name} 已导入，重启后生效。`);
+      setNotice(`${plugin.name} 已安装。${plugin.enabled ? "重启后生效。" : "启用后将在下次启动时加载。"}`);
     });
   }
 
@@ -99,7 +111,7 @@ export function PluginManagementSettings({gateway, active = true, preview = fals
       </button>
     </header>
     {preview && <p className="plugin-settings-message" role="note">交互预览 · 使用合成插件数据</p>}
-    {!gateway && <p className="plugin-settings-message" role="status">本地插件安装服务待接入。</p>}
+    {!gateway && <p className="plugin-settings-message" role="status">本地插件管理需要桌面应用。</p>}
     {error && <p className="plugin-settings-error" role="alert">{error}</p>}
     {notice && <p className="plugin-settings-message" role="status">{notice}</p>}
     <div className="plugin-settings-toolbar">
@@ -140,11 +152,11 @@ export function PluginManagementSettings({gateway, active = true, preview = fals
           </header>
           <p>{selected.description}</p>
           <div className="plugin-settings-actions">
-            <button type="button" disabled={!gateway || busy || loading} onClick={() => void run(async service => {
+            <button type="button" disabled={!gateway || busy || loading || selected.pendingRemoval} onClick={() => void run(async service => {
               await service.setEnabled(selected.id, !selected.enabled);
               setNotice(`${selected.name} 的启用设置已保存，重启后生效。`);
             })}>{selected.enabled ? "禁用" : "启用"}</button>
-            <button type="button" disabled={!gateway || busy || loading} onClick={() => {
+            <button type="button" disabled={!gateway || busy || loading || selected.pendingRemoval} onClick={() => {
               setError(undefined);
               setRemoving(selected);
             }}>卸载</button>
@@ -152,12 +164,13 @@ export function PluginManagementSettings({gateway, active = true, preview = fals
           </div>
           <dl>
             <div><dt>版本</dt><dd>{selected.version}</dd></div>
+            {selected.origin && <div><dt>安装来源</dt><dd>{selected.origin === "bundled" ? "随应用或开发配置提供" : "本地安装"}</dd></div>}
             <div><dt>启动设置</dt><dd>{selected.enabled ? "已启用" : "已禁用"}</dd></div>
             <div><dt>运行状态</dt><dd>{statuses[selected.runtime]}</dd></div>
             <div><dt>依赖插件</dt><dd>{selected.dependencies.join("、") || "无"}</dd></div>
             <div><dt>提供能力</dt><dd>{selected.capabilities.join("、") || "无"}</dd></div>
           </dl>
-          {selected.runtime === "restart" && <p className="plugin-settings-message">重启工作台后应用此更改。</p>}
+          {selected.runtime === "restart" && <p className="plugin-settings-message">{selected.pendingRemoval ? "已安排卸载，重启工作台后完成。" : "重启工作台后应用此更改。"}</p>}
           {selected.diagnostic && <p role="alert" className="plugin-settings-error">{selected.diagnostic}</p>}
         </section>}
       </div>}

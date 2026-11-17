@@ -5669,6 +5669,10 @@
         {
           "name": "literature_paper_confirmation",
           "visibility": "pub(crate)"
+        },
+        {
+          "name": "management",
+          "visibility": "pub(crate)"
         }
       ]
     },

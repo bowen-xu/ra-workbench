@@ -21,6 +21,8 @@ import { WorkspacePresentationProvider, type WorkspacePresentation } from "../co
 import { useNoteDocumentTabHost } from "../core/features/notes/workspace/useNoteDocumentTabHost";
 import { useTextDocuments } from "../core/components/text-editor/useTextDocuments";
 import { SettingsWorkspace } from "../core/features/settings/SettingsWorkspace";
+import {createPluginManagementGateway} from "../core/services/pluginManagementGateway";
+import {coreCapabilities} from "./coreCapabilities";
 import { notify } from "../core/public/feedback";
 import { ReadingNoteFloatingPanel } from "./notes/ReadingNoteFloatingPanel";
 import { AppWindowToolbar } from "../core/public/workbench";
@@ -30,7 +32,7 @@ import {NoteRecoveryPreviewControl} from "../core/components/NoteRecoveryPreview
 import { PreviewResetControl } from "../core/components/PreviewResetControl";
 import { AgentCanvasShell } from "../core/features/agent/AgentCanvasShell";
 
-import { Suspense, createRef, useCallback, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Suspense, createRef, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { isDesktopRuntime } from "../core/runtime/platformCore";
 import { installDesktopZoom } from "../core/runtime/desktopZoom";
 import { AppUpdateControl } from "../core/components/AppUpdateControl";
@@ -57,6 +59,15 @@ const emptyPluginStatuses = () => EMPTY_PLUGIN_STATUSES;
 const initialLoadComplete = () => true;
 
 function AppContent({composition, runtimePlugins, runtimeWriting, initialChatOpen = false, initialLocation}: {readonly composition: WorkbenchComposition; readonly runtimeWriting: RuntimeWritingRole; readonly runtimePlugins?: RuntimePluginWorkbench; readonly initialChatOpen?: boolean; readonly initialLocation?: WorkspaceLocation}): React.JSX.Element {
+  const pluginManagement = useMemo(() => isDesktopRuntime() ? createPluginManagementGateway({
+    coreCapabilities, readRuntime: runtimePlugins?.getSnapshot ?? emptyPluginStatuses,
+    isInitialLoadComplete: runtimePlugins?.isInitialLoadComplete ?? initialLoadComplete,
+    ...(runtimePlugins ? {subscribe: (listener: () => void) => {
+      const runtime = runtimePlugins.subscribe(listener);
+      const loaded = runtimePlugins.subscribeInitialLoad(listener);
+      return () => {runtime(); loaded();};
+    }} : {}),
+  }) : undefined, [runtimePlugins]);
   const registeredViews = useSyncExternalStore(runtimePlugins?.views.subscribe ?? noViewSubscription,
     runtimePlugins?.views.getSnapshot ?? emptyViews);
   const libraryContribution = libraryWorkspaceContribution(registeredViews);
@@ -441,7 +452,7 @@ function AppContent({composition, runtimePlugins, runtimeWriting, initialChatOpe
 
         {textDocuments.surface}
         {(view === "settings" || hasVisitedSettings) && <div className="settings-workspace-host" hidden={view !== "settings" || textDocuments.activeId !== undefined}>
-          <SettingsWorkspace active={view === "settings" && textDocuments.activeId === undefined} browserCaptureAvailable={libraryReady} onOpenApiSettings={trigger => { apiSettingsReturnFocus.current = trigger; setApiSettingsOpen(true); }} />
+          <SettingsWorkspace {...(pluginManagement ? {pluginManagement} : {})} active={view === "settings" && textDocuments.activeId === undefined} browserCaptureAvailable={libraryReady} onOpenApiSettings={trigger => { apiSettingsReturnFocus.current = trigger; setApiSettingsOpen(true); }} />
         </div>}
       </main>)}</WorkspacePresentationProvider>
       </WorkbenchLayout>
