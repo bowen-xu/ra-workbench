@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from "react";
-import { Blocks, Database, Keyboard, Search, Settings2, SlidersHorizontal, Unplug } from "lucide-react";
+import { Blocks, Box, Database, Keyboard, Search, Settings2, SlidersHorizontal, Unplug } from "lucide-react";
 import { isDesktopRuntime } from "../../runtime/platformCore";
 import { AgentResourceSettings } from "./AgentResourceSettings";
 import { DeveloperModeSettings } from "./DeveloperMode";
@@ -11,12 +11,15 @@ import { getAppRuntime } from "../../runtime/appRuntime";
 import { storageBackend } from "../../runtime/storagePersistence";
 import {useWorkspaceState, workspaceString} from "../../runtime/workspaceState";
 
+import {PluginManagementSettings, type PluginManagementViewGateway} from "./PluginManagementSettings";
+
 const DoclingSettings = lazy(async () => ({ default: (await import("./DoclingSettings")).DoclingSettings }));
 const BrowserConnectorSettings = lazy(async () => ({ default: (await import("./BrowserConnectorSettings")).BrowserConnectorSettings }));
 const LocalStorageSettings = lazy(async () => ({ default: (await import("./LocalStorageSettings")).LocalStorageSettings }));
 const pages = [
   { id: "general", label: "常规", description: "AI API 模型 运行环境 版本", icon: Settings2 },
   { id: "shortcuts", label: "快捷键", description: "聊天 对话列表 键盘", icon: Keyboard },
+  { id: "plugins", label: "插件", description: "本地插件 安装 导入 启用 禁用 卸载 依赖", icon: Box },
   { id: "resources", label: "Agent 资源", description: "技能 MCP 服务器 脚本 授权 凭据", icon: Blocks },
   { id: "services", label: "本地服务", description: "Docling PDF 解析 Chrome 文献采集 插件", icon: Unplug },
   { id: "storage", label: "存储", description: "本地数据 空间 清理 历史", icon: Database },
@@ -24,9 +27,11 @@ const pages = [
 ] as const;
 type SettingsPage = typeof pages[number]["id"];
 
-export function SettingsWorkspace({ onOpenApiSettings, active: visible = true, browserCaptureAvailable = false }: {
+export function SettingsWorkspace({ onOpenApiSettings, active: visible = true, browserCaptureAvailable = false, pluginManagement, pluginManagementPreview = false }: {
   readonly onOpenApiSettings: (trigger: HTMLButtonElement) => void;
   readonly active?: boolean;
+  readonly pluginManagement?: PluginManagementViewGateway;
+  readonly pluginManagementPreview?: boolean;
   /** App supplies availability; the shared settings tree does not load a plugin. */
   readonly browserCaptureAvailable?: boolean;
 }): React.JSX.Element {
@@ -66,6 +71,7 @@ export function SettingsWorkspace({ onOpenApiSettings, active: visible = true, b
             </SettingGroup>
           </section>
         </>}
+        {page === "plugins" && <PluginManagementSettings {...(pluginManagement ? {gateway: pluginManagement} : {})} active={visible && active === "plugins"} preview={pluginManagementPreview}/>}
         {page === "shortcuts" && <KeyboardShortcutSettings />}
         {page === "resources" && <AgentResourceSettings active={visible && active === "resources"} />}
         {page === "services" && <><header className="settings-page-heading"><h2>本地服务</h2><p>管理文献解析与浏览器采集连接。</p></header>

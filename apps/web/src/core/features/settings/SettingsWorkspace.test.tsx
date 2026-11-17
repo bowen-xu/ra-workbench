@@ -62,6 +62,14 @@ it("starts with general settings, opens the existing API configuration, and defe
   await click("管理"); expect(open).toHaveBeenCalledOnce();
 });
 
+it("opens local plugin management as a settings category with an honest disconnected state", async () => {
+  await act(async () => root.render(<SettingsWorkspace onOpenApiSettings={vi.fn()}/>));
+  await click("插件");
+  expect(host.querySelector('[aria-current="page"]')?.textContent).toBe("插件");
+  expect(host.textContent).toContain("本地插件安装服务待接入");
+  expect([...host.querySelectorAll("button")].find(button => button.textContent === "导入本地插件")?.disabled).toBe(true);
+});
+
 it("filters categories and preserves an unsaved resource form across category changes", async () => {
   await act(async () => root.render(<SettingsWorkspace onOpenApiSettings={vi.fn()} />));
   const search = host.querySelector<HTMLInputElement>('[aria-label="搜索设置"]')!;

@@ -1,0 +1,37 @@
+.plugin-settings-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.plugin-settings-heading button { display: inline-flex; align-items: center; gap: 8px; flex: none; }
+.plugin-settings-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+.plugin-settings-search { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 150px; }
+.plugin-settings-search input { width: 100%; }
+.plugin-settings-toolbar > label:not(.plugin-settings-search) { display: flex; align-items: center; gap: 8px; font-size: var(--ui-font-label); }
+.plugin-settings-layout { display: grid; grid-template-columns: minmax(180px, .8fr) minmax(0, 1.6fr); border: 1px solid var(--settings-line); border-radius: 17px; background: #fdfcf9; overflow: hidden; }
+.plugin-settings-list { padding: 10px; border-right: 1px solid var(--settings-line); }
+.settings-content .plugin-settings-item { display: flex; align-items: center; gap: 12px; width: 100%; border: 0; background: transparent; text-align: left; padding: 14px 12px; }
+.settings-content .plugin-settings-item[aria-pressed="true"] { background: #dce5d8; }
+.plugin-settings-item span { min-width: 0; }
+.plugin-settings-item strong, .plugin-settings-item small { display: block; overflow-wrap: anywhere; }
+.plugin-settings-item strong { font-size: var(--ui-font-body); font-weight: 500; }
+.plugin-settings-item small { margin-top: 6px; font-size: var(--ui-font-meta); color: var(--settings-muted); }
+.plugin-settings-detail { padding: 24px; min-width: 0; }
+.plugin-settings-detail header { display: flex; align-items: center; gap: 14px; }
+.plugin-settings-detail h3 { margin: 0; font-size: var(--ui-font-heading); font-weight: 500; }
+.plugin-settings-detail p { font-size: var(--ui-font-label); color: var(--settings-muted); line-height: 1.7; overflow-wrap: anywhere; }
+.plugin-settings-detail header p { margin: 4px 0 0; font-family: monospace; font-size: var(--ui-font-meta); }
+.plugin-settings-actions { display: flex; align-items: center; gap: 10px; margin: 22px 0; font-size: var(--ui-font-label); }
+.plugin-settings-detail dl { font-size: var(--ui-font-label); margin: 0; }
+.plugin-settings-detail dl div { display: grid; grid-template-columns: 80px minmax(0,1fr); gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--settings-line); }
+.plugin-settings-detail dt { color: var(--settings-muted); }
+.plugin-settings-detail dd { margin: 0; overflow-wrap: anywhere; }
+.plugin-settings-message, .plugin-settings-error { font-size: var(--ui-font-label); line-height: 1.7; padding: 12px 0; margin: 0 0 16px; }
+.plugin-settings-error { color: #9b3a30; }
+.plugin-settings-backdrop { background: rgb(31 42 33 / 25%); }
+.plugin-settings-dialog { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0; width: min(460px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; border: 1px solid #dce0d7; border-radius: 17px; padding: 24px; background: #faf9f5; color: #303c33; }
+.plugin-settings-dialog h2 { font-size: var(--ui-font-heading); margin: 0 0 16px; }
+.plugin-settings-dialog p { font-size: var(--ui-font-label); line-height: 1.7; }
+.plugin-settings-dialog footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+.plugin-settings-dialog button { font-size: var(--ui-font-label); border: 1px solid #dce0d7; border-radius: 10px; padding: 8px 14px; background: #edf0e8; color: #405944; cursor: pointer; }
+@media (max-width: 900px) {
+  .plugin-settings-layout { grid-template-columns: minmax(0, 1fr); }
+  .plugin-settings-list { border-right: 0; border-bottom: 1px solid var(--settings-line); }
+  .plugin-settings-heading { flex-wrap: wrap; }
+}

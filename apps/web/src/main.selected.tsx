@@ -17,6 +17,11 @@ import "./core/styles.css";
 async function bootstrap() {
   const target = document.getElementById("root");
   if (!target) throw new Error("Root element was not found");
+  if (import.meta.env.DEV && !isTauri() && new URLSearchParams(location.search).get("preview") === "plugin-settings") {
+    const {mountPluginSettingsPreview} = await import("./app/previews/settings/PluginSettingsPreview");
+    mountPluginSettingsPreview(target);
+    return;
+  }
   let runtimeDisposed = false;
   let runtimePluginLoading: {dispose(): void} | undefined;
   const runtime: AppRuntime = {mode: isTauri() ? "desktop" : "browser", storage: localStorage, gateways: {}, dispose() {
